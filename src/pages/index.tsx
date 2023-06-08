@@ -10,6 +10,7 @@ import { Container, StyledForm } from "@/styles/home.styles";
 
 export default function Home() {
   const [inputValue, setInputValue] = useState("");
+
   const updateDisplayName: MouseEventHandler = (e) => {
     e.preventDefault();
 

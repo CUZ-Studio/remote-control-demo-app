@@ -7,11 +7,15 @@ export const Root = styled("div")`
   background-color: ${({ theme }) => theme.palette.common.black};
 `;
 
-export const Inner = styled("div")`
+export const Inner = styled("div", {
+  shouldForwardProp: (props) => props !== "isMobile",
+})<{
+  isMobile: boolean;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 425px;
+  width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   margin: 0 auto;
   padding: 80px 16px;
   box-sizing: border-box;
