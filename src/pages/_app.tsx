@@ -3,11 +3,14 @@ import Head from "next/head";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
+import { ToastContainer } from "react-toastify";
 
 import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
 
 import theme from "@/styles/theme";
+
+import "react-toastify/dist/ReactToastify.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -29,6 +32,17 @@ export default function MyApp(props: MyAppProps) {
         <BasicLayout>
           <Component {...pageProps} />
         </BasicLayout>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          pauseOnHover
+          theme="dark"
+        />
       </ThemeProvider>
     </CacheProvider>
   );
