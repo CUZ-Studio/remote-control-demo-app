@@ -7,9 +7,27 @@ export const StyledButton = styled("button", {
 })<{
   shape: ButtonShape;
 }>`
-  font-size: 20px;
-  padding: 16px;
-  border: 1px solid ${({ theme }) => theme.palette.common.black};
+  position: relative;
+  font-size: ${({ shape }) => {
+    switch (shape) {
+      case ButtonShape.CIRCLE:
+        return "48px";
+      case ButtonShape.RECTANGLE:
+      default:
+        return "16px";
+    }
+  }};
+  padding: ${({ shape }) => {
+    switch (shape) {
+      case ButtonShape.CIRCLE:
+        return "0";
+      case ButtonShape.RECTANGLE:
+      default:
+        return "16px";
+    }
+  }};
+  border: 1px solid
+    ${({ theme, disabled }) => (disabled ? theme.palette.grey[100] : theme.palette.common.black)};
   border-radius: ${({ shape }) => {
     switch (shape) {
       case ButtonShape.CIRCLE:
@@ -19,10 +37,15 @@ export const StyledButton = styled("button", {
         return "0px";
     }
   }};
+  cursor: pointer;
 
   ${({ shape }) =>
     shape === ButtonShape.CIRCLE &&
     `
-    aspect-ratio: 1;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   `}
 `;

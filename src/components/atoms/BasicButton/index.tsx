@@ -5,6 +5,7 @@ import { ButtonShape } from "@/types";
 import { StyledButton } from "./styles";
 interface Props {
   type: "submit" | "reset" | "button" | undefined;
+  disabled?: boolean;
   shape: ButtonShape;
   children: ReactNode;
   onClick?: MouseEventHandler;
@@ -15,6 +16,7 @@ interface Props {
 export default function BasicButton({
   type,
   shape,
+  disabled,
   children,
   onClick,
   onTouchStart,
@@ -23,6 +25,7 @@ export default function BasicButton({
   return (
     <StyledButton
       shape={shape}
+      disabled={disabled}
       type={type}
       onClick={onClick}
       onTouchStart={onTouchStart}

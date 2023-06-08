@@ -5,6 +5,18 @@ import { toast } from "react-toastify";
 import BasicButton from "@/components/atoms/BasicButton";
 import { ButtonShape } from "@/types";
 
+import {
+  BackwardButtonWrapper,
+  BackwardIcon,
+  ForwardButtonWrapper,
+  ForwardIcon,
+  LeftButtonWrapper,
+  LeftIcon,
+  Panel,
+  RightButtonWrapper,
+  RightIcon,
+} from "./styles";
+
 export default function ControlPanel() {
   const [moveForwardValue, setMoveForwardValue] = useState(0);
 
@@ -29,13 +41,32 @@ export default function ControlPanel() {
   }, [moveForwardValue]);
 
   return (
-    <BasicButton
-      type="button"
-      shape={ButtonShape.CIRCLE}
-      onTouchStart={() => setMoveForwardValue(1)}
-      onTouchEnd={() => setMoveForwardValue(0)}
-    >
-      앞으로
-    </BasicButton>
+    <Panel>
+      <ForwardButtonWrapper>
+        <BasicButton
+          type="button"
+          shape={ButtonShape.CIRCLE}
+          onTouchStart={() => setMoveForwardValue(1)}
+          onTouchEnd={() => setMoveForwardValue(0)}
+        >
+          <ForwardIcon />
+        </BasicButton>
+      </ForwardButtonWrapper>
+      <BackwardButtonWrapper>
+        <BasicButton type="button" disabled shape={ButtonShape.CIRCLE}>
+          <BackwardIcon />
+        </BasicButton>
+      </BackwardButtonWrapper>
+      <RightButtonWrapper>
+        <BasicButton type="button" shape={ButtonShape.CIRCLE} disabled>
+          <RightIcon />
+        </BasicButton>
+      </RightButtonWrapper>
+      <LeftButtonWrapper>
+        <BasicButton type="button" disabled shape={ButtonShape.CIRCLE}>
+          <LeftIcon />
+        </BasicButton>
+      </LeftButtonWrapper>
+    </Panel>
   );
 }

@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 
 import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
+import { wrapper } from "@/slices/store";
 
 import theme from "@/styles/theme";
 
@@ -19,7 +20,7 @@ export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-export default function MyApp(props: MyAppProps) {
+function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
@@ -47,3 +48,5 @@ export default function MyApp(props: MyAppProps) {
     </CacheProvider>
   );
 }
+
+export default wrapper.withRedux(MyApp);
