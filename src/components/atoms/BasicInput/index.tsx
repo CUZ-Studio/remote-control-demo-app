@@ -7,5 +7,5 @@ interface Props {
 }
 
 export default function BasicInput({ value, onChange }: Props) {
-  return <StyledInput type="text" value={value} onChange={onChange} />;
+  return <StyledInput type="text" placeholder="Only english" value={value} onChange={onChange} />;
 }
