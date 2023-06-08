@@ -4,7 +4,7 @@ import { StyledButton } from "./styles";
 interface Props {
   type: "submit" | "reset" | "button" | undefined;
   children: ReactNode;
-  onClick: MouseEventHandler;
+  onClick?: MouseEventHandler;
 }
 
 export default function BasicButton({ type, children, onClick }: Props) {

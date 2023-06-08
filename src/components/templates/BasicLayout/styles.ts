@@ -13,7 +13,7 @@ export const Inner = styled("div")`
   align-items: center;
   width: 425px;
   margin: 0 auto;
-  padding: 80px 0;
+  padding: 80px 16px;
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.palette.common.white};
 `;
