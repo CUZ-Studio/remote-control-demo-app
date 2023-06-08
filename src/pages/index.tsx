@@ -16,7 +16,7 @@ export default function Home() {
 
     const uuid = uuidv4();
     axios
-      .put("http://localhost:30010/remote/object/property", {
+      .put("https://4cc9-121-133-22-1.ngrok-free.app/remote/object/property", {
         objectPath:
           "/Game/ThirdPerson/Maps/ThirdPersonMap.ThirdPersonMap:PersistentLevel.BP_Player_C_UAID_F02F74CEF9D24F8A01_2105859791.NameTag",
         access: "WRITE_TRANSACTION_ACCESS",
@@ -45,7 +45,7 @@ export default function Home() {
     e.preventDefault();
 
     axios
-      .put("http://localhost:30010/remote/object/property", {
+      .put("https://4cc9-121-133-22-1.ngrok-free.app/remote/object/property", {
         objectPath:
           "/Game/ThirdPerson/Maps/ThirdPersonMap.ThirdPersonMap:PersistentLevel.BP_Player_C_UAID_F02F74CEF9D24F8A01_2105859791.NameTag",
         access: "WRITE_TRANSACTION_ACCESS",
