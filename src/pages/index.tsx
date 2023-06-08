@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
+import ControlPanel from "@/components/organisms/ControlPanel";
+import { ButtonShape } from "@/types";
 
 import { Container, StyledForm } from "@/styles/home.styles";
 
@@ -63,13 +65,16 @@ export default function Home() {
   };
   return (
     <Container>
-      <BasicButton type="button" onClick={updateDisplayName}>
+      <BasicButton type="button" shape={ButtonShape.RECTANGLE} onClick={updateDisplayName}>
         랜덤 문자열
       </BasicButton>
       <StyledForm onSubmit={handleSubmit} noValidate>
         <BasicInput value={inputValue} onChange={handleChange} />
-        <BasicButton type="submit">이름 날리기</BasicButton>
+        <BasicButton type="submit" shape={ButtonShape.RECTANGLE}>
+          이름 날리기
+        </BasicButton>
       </StyledForm>
+      <ControlPanel />
     </Container>
   );
 }
