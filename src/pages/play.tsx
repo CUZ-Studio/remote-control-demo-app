@@ -61,8 +61,11 @@ export default function Home() {
           bIsLock: true,
         },
       })
-      .then(() => router.push(Page.PLAY));
-  }, []);
+      .then(() => {
+        const notify = () => toast.success("성공적으로 Player가 할당되었습니다");
+        notify();
+      });
+  }, [player?.objectPath]);
 
   return (
     <Container>
