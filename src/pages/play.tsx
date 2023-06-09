@@ -1,5 +1,4 @@
 import { MouseEventHandler, useEffect } from "react";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
@@ -11,8 +10,6 @@ import ControlPanel from "@/components/organisms/ControlPanel";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { assignPlayer } from "@/slices/game";
-import wrapper from "@/slices/store";
 import { ButtonShape, Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import { Container, PlayerInfoBox } from "@/styles/play.styles";
@@ -79,33 +76,3 @@ export default function Home() {
     </Container>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (store) => async (context) => {
-    const res = await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
-      functionName: "BindingCharacter",
-      generateTransaction: true,
-    });
-
-    store.dispatch(
-      assignPlayer({
-        displayName: "Empty",
-        objectPath: res.data.CharacterPath,
-      }),
-    );
-
-    axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-      objectPath: res.data.CharacterPath,
-      access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-      propertyName: "bIsLock",
-      propertyValue: {
-        bIsLock: true,
-      },
-    });
-    return {
-      props: {},
-    };
-  },
-);

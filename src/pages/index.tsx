@@ -1,13 +1,15 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
 import ErrorBox from "@/components/atoms/ErrorBox";
 import useAuthActions from "@/hooks/useAuthActions";
+import useGameActions from "@/hooks/useGameActions";
 import useUser from "@/hooks/useUser";
-import { ButtonShape, Page } from "@/types";
+import { ButtonShape, Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import { Container, StyledForm } from "@/styles/home.styles";
 
@@ -16,6 +18,7 @@ export default function HomePage() {
   const router = useRouter();
   const user = useUser();
   const { authorize } = useAuthActions();
+  const { assignPlayer } = useGameActions();
 
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,7 +32,7 @@ export default function HomePage() {
     setInputValue(e.currentTarget.value);
   };
 
-  const handleSubmit: FormEventHandler = (e) => {
+  const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
 
     if (inputValue === "") {
@@ -47,7 +50,27 @@ export default function HomePage() {
       username: inputValue,
     });
 
-    router.push(Page.PLAY);
+    const res = await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+      objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
+      functionName: "BindingCharacter",
+      generateTransaction: true,
+    });
+
+    assignPlayer({
+      displayName: "Empty",
+      objectPath: res.data.CharacterPath,
+    });
+
+    await axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+        objectPath: res.data.CharacterPath,
+        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+        propertyName: "bIsLock",
+        propertyValue: {
+          bIsLock: true,
+        },
+      })
+      .then(() => router.push(Page.PLAY));
   };
 
   return (
