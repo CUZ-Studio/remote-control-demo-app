@@ -58,7 +58,8 @@ export default function HomePage() {
         generateTransaction: true,
       })
       .catch(() => {
-        () => toast("실행중인 게임이 없습니다");
+        (() => toast("실행중인 게임이 없습니다"))();
+        return;
       });
 
     if (!res || !res?.data) return;
