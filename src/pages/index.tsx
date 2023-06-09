@@ -1,6 +1,7 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
 import BasicButton from "@/components/atoms/BasicButton";
@@ -50,11 +51,17 @@ export default function HomePage() {
       username: inputValue,
     });
 
-    const res = await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
-      functionName: "BindingCharacter",
-      generateTransaction: true,
-    });
+    const res = await axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
+        functionName: "BindingCharacter",
+        generateTransaction: true,
+      })
+      .catch(() => {
+        () => toast("실행중인 게임이 없습니다");
+      });
+
+    if (!res || !res?.data) return;
 
     assignPlayer({
       displayName: "Empty",
