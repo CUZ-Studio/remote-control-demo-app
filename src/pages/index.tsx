@@ -48,7 +48,7 @@ export default function HomePage() {
 
     await axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
+        objectPath: "/Game/Level/Main.Main:PersistentLevel.BP_GameModeBase_C_2147482511",
         functionName: "BindingCharacter",
         generateTransaction: true,
       })
