@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -51,12 +51,24 @@ export default function Home() {
       });
   };
 
+  useEffect(() => {
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+        objectPath: player.objectPath,
+        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+        propertyName: "bIsLock",
+        propertyValue: {
+          bIsLock: true,
+        },
+      })
+      .then(() => router.push(Page.PLAY));
+  }, []);
+
   return (
     <Container>
       {player && (
         <PlayerInfoBox>
           <h3>플레이어 정보</h3>
-          <p>objectPath: {player.objectPath}</p>
           <p>
             HeadTag: {player.displayName ? player.displayName : "랜덤 ID 배정받기를 눌러주세요"}
           </p>

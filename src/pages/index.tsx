@@ -1,6 +1,6 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
@@ -10,7 +10,7 @@ import ErrorBox from "@/components/atoms/ErrorBox";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useUser from "@/hooks/useUser";
-import { ButtonShape, Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { ButtonShape, Page } from "@/types";
 
 import { Container, StyledForm } from "@/styles/home.styles";
 
@@ -46,34 +46,27 @@ export default function HomePage() {
       return;
     }
 
-    authorize({
-      id: userId,
-      username: inputValue,
-    });
-
-    const res: AxiosResponse<any, any> = await axios
+    await axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
         objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
         functionName: "BindingCharacter",
         generateTransaction: true,
       })
-      .catch(() => toast("실행중인 게임이 없습니다"));
-
-    assignPlayer({
-      displayName: "Empty",
-      objectPath: res.data.CharacterPath,
-    });
-
-    await axios
-      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-        objectPath: res.data.CharacterPath,
-        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-        propertyName: "bIsLock",
-        propertyValue: {
-          bIsLock: true,
-        },
+      .then((res) => {
+        authorize({
+          id: userId,
+          username: inputValue,
+        });
+        assignPlayer({
+          displayName: "Empty",
+          objectPath: res.data.CharacterPath,
+        });
+        router.push(Page.PLAY);
       })
-      .then(() => router.push(Page.PLAY));
+      .catch(() => {
+        const notify = () => toast("실행중인 게임이 없습니다");
+        notify();
+      });
   };
 
   return (
