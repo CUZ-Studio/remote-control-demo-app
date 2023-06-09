@@ -60,7 +60,7 @@ export default function Home() {
         bIsLock: true,
       },
     });
-  }, [player.objectPath]);
+  }, [player?.objectPath]);
 
   return (
     <Container>
