@@ -64,7 +64,7 @@ export default function HomePage() {
         router.push(Page.PLAY);
       })
       .catch(() => {
-        const notify = () => toast("실행중인 게임이 없습니다");
+        const notify = () => toast.error("실행중인 게임이 없습니다");
         notify();
       });
   };
