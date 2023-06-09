@@ -3,8 +3,8 @@ import { css, styled } from "@mui/material/styles";
 
 export const Panel = styled("section")`
   position: relative;
-  width: 50%;
-  aspect-ratio: 1;
+  width: 100%;
+  aspect-ratio: 3.5;
   border: 1px solid ${({ theme }) => theme.palette.common.black};
   border-radius: 4px;
 `;
@@ -15,12 +15,12 @@ const Icon = css`
 
 export const ForwardIcon = styled(ForwardRoundedIcon)`
   ${Icon}
-  rotate: -90deg;
+  rotate: 0deg;
 `;
 
 export const BackwardIcon = styled(ForwardRoundedIcon)`
   ${Icon}
-  rotate: 90deg;
+  rotate: 180deg;
 `;
 
 export const ForwardButtonWrapper = styled("div")`
@@ -29,9 +29,9 @@ export const ForwardButtonWrapper = styled("div")`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  left: 50%;
-  top: 8px;
-  margin-left: -24px;
+  right: 8px;
+  top: 50%;
+  margin-top: -24px;
   position: absolute;
 `;
 
@@ -41,8 +41,8 @@ export const BackwardButtonWrapper = styled("div")`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  left: 50%;
-  margin-left: -24px;
+  left: 8px;
+  top: 50%;
+  margin-top: -24px;
   position: absolute;
-  bottom: 8px;
 `;

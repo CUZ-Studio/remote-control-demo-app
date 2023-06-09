@@ -39,7 +39,7 @@ export default function ControlPanel() {
   const handleForward: MouseEventHandler = async (e) => {
     e.preventDefault();
 
-    moveForward(1);
+    moveForward(-1);
 
     setTimeout(() => {
       moveForward(0);
@@ -48,7 +48,7 @@ export default function ControlPanel() {
   const handleBackward: MouseEventHandler = async (e) => {
     e.preventDefault();
 
-    moveForward(-1);
+    moveForward(1);
 
     setTimeout(() => {
       moveForward(0);

@@ -6,7 +6,7 @@ export const Container = styled("div")`
   width: 100%;
   justify-content: center;
   align-items: center;
-  gap: 100px;
+  gap: 32px;
 `;
 
 export const PlayerInfoBox = styled("div")`
