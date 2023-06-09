@@ -33,6 +33,7 @@ const rootReducer = (state: any, action: any) => {
       ...action.payload,
     };
     if (state.auth.user) nextState.auth.user = state.auth.user;
+    if (state.game.player) nextState.game.player = state.game.player;
     return nextState;
   } else {
     return combinedReducer(state, action);

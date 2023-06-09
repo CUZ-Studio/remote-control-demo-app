@@ -56,7 +56,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (_.isNil(user)) router.replace(Page.HOME);
+    if (_.isNil(user)) {
+      router.replace(Page.HOME);
+    }
   }, [user]);
 
   return (
