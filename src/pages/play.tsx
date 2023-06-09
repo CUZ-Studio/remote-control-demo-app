@@ -1,7 +1,7 @@
 import { MouseEventHandler, useEffect } from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -81,46 +81,28 @@ export default function Home() {
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (store) => async (context) => {
-    // 20개의 Player에 대해 lock 정보 불러오기
-    const requestIds = Array.from({ length: 20 }).map((_, i) => i);
-    const multipleRequests = requestIds.reduce((acc, cur) => {
-      acc = acc.concat(
-        axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-          objectPath: `/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_Player_C_${cur}`,
-          access: REMOTE_CONTROL_API_ACCESS_TYPE.READ_ACCESS,
-          propertyName: "Lock",
-        }),
-      );
-      return acc;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }, [] as Promise<AxiosResponse<any, any>>[]);
+    const state = store.getState();
+    const res = await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+      objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
+      functionName: "BindingCharacter",
+      generateTransaction: true,
+    });
 
-    const res = await Promise.allSettled(multipleRequests);
-
-    const availableIdx = res.findIndex(
-      (singleResponse) => singleResponse.status === "fulfilled" && !singleResponse.value.data.Lock,
+    store.dispatch(
+      assignPlayer({
+        ...state.game.player,
+        objectPath: res.data.CharacterPath,
+      }),
     );
 
-    if (availableIdx > -1) {
-      store.dispatch(
-        assignPlayer({
-          objectPath: `/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_Player_C_${availableIdx}`,
-          displayName: "",
-        }),
-      );
-
-      axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-        objectPath: `/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_Player_C_${availableIdx}`,
-        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-        propertyName: "Lock",
-        propertyValue: {
-          Lock: true,
-        },
-      });
-    }
-
-    // 할당 가능한 경우 object Path 설정
-    // 할당 불가한 경우 현재 게임에 참여할 수 없는 boolean값 넘기기
+    axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+      objectPath: res.data.CharacterPath,
+      access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+      propertyName: "bIsLock",
+      propertyValue: {
+        bIsLock: true,
+      },
+    });
     return {
       props: {},
     };

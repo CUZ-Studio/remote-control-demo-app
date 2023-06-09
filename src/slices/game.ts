@@ -1,6 +1,5 @@
 import { HYDRATE } from "next-redux-wrapper";
 
-import { Status } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Player {
@@ -10,12 +9,10 @@ export interface Player {
 
 export interface GameState {
   player: Player | null;
-  status: Status;
 }
 
 const initialState: GameState = {
   player: null,
-  status: "idle",
 };
 
 export const gameSlice = createSlice({

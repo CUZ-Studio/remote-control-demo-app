@@ -23,16 +23,6 @@ export const BackwardIcon = styled(ForwardRoundedIcon)`
   rotate: 90deg;
 `;
 
-export const RightIcon = styled(ForwardRoundedIcon)`
-  ${Icon}
-  rotate: 0deg;
-`;
-
-export const LeftIcon = styled(ForwardRoundedIcon)`
-  ${Icon}
-  rotate: 180deg;
-`;
-
 export const ForwardButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
@@ -55,28 +45,4 @@ export const BackwardButtonWrapper = styled("div")`
   margin-left: -24px;
   position: absolute;
   bottom: 8px;
-`;
-
-export const RightButtonWrapper = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  right: 8px;
-  top: 50%;
-  margin-top: -24px;
-  position: absolute;
-`;
-
-export const LeftButtonWrapper = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  left: 8px;
-  top: 50%;
-  margin-top: -24px;
-  position: absolute;
 `;

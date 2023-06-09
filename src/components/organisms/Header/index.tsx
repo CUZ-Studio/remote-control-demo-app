@@ -23,9 +23,9 @@ export default function Header() {
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
         objectPath: `${player.objectPath}`,
         access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-        propertyName: "Lock",
+        propertyName: "bIsLock",
         propertyValue: {
-          Lock: true,
+          bIsLock: false,
         },
       })
       .then(() => {
