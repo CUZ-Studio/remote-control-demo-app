@@ -13,11 +13,11 @@ import { Container, StyledForm } from "@/styles/home.styles";
 
 export default function HomePage() {
   const userId = uuidv4();
-  const user = useUser();
   const router = useRouter();
+  const user = useUser();
+  const { authorize } = useAuthActions();
 
   const [inputValue, setInputValue] = useState("");
-  const { authorize } = useAuthActions();
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {

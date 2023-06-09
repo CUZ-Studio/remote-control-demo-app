@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 
 import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
-import { wrapper } from "@/slices/store";
+import wrapper from "@/slices/store";
 
 import theme from "@/styles/theme";
 

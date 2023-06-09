@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { TouchEventHandler } from "react";
 import axios from "axios";
+import _ from "lodash";
 import { toast } from "react-toastify";
 
 import BasicButton from "@/components/atoms/BasicButton";
-import { ButtonShape } from "@/types";
+import usePlayer from "@/hooks/usePlayer";
+import { ButtonShape, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import {
   BackwardButtonWrapper,
@@ -18,27 +20,46 @@ import {
 } from "./styles";
 
 export default function ControlPanel() {
-  const [moveForwardValue, setMoveForwardValue] = useState(0);
+  const player = usePlayer();
 
-  useEffect(() => {
-    (() => {
-      axios
-        .put("https://4cc9-121-133-22-1.ngrok-free.app/remote/object/property", {
-          objectPath:
-            "/Game/ThirdPerson/Maps/ThirdPersonMap.ThirdPersonMap:PersistentLevel.BP_Player_C_UAID_F02F74CEF9D24F8A01_2105859791.NameTag",
-          access: "WRITE_TRANSACTION_ACCESS",
-          propertyName: "MoveForward",
-          propertyValue: {
-            MoveForward: moveForwardValue,
-          },
-        })
-        .catch((e) => {
-          if (e.code === "ERR_NETWORK") {
-            toast.error("네트워크 연결을 확인하세요");
-          }
-        });
-    })();
-  }, [moveForwardValue]);
+  const moveForward: TouchEventHandler = (e) => {
+    e.preventDefault();
+    if (_.isNil(player)) return;
+
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+        objectPath: player.objectPath,
+        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+        propertyName: "MoveForward",
+        propertyValue: {
+          MoveForward: 1,
+        },
+      })
+      .catch((e) => {
+        if (e.code === "ERR_NETWORK") {
+          toast.error("네트워크 연결을 확인하세요");
+        }
+      });
+  };
+  const stopMovement: TouchEventHandler = (e) => {
+    e.preventDefault();
+    if (_.isNil(player)) return;
+
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+        objectPath: player.objectPath,
+        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+        propertyName: "MoveForward",
+        propertyValue: {
+          MoveForward: 0,
+        },
+      })
+      .catch((e) => {
+        if (e.code === "ERR_NETWORK") {
+          toast.error("네트워크 연결을 확인하세요");
+        }
+      });
+  };
 
   return (
     <Panel>
@@ -46,8 +67,8 @@ export default function ControlPanel() {
         <BasicButton
           type="button"
           shape={ButtonShape.CIRCLE}
-          onTouchStart={() => setMoveForwardValue(1)}
-          onTouchEnd={() => setMoveForwardValue(0)}
+          onTouchStart={moveForward}
+          onTouchEnd={stopMovement}
         >
           <ForwardIcon />
         </BasicButton>

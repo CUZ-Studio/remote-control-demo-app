@@ -9,6 +9,23 @@ export const Container = styled("div")`
   gap: 100px;
 `;
 
+export const PlayerInfoBox = styled("div")`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 1fr);
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 0;
+  }
+`;
+
 export const StyledForm = styled("form")`
   display: grid;
   grid-template-columns: 1fr;

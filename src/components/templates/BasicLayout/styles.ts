@@ -17,7 +17,7 @@ export const Inner = styled("div", {
   align-items: center;
   width: ${({ isMobile }) => (isMobile ? "100%" : "375px")};
   margin: 0 auto;
-  padding: 80px 8px;
+  padding: 60px 8px 80px;
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.palette.common.white};
 `;
