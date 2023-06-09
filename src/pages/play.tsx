@@ -81,7 +81,6 @@ export default function Home() {
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (store) => async (context) => {
-    const state = store.getState();
     const res = await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
       objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
       functionName: "BindingCharacter",
@@ -90,7 +89,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
 
     store.dispatch(
       assignPlayer({
-        ...state.game.player,
+        displayName: "Empty",
         objectPath: res.data.CharacterPath,
       }),
     );
