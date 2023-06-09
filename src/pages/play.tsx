@@ -52,29 +52,22 @@ export default function Home() {
   };
 
   useEffect(() => {
-    axios
-      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-        objectPath: player.objectPath,
-        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-        propertyName: "bIsLock",
-        propertyValue: {
-          bIsLock: true,
-        },
-      })
-      .then(() => {
-        const notify = () => toast.success("성공적으로 Player가 할당되었습니다");
-        notify();
-      });
-  }, [player?.objectPath]);
+    axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+      objectPath: player.objectPath,
+      access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+      propertyName: "bIsLock",
+      propertyValue: {
+        bIsLock: true,
+      },
+    });
+  }, [player.objectPath]);
 
   return (
     <Container>
       {player && (
         <PlayerInfoBox>
-          <h3>플레이어 정보</h3>
-          <p>
-            HeadTag: {player.displayName ? player.displayName : "랜덤 ID 배정받기를 눌러주세요"}
-          </p>
+          <h3>내 캐릭터 머리 위에 떠있는 문자열:</h3>
+          <p>{player.displayName ? player.displayName : "랜덤 ID 배정받기를 눌러주세요"}</p>
         </PlayerInfoBox>
       )}
       <BasicButton type="button" shape={ButtonShape.RECTANGLE} onClick={updateDisplayName}>

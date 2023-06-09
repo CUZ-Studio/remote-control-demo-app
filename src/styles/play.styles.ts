@@ -13,6 +13,7 @@ export const PlayerInfoBox = styled("div")`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, 1fr);
+  width: 100%;
 
   h3 {
     margin: 0;
