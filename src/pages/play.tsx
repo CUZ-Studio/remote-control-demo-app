@@ -1,7 +1,6 @@
-import { MouseEventHandler, useEffect } from "react";
+import { MouseEventHandler } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import _ from "lodash";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
