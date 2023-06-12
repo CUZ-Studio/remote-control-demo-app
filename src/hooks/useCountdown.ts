@@ -9,8 +9,6 @@ const useCountdown = (targetDate: string | number | Date) => {
     const interval = setInterval(() => {
       if (countDownDate - new Date().getTime() < 0) return;
 
-      console.log(countDownDate - new Date().getTime());
-
       setCountDown(countDownDate - new Date().getTime());
     }, 1000);
 
