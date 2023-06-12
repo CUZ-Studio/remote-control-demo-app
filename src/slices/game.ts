@@ -7,12 +7,22 @@ export interface Player {
   displayName: string;
 }
 
+export interface GameStatus {
+  isPlaying: boolean;
+  timeLeft: number | null;
+}
+
 export interface GameState {
   player: Player | null;
+  gameStatus: GameStatus;
 }
 
 const initialState: GameState = {
   player: null,
+  gameStatus: {
+    isPlaying: false,
+    timeLeft: 0,
+  },
 };
 
 export const gameSlice = createSlice({
@@ -21,6 +31,9 @@ export const gameSlice = createSlice({
   reducers: {
     assignPlayer(state, action: PayloadAction<Player | null>) {
       state.player = action.payload;
+    },
+    updateGameStatus(state, action: PayloadAction<GameStatus>) {
+      state.gameStatus = action.payload;
     },
   },
   extraReducers: {
@@ -34,4 +47,4 @@ export const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export const { assignPlayer } = gameSlice.actions;
+export const { assignPlayer, updateGameStatus } = gameSlice.actions;
