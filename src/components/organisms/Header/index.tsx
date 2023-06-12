@@ -19,14 +19,15 @@ export default function Header() {
   const { assignPlayer, updateGameStatus } = useGameActions();
 
   const logout = () => {
-    axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-      objectPath: `${player.objectPath}`,
-      access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-      propertyName: "bIsLock",
-      propertyValue: {
-        bIsLock: false,
-      },
-    });
+    (async () =>
+      await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+        objectPath: `${player.objectPath}`,
+        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+        propertyName: "bIsLock",
+        propertyValue: {
+          bIsLock: false,
+        },
+      }))();
 
     router.replace(Page.HOME).then(() => {
       authorize(null);
