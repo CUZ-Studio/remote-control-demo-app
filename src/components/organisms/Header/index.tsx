@@ -8,7 +8,6 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
-import Timer from "../Timer";
 import { Inner, LogoutIcon, Root } from "./styles";
 
 export default function Header() {
@@ -42,7 +41,6 @@ export default function Header() {
     <Root>
       <Inner isMobile={isMobile}>
         {user?.username}님, 반가워요♡
-        <Timer />
         <LogoutIcon onClick={logout} />
       </Inner>
     </Root>

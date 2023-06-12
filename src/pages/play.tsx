@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import BasicButton from "@/components/atoms/BasicButton";
 import ControlPanel from "@/components/organisms/ControlPanel";
+import Timer from "@/components/organisms/Timer";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
@@ -84,10 +85,13 @@ export default function Home() {
   return (
     <Container>
       {player && (
-        <PlayerInfoBox>
-          <h3>내 캐릭터 머리 위에 떠있는 문자열:</h3>
-          <p>{player.displayName ? player.displayName : "랜덤 ID 배정받기를 눌러주세요"}</p>
-        </PlayerInfoBox>
+        <>
+          <Timer />
+          <PlayerInfoBox>
+            <h3>플레이어 랜덤 ID:</h3>
+            <p>{player.displayName ? player.displayName : "랜덤 ID 배정받기를 눌러주세요"}</p>
+          </PlayerInfoBox>
+        </>
       )}
       <BasicButton type="button" shape={ButtonShape.RECTANGLE} onClick={updateDisplayName}>
         플레이어 랜덤 ID 배정받기

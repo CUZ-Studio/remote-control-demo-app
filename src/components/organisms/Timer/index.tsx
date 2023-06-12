@@ -6,6 +6,8 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameStatus";
 import usePlayer from "@/hooks/usePlayer";
 
+import { Container } from "./styles";
+
 export default function Timer() {
   const player = usePlayer();
   const gameStatus = useGameStatus();
@@ -13,7 +15,7 @@ export default function Timer() {
 
   const targetDate = useMemo(() => {
     return gameStatus.timeLeft * 1000 + new Date().getTime();
-  }, [gameStatus?.timeLeft]);
+  }, [gameStatus?.timeLeft, player?.objectPath]);
 
   const [minutes, seconds] = useCountdown(targetDate);
 
@@ -39,9 +41,9 @@ export default function Timer() {
   }, [minutes, seconds]);
 
   return (
-    <div>
-      <span>{minutes} min </span>
-      <span>{seconds} sec</span>
-    </div>
+    <Container>
+      <span>{minutes}분 </span>
+      <span>{seconds}초</span>
+    </Container>
   );
 }
