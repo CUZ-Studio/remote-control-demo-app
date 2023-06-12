@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 import useCountdown from "@/hooks/useCountdown";
 import useGameActions from "@/hooks/useGameActions";
@@ -24,28 +23,23 @@ export default function Timer() {
 
   useEffect(() => {
     if (minutes + seconds <= 0) {
-      setTimeout(async () => {
-        try {
-          const res = await axios.put(
-            `${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`,
-            {
-              objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
-              functionName: "BindingCharacter",
-              generateTransaction: true,
-            },
-          );
-
-          assignPlayer({
-            ...player,
-            objectPath: res.data.CharacterPath,
+      setTimeout(() => {
+        axios
+          .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+            objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
+            functionName: "BindingCharacter",
+            generateTransaction: true,
+          })
+          .then((res) => {
+            assignPlayer({
+              ...player,
+              objectPath: res.data.CharacterPath,
+            });
+            updateGameStatus({
+              isPlaying: true,
+              timeLeft: res.data.MainGameRemainTime,
+            });
           });
-          updateGameStatus({
-            isPlaying: true,
-            timeLeft: res.data.MainGameRemainTime,
-          });
-        } catch (e) {
-          toast.error("캐릭터를 불러올 수 없습니다");
-        }
       }, 2000);
     }
   }, [minutes, seconds]);
