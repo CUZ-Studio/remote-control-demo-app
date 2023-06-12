@@ -19,9 +19,9 @@ export default function HomePage() {
   const router = useRouter();
   const user = useUser();
   const { authorize } = useAuthActions();
-  const { assignPlayer } = useGameActions();
+  const { assignPlayer, updateGameStatus } = useGameActions();
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(user?.username ?? "");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -60,6 +60,10 @@ export default function HomePage() {
         assignPlayer({
           displayName: "Empty",
           objectPath: res.data.CharacterPath,
+        });
+        updateGameStatus({
+          isPlaying: true,
+          timeLeft: res.data.MainGameRemainTime,
         });
         router.push(Page.PLAY);
       })

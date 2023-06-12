@@ -52,15 +52,34 @@ export default function Home() {
   };
 
   useEffect(() => {
-    axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-      objectPath: player.objectPath,
-      access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-      propertyName: "bIsLock",
-      propertyValue: {
-        bIsLock: true,
-      },
-    });
-  }, []);
+    if (!player) return;
+
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+        objectPath: player.objectPath,
+        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+        propertyName: "bIsLock",
+        propertyValue: {
+          bIsLock: true,
+        },
+      })
+      .then(() => {
+        if (player.displayName) {
+          axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+            objectPath: player.objectPath,
+            access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
+            propertyName: "HeadTag",
+            propertyValue: {
+              HeadTag: player.displayName,
+            },
+          });
+        }
+      });
+  }, [player]);
+
+  useEffect(() => {
+    if (!user) router.push(Page.HOME);
+  }, [user]);
 
   return (
     <Container>
