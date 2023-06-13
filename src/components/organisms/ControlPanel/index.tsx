@@ -1,10 +1,10 @@
-import { MouseEventHandler } from "react";
+import { MouseEvent, useEffect } from "react";
 import axios from "axios";
 import _ from "lodash";
 import { toast } from "react-toastify";
 
 import BasicButton from "@/components/atoms/BasicButton";
-import { updatePlayer } from "@/firebase/players";
+import { getPlayer, updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
@@ -23,7 +23,7 @@ export default function ControlPanel() {
   const player = usePlayer();
   const { assignPlayer } = useGameActions();
 
-  const moveForward = async (val: 0 | 1 | -1) => {
+  const moveForward = async (val: 0 | 1 | -1, isInit: boolean) => {
     if (_.isNil(player)) return;
     if (_.isNil(user)) return;
 
@@ -37,13 +37,13 @@ export default function ControlPanel() {
         },
       });
 
-      if (val) {
+      if (val !== 0 && !isInit) {
         await updatePlayer({
           documentId: player.id,
           updated: {
             displayName: player.displayName,
             status: {
-              moveForward: player.moveForward ? player.moveForward + val : 0 + val,
+              moveForward: player.moveForward ? player.moveForward + val : val,
             },
             userId: user.username,
           },
@@ -51,7 +51,7 @@ export default function ControlPanel() {
 
         assignPlayer({
           ...player,
-          moveForward: player.moveForward ? player.moveForward + val : 0 + val,
+          moveForward: player.moveForward ? player.moveForward + val : val,
         });
       }
 
@@ -62,34 +62,48 @@ export default function ControlPanel() {
       }
     }
   };
-  const handleForward: MouseEventHandler = async (e) => {
+  const handleForward = async (e: MouseEvent, sec: number) => {
     e.preventDefault();
 
-    await moveForward(-1);
+    await moveForward(-1, false);
 
     setTimeout(async () => {
-      await moveForward(0);
-    }, 1000);
+      await moveForward(0, false);
+    }, 1000 * sec);
   };
-  const handleBackward: MouseEventHandler = async (e) => {
+  const handleBackward = async (e: MouseEvent, sec: number) => {
     e.preventDefault();
 
-    await moveForward(1);
+    await moveForward(1, false);
 
     setTimeout(async () => {
-      await moveForward(0);
-    }, 1000);
+      await moveForward(0, false);
+    }, 1000 * sec);
   };
+
+  useEffect(() => {
+    if (_.isNil(user)) return;
+
+    getPlayer(user.username).then(async (res) => {
+      const moveForwardVal = res[0].status.moveForward;
+      if (moveForwardVal === 0) return;
+      await moveForward(moveForwardVal < 0 ? -1 : 1, true);
+
+      setTimeout(async () => {
+        await moveForward(0, true);
+      }, 1000 * Math.abs(moveForwardVal));
+    });
+  }, []);
 
   return (
     <Panel>
       <ForwardButtonWrapper>
-        <BasicButton type="button" shape={ButtonShape.CIRCLE} onClick={handleForward}>
+        <BasicButton type="button" shape={ButtonShape.CIRCLE} onClick={(e) => handleForward(e, 1)}>
           <ForwardIcon />
         </BasicButton>
       </ForwardButtonWrapper>
       <BackwardButtonWrapper>
-        <BasicButton type="button" shape={ButtonShape.CIRCLE} onClick={handleBackward}>
+        <BasicButton type="button" shape={ButtonShape.CIRCLE} onClick={(e) => handleBackward(e, 1)}>
           <BackwardIcon />
         </BasicButton>
       </BackwardButtonWrapper>
