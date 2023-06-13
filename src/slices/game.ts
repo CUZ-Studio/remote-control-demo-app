@@ -3,8 +3,10 @@ import { HYDRATE } from "next-redux-wrapper";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Player {
+  id: string;
   objectPath: string;
   displayName: string;
+  moveForward: number;
 }
 
 export interface GameStatus {

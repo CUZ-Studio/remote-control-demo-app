@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
 import ErrorBox from "@/components/atoms/ErrorBox";
+import { createPlayer, getPlayer } from "@/firebase/players";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useUser from "@/hooks/useUser";
@@ -46,31 +47,55 @@ export default function HomePage() {
       return;
     }
 
-    await axios
-      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
-        functionName: "BindingCharacter",
-        generateTransaction: true,
-      })
-      .then((res) => {
-        authorize({
-          id: userId,
-          username: inputValue,
-        });
+    try {
+      const createdCharacterInfo = await axios.put(
+        `${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`,
+        {
+          objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
+          functionName: "BindingCharacter",
+          generateTransaction: true,
+        },
+      );
+
+      const storedPlayerInfo = await getPlayer(inputValue);
+
+      if (storedPlayerInfo.length) {
         assignPlayer({
-          displayName: "Empty",
-          objectPath: res.data.CharacterPath,
+          id: storedPlayerInfo[0].id,
+          displayName: storedPlayerInfo[0].displayName,
+          objectPath: createdCharacterInfo.data.CharacterPath,
+          moveForward: storedPlayerInfo[0].status.moveForward,
         });
-        updateGameStatus({
-          isPlaying: true,
-          timeLeft: res.data.MainGameRemainTime,
+      } else {
+        const playerId = uuidv4();
+
+        await createPlayer({
+          playerId,
+          displayName: `@${inputValue}`,
+          userId: inputValue,
         });
-        router.push(Page.PLAY);
-      })
-      .catch(() => {
-        const notify = () => toast.error("실행중인 게임이 없습니다");
-        notify();
+
+        assignPlayer({
+          id: playerId,
+          displayName: `@${inputValue}`,
+          objectPath: createdCharacterInfo.data.CharacterPath,
+          moveForward: 0,
+        });
+      }
+      authorize({
+        id: userId,
+        username: inputValue,
       });
+
+      updateGameStatus({
+        isPlaying: true,
+        timeLeft: createdCharacterInfo.data.MainGameRemainTime,
+      });
+      router.push(Page.PLAY);
+    } catch (error) {
+      const notify = () => toast.error("실행중인 게임이 없습니다");
+      notify();
+    }
   };
 
   return (
