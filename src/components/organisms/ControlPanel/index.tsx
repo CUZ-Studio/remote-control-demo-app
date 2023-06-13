@@ -37,21 +37,24 @@ export default function ControlPanel() {
         },
       });
 
-      await updatePlayer({
-        documentId: player.id,
-        updated: {
-          displayName: player.displayName,
-          status: {
-            moveForward: val++,
+      if (val) {
+        await updatePlayer({
+          documentId: player.id,
+          updated: {
+            displayName: player.displayName,
+            status: {
+              moveForward: player.moveForward ? player.moveForward + val : 0 + val,
+            },
+            userId: user.username,
           },
-          userId: user.username,
-        },
-      });
+        });
 
-      assignPlayer({
-        ...player,
-        moveForward: ++val,
-      });
+        assignPlayer({
+          ...player,
+          moveForward: player.moveForward ? player.moveForward + val : 0 + val,
+        });
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       if (e.code === "ERR_NETWORK") {
