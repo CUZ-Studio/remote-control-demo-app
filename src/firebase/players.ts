@@ -10,24 +10,29 @@ import {
   where,
 } from "firebase/firestore";
 
+import { RobotColor, RobotModelType } from "@/types";
+
 import { firestore } from "./clientApp";
 
 const playersCollection = collection(firestore, "players");
 
 interface Props {
   playerId: string;
-  displayName: string;
-  userId: string;
+  headTag: string;
+  modelColor: RobotColor;
+  modelType: RobotModelType;
+  username: string;
 }
 
-const createPlayer = async ({ playerId, displayName, userId }: Props) => {
+const createPlayer = async ({ playerId, headTag, modelColor, modelType, username }: Props) => {
   const _player = doc(firestore, `players/${playerId}`);
   const playerData = {
-    displayName,
-    status: {
-      moveForward: 0,
-    },
-    userId,
+    uid: playerId,
+    headTag,
+    modelColor,
+    modelType,
+    username,
+    score: 0,
   };
 
   try {
@@ -37,8 +42,8 @@ const createPlayer = async ({ playerId, displayName, userId }: Props) => {
   }
 };
 
-const getPlayer = async (username: string) => {
-  const playersQuery = query(playersCollection, where("userId", "==", username));
+const getPlayer = async (playerId: string) => {
+  const playersQuery = query(playersCollection, where("playerId", "==", playerId));
   const querySnapshot = await getDocs(playersQuery);
 
   const res: DocumentData[] = querySnapshot.docs.map((doc) => ({
@@ -54,20 +59,14 @@ const updatePlayer = async ({
 }: {
   documentId: string;
   updated: {
-    displayName: string;
-    status: {
-      moveForward: number;
-    };
-    userId: string;
+    score: number;
   };
 }) => {
   const _player = doc(firestore, `players/${documentId}`);
 
   try {
     await updateDoc(_player, {
-      displayName: updated.displayName,
-      "status.moveForward": updated.status.moveForward,
-      userId: updated.userId,
+      score: updated.score,
     });
   } catch (error) {
     console.error(error);

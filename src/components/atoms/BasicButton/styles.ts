@@ -3,15 +3,17 @@ import { styled } from "@mui/material/styles";
 import { ButtonShape } from "@/types";
 
 export const StyledButton = styled("button", {
-  shouldForwardProp: (props) => props !== "shape",
+  shouldForwardProp: (props) => props !== "isSelected" && props !== "shape" && props !== "color",
 })<{
+  isSelected: boolean;
   shape: ButtonShape;
+  color: string;
 }>`
   position: relative;
   font-size: ${({ shape }) => {
     switch (shape) {
       case ButtonShape.CIRCLE:
-        return "48px";
+        return "16px";
       case ButtonShape.RECTANGLE:
       default:
         return "16px";
@@ -47,5 +49,15 @@ export const StyledButton = styled("button", {
     display: flex;
     justify-content: center;
     align-items: center;
+  `}
+
+  ${({ color }) => `
+    background-color: ${color};
+  `}
+
+  ${({ isSelected }) =>
+    isSelected &&
+    `
+  box-shadow: 2px 2px yellow;
   `}
 `;

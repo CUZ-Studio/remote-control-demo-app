@@ -3,21 +3,21 @@ import axios from "axios";
 
 import useCountdown from "@/hooks/useCountdown";
 import useGameActions from "@/hooks/useGameActions";
-import useGameStatus from "@/hooks/useGameStatus";
+import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 
 import { Container } from "./styles";
 
 export default function Timer() {
   const player = usePlayer();
-  const gameStatus = useGameStatus();
-  const { assignPlayer, updateGameStatus } = useGameActions();
+  const gameRound = useGameRound();
+  const { assignPlayer, updateGameRound } = useGameActions();
 
   const targetDate = useMemo(() => {
-    return gameStatus.timeLeft * 1000 + new Date().getTime();
+    return gameRound.timeLeft * 1000 + new Date().getTime();
     // 플레이어 상대경로가 변화할 때마다 새로운 라운드가 시작했다는 의미이므로,
     // 남은 시간을 다시 계산해줘야 함
-  }, [gameStatus?.timeLeft, player?.objectPath]);
+  }, [gameRound?.timeLeft, player?.objectPath]);
 
   const [minutes, seconds] = useCountdown(targetDate);
 
@@ -35,7 +35,8 @@ export default function Timer() {
               ...player,
               objectPath: res.data.CharacterPath,
             });
-            updateGameStatus({
+            updateGameRound({
+              ...gameRound,
               isPlaying: true,
               timeLeft: res.data.MainGameRemainTime,
             });

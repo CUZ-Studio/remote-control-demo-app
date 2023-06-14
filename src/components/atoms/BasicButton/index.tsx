@@ -1,13 +1,15 @@
 import { MouseEventHandler, ReactNode, TouchEventHandler } from "react";
 
-import { ButtonShape } from "@/types";
+import { ButtonShape, RobotColor } from "@/types";
 
 import { StyledButton } from "./styles";
 interface Props {
   type: "submit" | "reset" | "button" | undefined;
   disabled?: boolean;
   shape: ButtonShape;
-  children: ReactNode;
+  color?: RobotColor;
+  isSelected?: boolean;
+  children?: ReactNode;
   onClick?: MouseEventHandler;
   onTouchStart?: TouchEventHandler;
   onTouchEnd?: TouchEventHandler;
@@ -16,15 +18,19 @@ interface Props {
 export default function BasicButton({
   type,
   shape,
+  color,
   disabled,
+  isSelected,
   children,
   onClick,
   onTouchStart,
   onTouchEnd,
 }: Props) {
-  return (
+  return children ? (
     <StyledButton
       shape={shape}
+      color={color?.toLowerCase() || ""}
+      isSelected={!!isSelected}
       disabled={disabled}
       type={type}
       onClick={onClick}
@@ -33,5 +39,16 @@ export default function BasicButton({
     >
       {children}
     </StyledButton>
+  ) : (
+    <StyledButton
+      shape={shape}
+      color={color?.toLowerCase() || ""}
+      disabled={disabled}
+      type={type}
+      isSelected={!!isSelected}
+      onClick={onClick}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    />
   );
 }

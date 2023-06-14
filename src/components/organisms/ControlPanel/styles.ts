@@ -4,9 +4,13 @@ import { css, styled } from "@mui/material/styles";
 export const Panel = styled("section")`
   position: relative;
   width: 100%;
-  aspect-ratio: 3.5;
+  aspect-ratio: 3;
   border: 1px solid ${({ theme }) => theme.palette.common.black};
   border-radius: 4px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: 8px;
 `;
 
 const Icon = css`
@@ -29,10 +33,6 @@ export const ForwardButtonWrapper = styled("div")`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  right: 8px;
-  top: 50%;
-  margin-top: -24px;
-  position: absolute;
 `;
 
 export const BackwardButtonWrapper = styled("div")`
@@ -41,8 +41,10 @@ export const BackwardButtonWrapper = styled("div")`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  left: 8px;
-  top: 50%;
-  margin-top: -24px;
-  position: absolute;
+`;
+
+export const ControlButton = styled("button")`
+  aspect-ratio: 1;
+  margin: auto 0;
+  cursor: pointer;
 `;

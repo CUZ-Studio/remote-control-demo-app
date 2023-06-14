@@ -1,27 +1,37 @@
 import { HYDRATE } from "next-redux-wrapper";
 
+import { RobotColor, RobotModelType } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Player {
-  id: string;
-  objectPath: string;
-  displayName: string;
-  moveForward: number;
+  playerId: string | undefined; // userId와 혼동하지 말 것!
+  objectPath: string | undefined;
+  headTag: string | undefined;
+  model: RobotModelType | undefined;
+  color: RobotColor | undefined;
 }
 
-export interface GameStatus {
+export interface GameRound {
+  gameModeBaseObjectPath: string | undefined;
   isPlaying: boolean;
   timeLeft: number | null;
 }
 
 export interface GameState {
   player: Player | null;
-  gameStatus: GameStatus;
+  gameRound: GameRound;
 }
 
 const initialState: GameState = {
-  player: null,
-  gameStatus: {
+  player: {
+    playerId: undefined,
+    objectPath: undefined,
+    headTag: undefined,
+    model: undefined,
+    color: undefined,
+  },
+  gameRound: {
+    gameModeBaseObjectPath: undefined,
     isPlaying: false,
     timeLeft: 0,
   },
@@ -34,8 +44,8 @@ export const gameSlice = createSlice({
     assignPlayer(state, action: PayloadAction<Player | null>) {
       state.player = action.payload;
     },
-    updateGameStatus(state, action: PayloadAction<GameStatus>) {
-      state.gameStatus = action.payload;
+    updateGameRound(state, action: PayloadAction<GameRound>) {
+      state.gameRound = action.payload;
     },
   },
   extraReducers: {
@@ -49,4 +59,4 @@ export const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export const { assignPlayer, updateGameStatus } = gameSlice.actions;
+export const { assignPlayer, updateGameRound } = gameSlice.actions;
