@@ -1,13 +1,18 @@
+import { useEffect } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
-import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
+import useGameActions from "@/hooks/useGameActions";
+import useGameRound from "@/hooks/useGameRound";
 import wrapper from "@/slices/store";
+import { REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import theme from "@/styles/theme";
 
@@ -22,6 +27,29 @@ export interface MyAppProps extends AppProps {
 
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const gameRound = useGameRound();
+  const { updateGameRound } = useGameActions();
+
+  useEffect(() => {
+    if (gameRound.gameModeBaseObjectPath) return;
+
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
+        objectPath:
+          "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GetGameModeBaseObjectPath_C_1",
+        access: REMOTE_CONTROL_API_ACCESS_TYPE.READ_ACCESS,
+        propertyName: "GameModeBaseObjPath",
+      })
+      .then((res) => {
+        updateGameRound({
+          ...gameRound,
+          gameModeBaseObjectPath: res.data.GameModeBaseObjPath,
+        });
+      })
+      .catch((error) => {
+        toast.error(error.response.data.errorMessage);
+      });
+  }, []);
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -43,6 +71,7 @@ function MyApp(props: MyAppProps) {
           pauseOnFocusLoss
           pauseOnHover
           theme="dark"
+          limit={1}
         />
       </ThemeProvider>
     </CacheProvider>
