@@ -15,7 +15,6 @@ import { useFrame } from "@react-three/fiber";
 export default function Probe(props) {
   const ref = useRef();
   const snap = useSnapshot(modelColorState);
-  console.log(snap.items.Probe);
 
   const { nodes, materials } = useGLTF(`/Probe_${snap.items.Probe ?? RobotColor.BLACK}.glb`);
 
