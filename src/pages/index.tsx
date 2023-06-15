@@ -13,8 +13,7 @@ export default function HomePage() {
         disabled={!!user}
         shape={ButtonShape.RECTANGLE}
         onClick={() => {
-          (window as Window).location =
-            "https://api.furo.one/oauth?platform=kakao&public_api_key=apikey-public-live-419a0ea4-86ee-463a-a429-e875721415ff";
+          (window as Window).location = process.env.NEXT_PUBLIC_FURO_OAUTH_CUSTOM_URL as string;
         }}
       >
         카카오 로그인
