@@ -41,3 +41,24 @@ export enum RobotColor {
   BLACK = "Black",
   RED = "Red",
 }
+
+export interface KaKaoLoginUser {
+  about_me: string;
+  address: string;
+  created_at: string;
+  current_location: string;
+  display_name: string;
+  email: string;
+  last_sign_in_at: string;
+  modified_at: string;
+  name: {
+    given_name: string;
+    family_name: string;
+    formatted: string;
+  };
+  photos: string[];
+  preferred_username: string;
+  profile_url: string;
+  project_id: string;
+  uid: string;
+}

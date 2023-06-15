@@ -3,8 +3,8 @@ import { HYDRATE } from "next-redux-wrapper";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
-  id: string;
-  username: string;
+  uid: string;
+  displayName: string;
 }
 
 export interface AuthState {
