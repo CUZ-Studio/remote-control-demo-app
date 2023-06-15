@@ -6,9 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ./**/*.{ts,tsx,json}",
-    "lint:fix": "eslint --fix ./**/*.{ts,tsx,json}",
-    "format": "prettier --write ./**/*.{ts,tsx,json} --config ./.prettierrc.json"
+    "lint": "eslint ./src/**/*.{ts,tsx,json}",
+    "lint:fix": "eslint --fix ./src/**/*.{ts,tsx,json}",
+    "format": "prettier --write ./src/**/*.{ts,tsx,json} --config ./.prettierrc.json"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
