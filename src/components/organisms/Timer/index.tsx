@@ -5,10 +5,12 @@ import useCountdown from "@/hooks/useCountdown";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
+import useUser from "@/hooks/useUser";
 
 import { Container } from "./styles";
 
 export default function Timer() {
+  const user = useUser();
   const player = usePlayer();
   const gameRound = useGameRound();
   const { assignPlayer, updateGameRound } = useGameActions();
@@ -23,17 +25,30 @@ export default function Timer() {
 
   useEffect(() => {
     if (minutes + seconds <= 0) {
+      if (!player.model || !player.color || !player.headTag) return;
       setTimeout(() => {
         axios
           .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-            objectPath: "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GameModeBase_C_0",
+            objectPath: gameRound.gameModeBaseObjectPath,
             functionName: "BindingCharacter",
+            parameters: {
+              Model: player.model,
+              Color: player.color,
+              Name: player.headTag,
+              UID: user.uid,
+            },
             generateTransaction: true,
           })
           .then((res) => {
             assignPlayer({
               ...player,
               objectPath: res.data.CharacterPath,
+            });
+            // 캐릭터가 게임 화면 중심에 나타나게 하기
+            axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+              objectPath: res.data.CharacterPath,
+              functionName: "SetPlayerLocation",
+              generateTransaction: true,
             });
             updateGameRound({
               ...gameRound,

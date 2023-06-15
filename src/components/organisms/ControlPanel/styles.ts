@@ -9,7 +9,7 @@ export const Panel = styled("section")`
   border-radius: 4px;
   padding: 16px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-column-gap: 8px;
 `;
 

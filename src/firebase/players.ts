@@ -17,17 +17,17 @@ import { firestore } from "./clientApp";
 const playersCollection = collection(firestore, "players");
 
 interface Props {
-  playerId: string;
+  uid: string;
   headTag: string;
   modelColor: RobotColor;
   modelType: RobotModelType;
   username: string;
 }
 
-const createPlayer = async ({ playerId, headTag, modelColor, modelType, username }: Props) => {
-  const _player = doc(firestore, `players/${playerId}`);
+const createPlayer = async ({ uid, headTag, modelColor, modelType, username }: Props) => {
+  const _player = doc(firestore, `players/${uid}`);
   const playerData = {
-    uid: playerId,
+    uid,
     headTag,
     modelColor,
     modelType,
@@ -42,8 +42,8 @@ const createPlayer = async ({ playerId, headTag, modelColor, modelType, username
   }
 };
 
-const getPlayer = async (playerId: string) => {
-  const playersQuery = query(playersCollection, where("playerId", "==", playerId));
+const getPlayer = async (uid: string) => {
+  const playersQuery = query(playersCollection, where("uid", "==", uid));
   const querySnapshot = await getDocs(playersQuery);
 
   const res: DocumentData[] = querySnapshot.docs.map((doc) => ({

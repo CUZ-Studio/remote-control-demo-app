@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import axios from "axios";
 import { isMobile } from "react-device-detect";
+import { toast } from "react-toastify";
 
+import Timer from "@/components/organisms/Timer";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
@@ -21,28 +23,33 @@ export default function Header() {
   const { assignPlayer, updateGameRound } = useGameActions();
 
   const logout = async () => {
-    if (player) {
-      await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: player.objectPath,
-        functionName: "SetPlayerDefaultLocation",
-        generateTransaction: true,
-      });
-    }
+    window.Furo.logout();
+    authorize(null);
+    router.push(Page.HOME);
 
-    router.push(Page.HOME).then(() => {
-      authorize(null);
-      assignPlayer(null);
-      updateGameRound({
-        ...gameRound,
-        timeLeft: 0,
-        isPlaying: false,
-      });
-    });
+    if (player) {
+      axios
+        .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+          objectPath: player.objectPath,
+          functionName: "SetPlayerDefaultLocation",
+          generateTransaction: true,
+        })
+        .then(() => {
+          assignPlayer(null);
+          updateGameRound({
+            ...gameRound,
+            timeLeft: 0,
+            isPlaying: false,
+          });
+        })
+        .catch(() => toast.error("와하!"));
+    }
   };
   return (
     <Root>
       <Inner isMobile={isMobile}>
-        {user?.username}님, 반가워요♡
+        {user?.displayName}님, 반가워요♡
+        <Timer />
         <LogoutIcon onClick={logout} />
       </Inner>
     </Root>

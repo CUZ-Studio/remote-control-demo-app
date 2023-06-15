@@ -3,7 +3,6 @@ import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
 
 import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
@@ -26,7 +25,7 @@ export default function NameYourRobot() {
   const user = useUser();
   const gameRound = useGameStatus();
   const player = usePlayer();
-  const [inputValue, setInputValue] = useState(user?.username);
+  const [inputValue, setInputValue] = useState(user?.displayName);
   const [errorMessage, setErrorMessage] = useState("");
   const { assignPlayer, updateGameRound } = useGameActions();
 
@@ -51,7 +50,6 @@ export default function NameYourRobot() {
     }
 
     try {
-      const newPlayerId = uuidv4();
       // 언리얼로 캐릭터 생성 요청 보내기
       const createdCharacterInfo = await axios.put(
         `${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`,
@@ -59,10 +57,10 @@ export default function NameYourRobot() {
           objectPath: gameRound.gameModeBaseObjectPath,
           functionName: "BindingCharacter",
           parameters: {
-            Model: player.model, // SmartDrone , Robot2 , Robot3
+            Model: player.model,
             Color: player.color,
             Name: inputValue,
-            UID: newPlayerId,
+            UID: user.uid,
           },
           generateTransaction: true,
         },
@@ -70,16 +68,16 @@ export default function NameYourRobot() {
 
       if (createdCharacterInfo.data) {
         await createPlayer({
-          playerId: newPlayerId,
+          uid: user.uid,
           headTag: inputValue,
           modelColor: player.color,
           modelType: player.model,
-          username: user.username,
+          username: user.displayName,
         });
 
         assignPlayer({
           ...player,
-          playerId: newPlayerId,
+          playerId: user.uid,
           headTag: inputValue,
           objectPath: createdCharacterInfo.data.CharacterPath,
         });
