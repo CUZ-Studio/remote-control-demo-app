@@ -61,7 +61,6 @@ export default function HomePage() {
 
             if (!createdCharacterInfo.data) return;
 
-            console.log("로그인 이후 리다이렉한 페이지에서 생성되었습니다");
             assignPlayer({
               playerId: uid,
               headTag,
