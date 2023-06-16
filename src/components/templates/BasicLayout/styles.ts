@@ -16,7 +16,7 @@ export const Inner = styled("div", {
   display: flex;
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   margin: 0 auto;
-  padding: 0 32px 60px;
+  padding: 90px 32px 60px;
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.palette.common.white};
 `;

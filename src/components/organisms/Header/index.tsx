@@ -1,9 +1,9 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { isMobile } from "react-device-detect";
 import { toast } from "react-toastify";
 
-import Timer from "@/components/organisms/Timer";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
@@ -11,7 +11,16 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Page } from "@/types";
 
-import { Inner, LogoutIcon, Root } from "./styles";
+import {
+  ArrowBackIcon,
+  Inner,
+  LogoutIcon,
+  ProfileBox,
+  ProfileImage,
+  QuestionMarkIcon,
+  Root,
+  UserName,
+} from "./styles";
 
 export default function Header() {
   const router = useRouter();
@@ -21,6 +30,15 @@ export default function Header() {
 
   const { authorize } = useAuthActions();
   const { assignPlayer, updateGameRound } = useGameActions();
+
+  const showUserOnHeader = (() => {
+    switch (router.asPath) {
+      case Page.WELCOME_BACK:
+        return false;
+      default:
+        return true;
+    }
+  })();
 
   const logout = async () => {
     window.Furo.logout();
@@ -46,11 +64,21 @@ export default function Header() {
     }
   };
   return (
-    <Root>
+    <Root showUserOnHeader={showUserOnHeader}>
       <Inner isMobile={isMobile}>
-        {user?.displayName}님, 반가워요♡
-        <Timer />
-        <LogoutIcon onClick={logout} />
+        {showUserOnHeader ? (
+          <ProfileBox>
+            <ProfileImage />
+            <UserName>{user.displayName}</UserName>
+          </ProfileBox>
+        ) : (
+          <ArrowBackIcon>
+            <Image width={24} height={24} src="/assets/icons/arrowBack.svg" alt="Back" />
+          </ArrowBackIcon>
+        )}
+        <QuestionMarkIcon>
+          <Image width={22.75} height={22.75} src="/assets/icons/questionMark.svg" alt="Back" />
+        </QuestionMarkIcon>
       </Inner>
     </Root>
   );

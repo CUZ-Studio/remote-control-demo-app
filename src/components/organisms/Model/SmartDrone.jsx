@@ -33,8 +33,8 @@ export default function SmartDrone(props) {
   });
   return (
     <group ref={ref} {...props} dispose={null}>
-      <group ref={ref} position={[0.031, 0, 0.1]} rotation={[-Math.PI / 2, 0, 0]} scale={10}>
-        <group ref={ref} scale={0.001}>
+      <group ref={ref} position={[0.1, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={12}>
+        <group ref={ref} scale={0.002}>
           <mesh
             receiveShadow
             castShadow

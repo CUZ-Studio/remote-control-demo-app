@@ -69,24 +69,23 @@ export default function HomePage() {
               color: modelColor,
             });
 
+            router.push(Page.WELCOME_BACK);
+
             // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
             // 현재 진행중인 게임 라운드의 남은 시간 업데이트
-            router.push(Page.PLAY).then(() => {
-              // 임시 처리
-              if (modelType === RobotModelType.SMART_DRONE) {
-                // 캐릭터가 게임 화면 중심에 나타나게 하기
-                axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-                  objectPath: createdCharacterInfo.data.CharacterPath,
-                  functionName: "SetPlayerLocation",
-                  generateTransaction: true,
-                });
-              }
-              updateGameRound({
-                ...gameRound,
-                isPlaying: true,
-                timeLeft: createdCharacterInfo.data.MainGameRemainTime,
-              });
-            });
+            // router.push(Page.PLAY).then(() => {
+            //   // 캐릭터가 게임 화면 중심에 나타나게 하기
+            //   axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+            //     objectPath: createdCharacterInfo.data.CharacterPath,
+            //     functionName: "SetPlayerLocation",
+            //     generateTransaction: true,
+            //   });
+            //   updateGameRound({
+            //     ...gameRound,
+            //     isPlaying: true,
+            //     timeLeft: createdCharacterInfo.data.MainGameRemainTime,
+            //   });
+            // });
           } else {
             // (2) 만약 로그인한 사용자에 대해 서버에 저장된 로봇 정보가 없다면,
             // 플레이하고 싶은 로봇 모델 유형을 선택하는 페이지로 이동
