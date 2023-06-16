@@ -16,20 +16,20 @@ export const StyledButton = styled("button", {
         return "16px";
       case ButtonShape.RECTANGLE:
       default:
-        return "16px";
+        return "12px";
     }
   }};
+  line-height: 1.2;
   padding: ${({ shape }) => {
     switch (shape) {
       case ButtonShape.CIRCLE:
         return "0";
       case ButtonShape.RECTANGLE:
       default:
-        return "16px";
+        return "24px 0";
     }
   }};
-  border: 1px solid
-    ${({ theme, disabled }) => (disabled ? theme.palette.grey[100] : theme.palette.common.black)};
+  border: none;
   border-radius: ${({ shape }) => {
     switch (shape) {
       case ButtonShape.CIRCLE:
@@ -40,6 +40,8 @@ export const StyledButton = styled("button", {
     }
   }};
   cursor: pointer;
+  color: ${({ theme }) => theme.palette.common.black};
+  background-color: ${({ theme }) => theme.palette.grey[200]};
 
   ${({ shape }) =>
     shape === ButtonShape.CIRCLE &&
@@ -49,10 +51,6 @@ export const StyledButton = styled("button", {
     display: flex;
     justify-content: center;
     align-items: center;
-  `}
-
-  ${({ color }) => `
-    background-color: ${color};
   `}
 
   ${({ isSelected }) =>

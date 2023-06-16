@@ -1,8 +1,8 @@
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import { grey, red } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
-export const roboto = Roboto({
+export const inter = Inter({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
@@ -24,10 +24,14 @@ const theme = createTheme({
     },
     grey: {
       100: grey[100],
+      200: "#D9D9D9",
+    },
+    common: {
+      black: "#000000",
     },
   },
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: inter.style.fontFamily,
   },
 });
 

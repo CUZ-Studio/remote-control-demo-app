@@ -33,6 +33,7 @@
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
+    "styled-reset": "^4.4.7",
     "three": "^0.153.0",
     "valtio": "^1.10.5"
   },

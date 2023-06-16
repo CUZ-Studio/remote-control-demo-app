@@ -5,8 +5,8 @@ export const Root = styled("header")`
   position: fixed;
   z-index: 9;
   width: 100%;
-  height: 60px;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.common.black};
+  height: 100px;
+  z-index: 9;
 `;
 
 export const Inner = styled("div", {
@@ -17,9 +17,9 @@ export const Inner = styled("div", {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: ${({ isMobile }) => (isMobile ? "100%" : "375px")};
+  width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   height: 100%;
-  padding: 0 16px;
+  padding: 26px 15px;
   margin: 0 auto;
   background: ${({ theme }) => theme.palette.common.white};
 `;
