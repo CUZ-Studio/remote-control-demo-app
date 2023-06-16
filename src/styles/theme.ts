@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import { grey, red } from "@mui/material/colors";
+import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 export const inter = Inter({
@@ -23,8 +23,10 @@ const theme = createTheme({
       main: red.A400,
     },
     grey: {
-      100: grey[100],
+      100: "#EFEFEF",
       200: "#D9D9D9",
+      300: "#6B6B6B",
+      400: "#F3F3F3",
     },
     common: {
       black: "#000000",

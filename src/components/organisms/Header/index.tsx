@@ -17,6 +17,7 @@ import {
   LogoutIcon,
   ProfileBox,
   ProfileImage,
+  ProfileImageWrapper,
   QuestionMarkIcon,
   Root,
   UserName,
@@ -85,7 +86,13 @@ export default function Header() {
       <Inner isMobile={isMobile}>
         {showUserOnHeader ? (
           <ProfileBox>
-            <ProfileImage />
+            {user.image ? (
+              <ProfileImageWrapper>
+                <Image width={47} height={47} src={user.image} alt={user.displayName} />
+              </ProfileImageWrapper>
+            ) : (
+              <ProfileImage />
+            )}
             <UserName>{user.displayName}</UserName>
           </ProfileBox>
         ) : (

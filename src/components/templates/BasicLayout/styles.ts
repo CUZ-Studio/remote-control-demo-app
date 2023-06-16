@@ -19,4 +19,5 @@ export const Inner = styled("div", {
   padding: 90px 32px 60px;
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.palette.common.white};
+  overflow: hidden;
 `;

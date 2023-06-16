@@ -8,6 +8,7 @@ export enum Page {
   SELECT_MODEL = "/select-model",
   CUSTOMIZE_DESIGN = "/customize-design",
   NAME_YOUR_ROBOT = "/name-your-robot",
+  WELCOME = "/welcome",
   WELCOME_BACK = "/welcome-back",
   GOING_TO_HANGAR = "/going-to-hangar",
   PLAY = "/play",

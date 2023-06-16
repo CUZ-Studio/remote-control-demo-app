@@ -31,10 +31,11 @@ export default function HomePage() {
       if (!user) {
         return;
       }
-      const { uid, display_name } = user;
+      const { uid, display_name, profile_url } = user;
       authorize({
         uid,
         displayName: display_name,
+        image: profile_url,
       });
       // 이전에 플레이한 경험이 있는 사용자라면,
       // 로봇 커스텀 정보를 불러오기
@@ -69,7 +70,7 @@ export default function HomePage() {
               color: modelColor,
             });
 
-            router.push(Page.WELCOME_BACK);
+            router.push(Page.WELCOME);
 
             // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
             // 현재 진행중인 게임 라운드의 남은 시간 업데이트
@@ -89,7 +90,7 @@ export default function HomePage() {
           } else {
             // (2) 만약 로그인한 사용자에 대해 서버에 저장된 로봇 정보가 없다면,
             // 플레이하고 싶은 로봇 모델 유형을 선택하는 페이지로 이동
-            router.push(Page.SELECT_MODEL);
+            router.push(Page.WELCOME);
           }
         })
         .catch(() => toast.error("실행중인 게임이 없습니다"));

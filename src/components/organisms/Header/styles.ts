@@ -39,6 +39,13 @@ export const ProfileBox = styled("div")`
   align-items: center;
 `;
 
+export const ProfileImageWrapper = styled("div")`
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
 export const ProfileImage = styled("div")`
   width: 47px;
   height: 47px;
