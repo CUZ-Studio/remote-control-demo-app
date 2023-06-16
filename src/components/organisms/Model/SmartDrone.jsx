@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { useSnapshot } from "valtio";
 
 import { modelColorState } from "@/components/molecules/Picker";
+import usePlayer from "@/hooks/usePlayer";
 import { RobotColor } from "@/types";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -15,10 +16,16 @@ import { useFrame } from "@react-three/fiber";
 export default function SmartDrone(props) {
   const ref = useRef();
   const snap = useSnapshot(modelColorState);
+  const player = usePlayer();
 
-  const { nodes, materials } = useGLTF(
-    `/SmartDrone_${snap.items.SmartDrone_Body ?? RobotColor.WHITE}.glb`,
-  );
+  const bodyColor = (() => {
+    if (player.color) return player.color;
+    else {
+      return snap.items.SmartDrone_Body ?? RobotColor.WHITE;
+    }
+  })();
+
+  const { nodes, materials } = useGLTF(`/SmartDrone_${bodyColor}.glb`);
 
   useFrame((state) => {
     if (!ref.current) return;

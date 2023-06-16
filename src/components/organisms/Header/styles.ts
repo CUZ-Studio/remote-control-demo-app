@@ -36,6 +36,7 @@ export const LogoutIcon = styled(ExitToAppRoundedIcon)`
 export const ProfileBox = styled("div")`
   display: flex;
   gap: 15px;
+  align-items: center;
 `;
 
 export const ProfileImage = styled("div")`
@@ -57,8 +58,10 @@ export const UserName = styled("p")`
 export const ArrowBackIcon = styled("div")`
   display: flex;
   margin-left: 19px;
+  cursor: pointer;
 `;
 
 export const QuestionMarkIcon = styled("div")`
   display: flex;
+  cursor: pointer;
 `;

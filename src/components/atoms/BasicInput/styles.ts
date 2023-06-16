@@ -6,17 +6,22 @@ export const StyledInput = styled("input", {
   error: boolean;
 }>`
   display: inline-block;
-  font-size: 20px;
-  padding: 16px;
-  background: ${({ theme, error }) =>
-    error ? theme.palette.error.light : theme.palette.common.white};
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  width: 100%;
+  padding: 16.5px 0;
+  background-color: ${({ theme, error }) =>
+    error ? theme.palette.error.light : theme.palette.grey[200]};
   color: ${({ theme }) => theme.palette.common.black};
-  border: 1px solid
-    ${({ theme, error }) => (error ? theme.palette.error.main : theme.palette.common.black)};
+  border: none;
   outline: none;
+  text-align: center;
 
   &:focus {
-    background: ${({ theme, error }) =>
-      error ? theme.palette.error.light : theme.palette.common.white};
+    background-color: ${({ theme, error }) =>
+      error ? theme.palette.error.light : theme.palette.grey[200]};
   }
 `;

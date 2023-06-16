@@ -29,7 +29,8 @@ export const StyledButton = styled("button", {
         return "24px 0";
     }
   }};
-  border: none;
+  border: ${({ shape, theme }) =>
+    shape === ButtonShape.CIRCLE ? `1px solid ${theme.palette.common.black}` : "none"};
   border-radius: ${({ shape }) => {
     switch (shape) {
       case ButtonShape.CIRCLE:
@@ -41,13 +42,13 @@ export const StyledButton = styled("button", {
   }};
   cursor: pointer;
   color: ${({ theme }) => theme.palette.common.black};
-  background-color: ${({ theme }) => theme.palette.grey[200]};
+  background-color: ${({ theme, color }) => color || theme.palette.grey[200]};
 
   ${({ shape }) =>
     shape === ButtonShape.CIRCLE &&
     `
-    width: 48px;
-    height: 48px;
+    width: 55px;
+    height: 55px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -34,9 +34,26 @@ export default function Header() {
   const showUserOnHeader = (() => {
     switch (router.asPath) {
       case Page.WELCOME_BACK:
+      case Page.SELECT_MODEL:
+      case Page.CUSTOMIZE_DESIGN:
+      case Page.NAME_YOUR_ROBOT:
+      case Page.GOING_TO_HANGAR:
         return false;
       default:
         return true;
+    }
+  })();
+
+  const getPreviousPage = (() => {
+    switch (router.asPath) {
+      case Page.CUSTOMIZE_DESIGN:
+        return Page.SELECT_MODEL;
+      case Page.NAME_YOUR_ROBOT:
+        return Page.CUSTOMIZE_DESIGN;
+      case Page.GOING_TO_HANGAR:
+        return Page.NAME_YOUR_ROBOT;
+      default:
+        return Page.HOME;
     }
   })();
 
@@ -72,7 +89,7 @@ export default function Header() {
             <UserName>{user.displayName}</UserName>
           </ProfileBox>
         ) : (
-          <ArrowBackIcon>
+          <ArrowBackIcon onClick={() => router.push(getPreviousPage)}>
             <Image width={24} height={24} src="/assets/icons/arrowBack.svg" alt="Back" />
           </ArrowBackIcon>
         )}

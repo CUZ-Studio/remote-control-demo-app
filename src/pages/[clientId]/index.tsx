@@ -8,7 +8,7 @@ import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import useUser from "@/hooks/useUser";
-import { KaKaoLoginUser, Page, RobotModelType } from "@/types";
+import { KaKaoLoginUser, Page } from "@/types";
 
 import { Container } from "@/styles/home.styles";
 
@@ -17,7 +17,7 @@ export default function HomePage() {
   const user = useUser();
   const gameRound = useGameRound();
   const { authorize } = useAuthActions();
-  const { assignPlayer, updateGameRound } = useGameActions();
+  const { assignPlayer } = useGameActions();
 
   useEffect(() => {
     if (!gameRound.gameModeBaseObjectPath) return;

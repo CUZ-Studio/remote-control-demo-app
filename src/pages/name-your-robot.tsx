@@ -13,11 +13,18 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { ButtonShape, Page, RobotModelType } from "@/types";
+import { ButtonShape, Page } from "@/types";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
-import { Container, StyledForm } from "@/styles/name.styles";
+import {
+  CanvasWrapper,
+  Container,
+  Greeting,
+  InputWrapper,
+  MainSection,
+  StyledForm,
+} from "@/styles/name.styles";
 
 export default function NameYourRobot() {
   const router = useRouter();
@@ -82,24 +89,15 @@ export default function NameYourRobot() {
           objectPath: createdCharacterInfo.data.CharacterPath,
         });
 
-        // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
         // 현재 진행중인 게임 라운드의 남은 시간 업데이트
-        router.push(Page.PLAY).then(async () => {
-          // 임시 처리
-          if (player.model === RobotModelType.SMART_DRONE) {
-            // 캐릭터가 게임 화면 중심에 나타나게 하기
-            await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-              objectPath: createdCharacterInfo.data.CharacterPath,
-              functionName: "SetPlayerLocation",
-              generateTransaction: true,
-            });
-          }
-          updateGameRound({
-            ...gameRound,
-            isPlaying: true,
-            timeLeft: createdCharacterInfo.data.MainGameRemainTime,
-          });
+        updateGameRound({
+          ...gameRound,
+          isPlaying: true,
+          timeLeft: createdCharacterInfo.data.MainGameRemainTime,
         });
+
+        // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
+        router.push(Page.GOING_TO_HANGAR);
       }
     } catch (error) {
       toast.error("캐릭터를 생성할 수 없습니다. 잠시 후에 다시 시도해주세요.");
@@ -108,30 +106,42 @@ export default function NameYourRobot() {
 
   return (
     <Container>
-      <h1>로봇 이름 짓기</h1>
-      <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
-        <ambientLight intensity={0.7} />
-        <spotLight intensity={0.5} angle={0.1} penumbra={1} position={[10, 15, 10]} castShadow />
-        <Model />
-        <OrbitControls
-          minPolarAngle={Math.PI / 2}
-          maxPolarAngle={Math.PI / 2}
-          enableZoom={true}
-          enablePan={true}
-        />
-      </Canvas>
-      {errorMessage && <ErrorBox>{errorMessage}</ErrorBox>}
-      <StyledForm noValidate onSubmit={createCharacter}>
-        <BasicInput
-          value={inputValue}
-          error={!!errorMessage}
-          onChange={handleChange}
-          onFocus={() => setErrorMessage("")}
-        />
-        <BasicButton type="submit" shape={ButtonShape.RECTANGLE} disabled={!inputValue}>
-          게임 플레이하러 가기
-        </BasicButton>
-      </StyledForm>
+      <MainSection>
+        <Greeting>{`마지막으로\n로봇의 이름을 입력해주세요.`}</Greeting>
+        <CanvasWrapper>
+          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
+            <ambientLight intensity={0.7} />
+            <spotLight
+              intensity={0.5}
+              angle={0.1}
+              penumbra={1}
+              position={[10, 15, 10]}
+              castShadow
+            />
+            <Model />
+            <OrbitControls
+              minPolarAngle={Math.PI / 2}
+              maxPolarAngle={Math.PI / 2}
+              enableZoom={true}
+              enablePan={true}
+            />
+          </Canvas>
+        </CanvasWrapper>
+        {errorMessage && <ErrorBox>{errorMessage}</ErrorBox>}
+        <StyledForm noValidate onSubmit={createCharacter}>
+          <InputWrapper>
+            <BasicInput
+              value={inputValue}
+              error={!!errorMessage}
+              onChange={handleChange}
+              onFocus={() => setErrorMessage("")}
+            />
+          </InputWrapper>
+          <BasicButton type="submit" shape={ButtonShape.RECTANGLE} disabled={!inputValue}>
+            로봇 생성 완료
+          </BasicButton>
+        </StyledForm>
+      </MainSection>
     </Container>
   );
 }

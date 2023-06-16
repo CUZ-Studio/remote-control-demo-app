@@ -36,7 +36,7 @@ export default function WelcomeBack() {
       <MainSection>
         <TitleWrapper>
           <Welcome>Welcome back!</Welcome>
-          <Greeting>{`${user.displayName}님,\n다시 한 번 출동해볼까요?`}</Greeting>
+          <Greeting>{`${user?.displayName}님,\n다시 한 번 출동해볼까요?`}</Greeting>
         </TitleWrapper>
         <GameHistory>
           <Unit>
