@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { useSnapshot } from "valtio";
 
 import { modelColorState } from "@/components/molecules/Picker";
+import usePlayer from "@/hooks/usePlayer";
 import { RobotColor } from "@/types";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -15,8 +16,16 @@ import { useFrame } from "@react-three/fiber";
 export default function Probe(props) {
   const ref = useRef();
   const snap = useSnapshot(modelColorState);
+  const player = usePlayer();
 
-  const { nodes, materials } = useGLTF(`/Probe_${snap.items.Probe ?? RobotColor.BLACK}.glb`);
+  const bodyColor = (() => {
+    if (player.color) return player.color;
+    else {
+      return snap.items.Probe ?? RobotColor.BLACK;
+    }
+  })();
+
+  const { nodes, materials } = useGLTF(`/Probe_${bodyColor}.glb`);
 
   useFrame((state) => {
     if (!ref.current) return;
@@ -31,13 +40,13 @@ export default function Probe(props) {
   });
   return (
     <group ref={ref} {...props} dispose={null}>
-      <group ref={ref} position={[0, 0.721, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <group ref={ref} position={[0, 0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           receiveShadow
           castShadow
           geometry={nodes.probe.geometry}
           material={materials.Probe}
-          scale={0.01}
+          scale={0.02}
         />
       </group>
     </group>

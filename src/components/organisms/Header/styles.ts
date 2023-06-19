@@ -1,12 +1,16 @@
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { styled } from "@mui/material/styles";
 
-export const Root = styled("header")`
+export const Root = styled("header", {
+  shouldForwardProp: (props) => props !== "showUserOnHeader",
+})<{
+  showUserOnHeader: boolean;
+}>`
   position: fixed;
   z-index: 9;
   width: 100%;
-  height: 60px;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.common.black};
+  height: ${({ showUserOnHeader }) => (showUserOnHeader ? "99px" : "90px")};
+  z-index: 9;
 `;
 
 export const Inner = styled("div", {
@@ -17,9 +21,9 @@ export const Inner = styled("div", {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: ${({ isMobile }) => (isMobile ? "100%" : "375px")};
+  width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   height: 100%;
-  padding: 0 16px;
+  padding: 26px 15px;
   margin: 0 auto;
   background: ${({ theme }) => theme.palette.common.white};
 `;
@@ -27,4 +31,50 @@ export const Inner = styled("div", {
 export const LogoutIcon = styled(ExitToAppRoundedIcon)`
   font-size: 20px;
   cursor: pointer;
+`;
+
+export const ProfileBox = styled("div")`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+`;
+
+export const ProfileImageWrapper = styled("div")`
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
+export const ProfileImage = styled("div")`
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.palette.grey[200]};
+`;
+
+export const UserName = styled("p")`
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+`;
+
+export const ArrowBackIcon = styled("div")`
+  display: flex;
+  margin-left: 19px;
+  cursor: pointer;
+`;
+
+export const QuestionMarkIcon = styled("div")`
+  display: flex;
+  cursor: pointer;
+`;
+
+export const IconWrapper = styled("div")`
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;

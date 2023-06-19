@@ -8,6 +8,9 @@ export enum Page {
   SELECT_MODEL = "/select-model",
   CUSTOMIZE_DESIGN = "/customize-design",
   NAME_YOUR_ROBOT = "/name-your-robot",
+  START_YOUR_JOURNEY = "/start-your-journey",
+  WELCOME_BACK = "/welcome-back",
+  GOING_TO_HANGAR = "/going-to-hangar",
   PLAY = "/play",
 }
 
@@ -34,12 +37,19 @@ export enum RobotModelType {
 }
 
 export enum RobotColor {
-  YELLOW = "Yellow",
-  BLUE = "Blue",
-  WHITE = "White",
-  GREEN = "Green",
-  BLACK = "Black",
-  RED = "Red",
+  YELLOW = "Yellow", // SmartDrone
+  BLUE = "Blue", // SmartDrone
+  WHITE = "White", // SmartDrone, Penguin, Probe
+  GREEN = "Green", // SmartDrone, Penguin
+  GRAY = "Gray", // SmartDrone
+  BLACK = "Black", // Penguin, Probe
+  RED = "Red", // SmartDrone
+  DARK_GREEN = "DarkGreen", // Penguin
+  AQUA = "Aqua", // Penguin
+  BROWN = "Brown", // Penguin, Probe
+  ORANGE = "Orange", // Probe
+  INDIGO = "Indigo", // Probe
+  SKY_BLUE = "SkyBlue", // Probe
 }
 
 export interface KaKaoLoginUser {

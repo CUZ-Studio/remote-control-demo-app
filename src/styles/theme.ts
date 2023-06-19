@@ -1,8 +1,8 @@
-import { Roboto } from "next/font/google";
-import { grey, red } from "@mui/material/colors";
+import { Inter } from "next/font/google";
+import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
-export const roboto = Roboto({
+export const inter = Inter({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
@@ -13,7 +13,8 @@ export const roboto = Roboto({
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#000000",
+      contrastText: "#FFFFFF",
     },
     secondary: {
       main: "#19857b",
@@ -23,11 +24,20 @@ const theme = createTheme({
       main: red.A400,
     },
     grey: {
-      100: grey[100],
+      100: "#EFEFEF",
+      200: "#D9D9D9",
+      300: "#6B6B6B",
+      400: "#F3F3F3",
+      500: "#F0F0F0",
+      600: "#F7F7F7",
+    },
+    common: {
+      black: "#000000",
+      white: "#FFFFFF",
     },
   },
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: inter.style.fontFamily,
   },
 });
 

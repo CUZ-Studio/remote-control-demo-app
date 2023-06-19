@@ -26,6 +26,11 @@ export default function Timer() {
   useEffect(() => {
     if (minutes + seconds <= 0) {
       if (!player.model || !player.color || !player.headTag) return;
+
+      assignPlayer({
+        ...player,
+        isGameInProgress: false,
+      });
       setTimeout(() => {
         axios
           .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -52,7 +57,7 @@ export default function Timer() {
             });
             updateGameRound({
               ...gameRound,
-              isPlaying: true,
+              isGameInProgress: true,
               timeLeft: res.data.MainGameRemainTime,
             });
           });

@@ -22,9 +22,19 @@ interface Props {
   modelColor: RobotColor;
   modelType: RobotModelType;
   username: string;
+  score: number;
+  playedNum: number;
 }
 
-const createPlayer = async ({ uid, headTag, modelColor, modelType, username }: Props) => {
+const createPlayer = async ({
+  uid,
+  headTag,
+  modelColor,
+  modelType,
+  username,
+  score,
+  playedNum,
+}: Props) => {
   const _player = doc(firestore, `players/${uid}`);
   const playerData = {
     uid,
@@ -32,7 +42,8 @@ const createPlayer = async ({ uid, headTag, modelColor, modelType, username }: P
     modelColor,
     modelType,
     username,
-    score: 0,
+    score,
+    playedNum,
   };
 
   try {
@@ -59,15 +70,15 @@ const updatePlayer = async ({
 }: {
   documentId: string;
   updated: {
-    score: number;
+    score?: number;
+    playedNum?: number;
   };
 }) => {
   const _player = doc(firestore, `players/${documentId}`);
 
   try {
-    await updateDoc(_player, {
-      score: updated.score,
-    });
+    const res = await updateDoc(_player, updated);
+    console.log(res);
   } catch (error) {
     console.error(error);
   }

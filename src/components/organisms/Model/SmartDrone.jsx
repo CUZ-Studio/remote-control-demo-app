@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { useSnapshot } from "valtio";
 
 import { modelColorState } from "@/components/molecules/Picker";
+import usePlayer from "@/hooks/usePlayer";
 import { RobotColor } from "@/types";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -15,10 +16,16 @@ import { useFrame } from "@react-three/fiber";
 export default function SmartDrone(props) {
   const ref = useRef();
   const snap = useSnapshot(modelColorState);
+  const player = usePlayer();
 
-  const { nodes, materials } = useGLTF(
-    `/SmartDrone_${snap.items.SmartDrone_Body ?? RobotColor.WHITE}.glb`,
-  );
+  const bodyColor = (() => {
+    if (player.color) return player.color;
+    else {
+      return snap.items.SmartDrone_Body ?? RobotColor.WHITE;
+    }
+  })();
+
+  const { nodes, materials } = useGLTF(`/SmartDrone_${bodyColor}.glb`);
 
   useFrame((state) => {
     if (!ref.current) return;
@@ -33,8 +40,8 @@ export default function SmartDrone(props) {
   });
   return (
     <group ref={ref} {...props} dispose={null}>
-      <group ref={ref} position={[0.031, 0, 0.1]} rotation={[-Math.PI / 2, 0, 0]} scale={10}>
-        <group ref={ref} scale={0.001}>
+      <group ref={ref} position={[0.1, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={12}>
+        <group ref={ref} scale={0.002}>
           <mesh
             receiveShadow
             castShadow

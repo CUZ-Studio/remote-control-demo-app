@@ -12,12 +12,12 @@ export const Inner = styled("div", {
 })<{
   isMobile: boolean;
 }>`
+  position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: ${({ isMobile }) => (isMobile ? "100%" : "375px")};
+  width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   margin: 0 auto;
-  padding: 60px 8px 30px;
+  padding: 90px 32px 60px;
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.palette.common.white};
+  overflow: hidden;
 `;

@@ -6,9 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ./{src,public}/**/*.{ts,tsx,json} ./global.d.ts",
-    "lint:fix": "eslint --fix ./{src,public}/**/*.{ts,tsx,json} ./global.d.ts",
-    "format": "prettier --write ./{src,public}/**/*.{ts,tsx,json} ./global.d.ts --config ./.prettierrc.json"
+    "lint": "eslint ./{src,public}/**/*.{ts,jsx,tsx,json} ./global.d.ts",
+    "lint:fix": "eslint --fix ./{src,public}/**/*.{ts,jsx,tsx,json} ./global.d.ts",
+    "format": "prettier --write ./{src,public}/**/*.{ts,jsx,tsx,json} ./global.d.ts --config ./.prettierrc.json"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -33,6 +33,7 @@
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
+    "styled-reset": "^4.4.7",
     "three": "^0.153.0",
     "valtio": "^1.10.5"
   },
