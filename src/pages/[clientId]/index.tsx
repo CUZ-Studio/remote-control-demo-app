@@ -7,14 +7,12 @@ import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
-import useUser from "@/hooks/useUser";
 import { KaKaoLoginUser, Page } from "@/types";
 
 import { Container } from "@/styles/home.styles";
 
 export default function HomePage() {
   const router = useRouter();
-  const user = useUser();
   const player = usePlayer();
   const gameRound = useGameRound();
   const { authorize } = useAuthActions();
@@ -60,5 +58,5 @@ export default function HomePage() {
     });
   }, [gameRound.gameModeBaseObjectPath]);
 
-  return <Container>{JSON.stringify(user, null, 2)}</Container>;
+  return <Container>로딩중...</Container>;
 }

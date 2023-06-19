@@ -5,6 +5,8 @@ import BasicButton from "@/components/atoms/BasicButton";
 export const Container = styled("div")`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
 `;
@@ -42,10 +44,12 @@ export const ButtonWrapper = styled("div")`
   flex-direction: column;
   gap: 8px;
   margin-top: 77px;
+  width: 100%;
 `;
 
 export const StartButton = styled(BasicButton)`
   position: relative;
+  width: 100%;
 `;
 
 export const Logo = styled("span")`
