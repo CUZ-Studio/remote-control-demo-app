@@ -4,5 +4,9 @@ import { StatusBar } from "./styles";
 
 export default function GameStatusBar() {
   const gameRound = useGameStatus();
-  return <StatusBar>{gameRound.isGameInProgress ? "게임진행중" : "게임쉬는중"}</StatusBar>;
+  return (
+    <StatusBar isActive={gameRound.isGameInProgress}>
+      {gameRound.isGameInProgress ? "미션수행중" : "곧 미션이 시작됩니다!"}
+    </StatusBar>
+  );
 }

@@ -11,6 +11,7 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Page } from "@/types";
 
+import Timer from "../Timer";
 import {
   ArrowBackIcon,
   IconWrapper,
@@ -40,7 +41,9 @@ export default function Header() {
       case Page.CUSTOMIZE_DESIGN:
       case Page.NAME_YOUR_ROBOT:
       case Page.GOING_TO_HANGAR:
+      case Page.PLAY:
         return false;
+      case Page.START_YOUR_JOURNEY:
       default:
         return true;
     }
@@ -100,6 +103,7 @@ export default function Header() {
             <Image width={24} height={24} src="/assets/icons/arrowBack.svg" alt="Back" />
           </ArrowBackIcon>
         )}
+        {router.asPath === Page.PLAY && <Timer />}
         <IconWrapper>
           <LogoutIcon onClick={logout} />
           <QuestionMarkIcon>

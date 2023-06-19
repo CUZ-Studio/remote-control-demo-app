@@ -1,21 +1,14 @@
 import { MouseEvent, MouseEventHandler } from "react";
+import Image from "next/image";
 import axios from "axios";
 import _ from "lodash";
 import { toast } from "react-toastify";
 
-import BasicButton from "@/components/atoms/BasicButton";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { ButtonShape, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
-import {
-  BackwardButtonWrapper,
-  BackwardIcon,
-  ControlButton,
-  ForwardButtonWrapper,
-  ForwardIcon,
-  Panel,
-} from "./styles";
+import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
 
 export default function ControlPanel() {
   const user = useUser();
@@ -90,34 +83,21 @@ export default function ControlPanel() {
       await onStopFire();
     }, 1000 * sec);
   };
-  const onFireMissile = async () => {
-    await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player.objectPath,
-      functionName: "OnFireMissile",
-    });
-  };
 
   return (
     <Panel>
-      <BackwardButtonWrapper>
-        <BasicButton type="button" shape={ButtonShape.CIRCLE} onClick={(e) => handleBackward(e, 1)}>
-          <BackwardIcon />
-        </BasicButton>
-      </BackwardButtonWrapper>
-      <ForwardButtonWrapper>
-        <BasicButton type="button" shape={ButtonShape.CIRCLE} onClick={(e) => handleForward(e, 1)}>
-          <ForwardIcon />
-        </BasicButton>
-      </ForwardButtonWrapper>
-      <ControlButton type="button" onClick={onJump}>
-        점프
-      </ControlButton>
-      <ControlButton type="button" onClick={(e) => handleFire(e, 1)}>
-        불
-      </ControlButton>
-      <ControlButton type="button" onClick={onFireMissile}>
-        미사일
-      </ControlButton>
+      <JumpButton onClick={onJump}>
+        <Image src="/assets/icons/arrowUp.svg" alt="arrow" width={88} height={40} />
+      </JumpButton>
+      <MoveLeftButton onClick={(e) => handleBackward(e, 1)}>
+        <Image src="/assets/icons/arrowLeft.svg" alt="arrow" width={40} height={97} />
+      </MoveLeftButton>
+      <MoveRightButton onClick={(e) => handleForward(e, 1)}>
+        <Image src="/assets/icons/arrowLeft.svg" alt="arrow" width={40} height={97} />
+      </MoveRightButton>
+      <FireButton onClick={(e) => handleFire(e, 1)}>
+        <Image src="/assets/icons/fire.svg" alt="arrow" width={44} height={44} />
+      </FireButton>
     </Panel>
   );
 }
