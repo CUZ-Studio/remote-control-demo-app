@@ -57,7 +57,7 @@ export default function SelectRobot() {
   return (
     <Container>
       <MainSection>
-        <Greeting>{`${user.displayName}님,\n함께 지구를 살릴\n로봇을 생성해주세요!`}</Greeting>
+        <Greeting>{`${user?.displayName}님,\n함께 지구를 살릴\n로봇을 생성해주세요!`}</Greeting>
         <CanvasWrapper>
           <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
             <ambientLight intensity={0.7} />
