@@ -41,7 +41,7 @@ export default function WelcomeBack() {
         <GameHistory>
           <Unit>
             <HistoryName>출동수</HistoryName>
-            <HistoryContext>3회</HistoryContext>
+            <HistoryContext>{player.playedNum}회</HistoryContext>
           </Unit>
           <Unit>
             <HistoryName>전체랭킹</HistoryName>
@@ -49,7 +49,7 @@ export default function WelcomeBack() {
           </Unit>
           <Unit>
             <HistoryName>최고점수</HistoryName>
-            <HistoryContext>{player.score}</HistoryContext>
+            <HistoryContext>{player.score}점</HistoryContext>
           </Unit>
         </GameHistory>
         <CanvasWrapper>
@@ -79,7 +79,6 @@ export default function WelcomeBack() {
         <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
         <PlayButton
           type="button"
-          disabled={!!user}
           shape={ButtonShape.RECTANGLE}
           onClick={() => router.push(Page.GOING_TO_HANGAR)}
         >

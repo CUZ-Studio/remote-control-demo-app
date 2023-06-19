@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import _ from "lodash";
 import { toast } from "react-toastify";
 
+import { updatePlayer } from "@/firebase/players";
 import usePlayer from "@/hooks/usePlayer";
 import { Page } from "@/types";
 
@@ -13,6 +15,7 @@ export default function GoingToHangar() {
   const player = usePlayer();
 
   useEffect(() => {
+    if (_.isNil(player)) return;
     if (!player?.objectPath) return;
 
     try {
@@ -23,7 +26,15 @@ export default function GoingToHangar() {
           functionName: "SetPlayerLocation",
           generateTransaction: true,
         })
-        .then(() => router.push(Page.PLAY));
+        .then(() => {
+          updatePlayer({
+            documentId: player.uid,
+            updated: {
+              playedNum: player.playedNum ? player.playedNum + 1 : 1,
+            },
+          });
+          router.push(Page.PLAY);
+        });
     } catch (error) {
       toast.error("캐릭터를 나타낼 수 없습니다");
     }

@@ -10,6 +10,7 @@ export interface Player {
   model: RobotModelType | undefined;
   color: RobotColor | undefined;
   score: number | undefined;
+  playedNum: number | undefined;
 }
 
 export interface GameRound {
@@ -31,6 +32,7 @@ const initialState: GameState = {
     model: undefined,
     color: undefined,
     score: 0,
+    playedNum: undefined,
   },
   gameRound: {
     gameModeBaseObjectPath: undefined,

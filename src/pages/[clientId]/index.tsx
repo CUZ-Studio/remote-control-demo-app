@@ -42,7 +42,7 @@ export default function HomePage() {
       getPlayer(uid).then(async (res) => {
         // 만약 로그인한 사용자에 대해 서버에 저장된 로봇 캐릭터 정보가 있다면,
         if (res.length !== 0) {
-          const { uid, headTag, modelType, modelColor } = res[0];
+          const { uid, headTag, modelType, modelColor, score, playedNum } = res[0];
 
           assignPlayer({
             ...player,
@@ -50,6 +50,8 @@ export default function HomePage() {
             headTag,
             model: modelType,
             color: modelColor,
+            score,
+            playedNum,
           });
         }
         // 사용자가 입장할 섹션을 선택하는 페이지로 이동

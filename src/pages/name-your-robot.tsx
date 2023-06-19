@@ -81,6 +81,8 @@ export default function NameYourRobot() {
           modelColor: player.color,
           modelType: player.model,
           username: user.displayName,
+          score: player.score ?? 0,
+          playedNum: player.playedNum ?? 0,
         });
 
         // 전역상태로 새로운 플레이어 정보 저장
