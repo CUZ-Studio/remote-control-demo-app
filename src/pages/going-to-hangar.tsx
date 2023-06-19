@@ -16,6 +16,7 @@ export default function GoingToHangar() {
     if (!player?.objectPath) return;
 
     try {
+      // 플레이어를 화면 중앙에 위치하게 하기
       axios
         .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
           objectPath: player.objectPath,
@@ -26,7 +27,7 @@ export default function GoingToHangar() {
     } catch (error) {
       toast.error("캐릭터를 나타낼 수 없습니다");
     }
-  }, []);
+  }, [player]);
   return (
     <Container>
       <LoadingMessage>{`로봇 격납고로\n보내는 중`}</LoadingMessage>

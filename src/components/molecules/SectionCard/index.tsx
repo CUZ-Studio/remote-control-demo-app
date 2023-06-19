@@ -1,6 +1,7 @@
 import { Dispatch, MouseEventHandler, SetStateAction } from "react";
 import { useRouter } from "next/router";
 
+import usePlayer from "@/hooks/usePlayer";
 import { Page } from "@/types";
 
 import { Card, EnterButton, SectionNumber, SubTitle, Title } from "./styles";
@@ -13,6 +14,8 @@ interface Props {
 
 export default function SectionCard({ sectionNumber, selectedSection, setSelectedSection }: Props) {
   const router = useRouter();
+  const player = usePlayer();
+
   const cardInfo = (() => {
     switch (sectionNumber) {
       case 3: {
@@ -60,7 +63,10 @@ export default function SectionCard({ sectionNumber, selectedSection, setSelecte
       switch (sectionNumber) {
         case 3:
         default: {
-          return Page.SELECT_MODEL;
+          if (!player.model) return Page.SELECT_MODEL;
+          else if (!player.color) return Page.CUSTOMIZE_DESIGN;
+          else if (!player.headTag) return Page.NAME_YOUR_ROBOT;
+          else return Page.WELCOME_BACK;
         }
       }
     })();

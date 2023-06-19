@@ -72,3 +72,9 @@ export const QuestionMarkIcon = styled("div")`
   display: flex;
   cursor: pointer;
 `;
+
+export const IconWrapper = styled("div")`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;

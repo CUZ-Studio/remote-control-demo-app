@@ -13,6 +13,7 @@ import { Page } from "@/types";
 
 import {
   ArrowBackIcon,
+  IconWrapper,
   Inner,
   LogoutIcon,
   ProfileBox,
@@ -47,14 +48,13 @@ export default function Header() {
 
   const getPreviousPage = (() => {
     switch (router.asPath) {
-      case Page.CUSTOMIZE_DESIGN:
-        return Page.SELECT_MODEL;
       case Page.NAME_YOUR_ROBOT:
         return Page.CUSTOMIZE_DESIGN;
       case Page.GOING_TO_HANGAR:
         return Page.NAME_YOUR_ROBOT;
+      case Page.CUSTOMIZE_DESIGN:
       default:
-        return Page.HOME;
+        return Page.SELECT_MODEL;
     }
   })();
 
@@ -63,7 +63,7 @@ export default function Header() {
     authorize(null);
     router.push(Page.HOME);
 
-    if (player) {
+    if (player && player.objectPath) {
       axios
         .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
           objectPath: player.objectPath,
@@ -75,7 +75,7 @@ export default function Header() {
           updateGameRound({
             ...gameRound,
             timeLeft: 0,
-            isPlaying: false,
+            isGameInProgress: false,
           });
         })
         .catch(() => toast.error("와하!"));
@@ -100,9 +100,12 @@ export default function Header() {
             <Image width={24} height={24} src="/assets/icons/arrowBack.svg" alt="Back" />
           </ArrowBackIcon>
         )}
-        <QuestionMarkIcon>
-          <Image width={22.75} height={22.75} src="/assets/icons/questionMark.svg" alt="Back" />
-        </QuestionMarkIcon>
+        <IconWrapper>
+          <LogoutIcon onClick={logout} />
+          <QuestionMarkIcon>
+            <Image width={22.75} height={22.75} src="/assets/icons/questionMark.svg" alt="Back" />
+          </QuestionMarkIcon>
+        </IconWrapper>
       </Inner>
     </Root>
   );

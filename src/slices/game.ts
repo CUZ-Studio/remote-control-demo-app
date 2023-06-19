@@ -4,16 +4,17 @@ import { RobotColor, RobotModelType } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Player {
-  playerId: string | undefined; // userId와 혼동하지 말 것!
+  uid: string | undefined; // userId와 혼동하지 말 것!
   objectPath: string | undefined;
   headTag: string | undefined;
   model: RobotModelType | undefined;
   color: RobotColor | undefined;
+  score: number | undefined;
 }
 
 export interface GameRound {
   gameModeBaseObjectPath: string | undefined;
-  isPlaying: boolean;
+  isGameInProgress: boolean;
   timeLeft: number | null;
 }
 
@@ -24,15 +25,16 @@ export interface GameState {
 
 const initialState: GameState = {
   player: {
-    playerId: undefined,
+    uid: undefined,
     objectPath: undefined,
     headTag: undefined,
     model: undefined,
     color: undefined,
+    score: 0,
   },
   gameRound: {
     gameModeBaseObjectPath: undefined,
-    isPlaying: false,
+    isGameInProgress: false,
     timeLeft: 0,
   },
 };

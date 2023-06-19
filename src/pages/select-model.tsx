@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unknown-property */
+import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -46,6 +47,13 @@ export default function SelectRobot() {
         return `펭귄 로봇,\n화가 나면 파닥거리면서 불이 나와요!`;
     }
   };
+
+  useEffect(() => {
+    assignPlayer({
+      ...player,
+      color: undefined,
+    });
+  }, []);
   return (
     <Container>
       <MainSection>

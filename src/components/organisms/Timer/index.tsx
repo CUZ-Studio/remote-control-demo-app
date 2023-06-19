@@ -52,7 +52,7 @@ export default function Timer() {
             });
             updateGameRound({
               ...gameRound,
-              isPlaying: true,
+              isGameInProgress: true,
               timeLeft: res.data.MainGameRemainTime,
             });
           });

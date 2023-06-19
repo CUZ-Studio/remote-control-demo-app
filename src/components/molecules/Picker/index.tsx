@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { proxy } from "valtio";
 
 import BasicButton from "@/components/atoms/BasicButton";
@@ -20,8 +21,9 @@ interface Props {
 export default function Picker({ modelType }: Props) {
   const player = usePlayer();
   const { assignPlayer } = useGameActions();
+  const [paletteColors, setPaletteColors] = useState<RobotColor[]>([]);
 
-  const selectModel = (modelColor: RobotColor) => {
+  const selectBodyColor = (modelColor: RobotColor) => {
     const key = (() => {
       switch (modelType) {
         case RobotModelType.SMART_DRONE:
@@ -38,50 +40,57 @@ export default function Picker({ modelType }: Props) {
     });
     if (key) modelColorState.items[key] = modelColor;
   };
+
+  useEffect(() => {
+    const colorsAvailable = (() => {
+      switch (modelType) {
+        case RobotModelType.PENGUIN:
+          return [
+            RobotColor.DARK_GREEN,
+            RobotColor.AQUA,
+            RobotColor.WHITE,
+            RobotColor.GREEN,
+            RobotColor.BLACK,
+            RobotColor.BROWN,
+          ];
+        case RobotModelType.PROBE:
+          return [
+            RobotColor.BLACK,
+            RobotColor.ORANGE,
+            RobotColor.WHITE,
+            RobotColor.BROWN,
+            RobotColor.INDIGO,
+            RobotColor.SKY_BLUE,
+          ];
+          break;
+        case RobotModelType.SMART_DRONE:
+          return [
+            RobotColor.YELLOW,
+            RobotColor.BLUE,
+            RobotColor.WHITE,
+            RobotColor.GREEN,
+            RobotColor.GRAY,
+            RobotColor.RED,
+          ];
+        default:
+          break;
+      }
+    })();
+    console.log(colorsAvailable);
+    if (colorsAvailable) setPaletteColors(colorsAvailable);
+  }, [modelType]);
   return (
     <ColorPalette>
-      <BasicButton
-        type="button"
-        shape={ButtonShape.CIRCLE}
-        color={RobotColor.YELLOW}
-        isSelected={player?.color == RobotColor.YELLOW}
-        onClick={() => selectModel(RobotColor.YELLOW)}
-      />
-      <BasicButton
-        type="button"
-        shape={ButtonShape.CIRCLE}
-        color={RobotColor.BLUE}
-        isSelected={player?.color == RobotColor.BLUE}
-        onClick={() => selectModel(RobotColor.BLUE)}
-      />
-      <BasicButton
-        type="button"
-        shape={ButtonShape.CIRCLE}
-        color={RobotColor.WHITE}
-        isSelected={player?.color == RobotColor.WHITE}
-        onClick={() => selectModel(RobotColor.WHITE)}
-      />
-      <BasicButton
-        type="button"
-        shape={ButtonShape.CIRCLE}
-        color={RobotColor.GREEN}
-        isSelected={player?.color == RobotColor.GREEN}
-        onClick={() => selectModel(RobotColor.GREEN)}
-      />
-      <BasicButton
-        type="button"
-        shape={ButtonShape.CIRCLE}
-        color={RobotColor.BLACK}
-        isSelected={player?.color == RobotColor.BLACK}
-        onClick={() => selectModel(RobotColor.BLACK)}
-      />
-      <BasicButton
-        type="button"
-        shape={ButtonShape.CIRCLE}
-        color={RobotColor.RED}
-        isSelected={player?.color == RobotColor.RED}
-        onClick={() => selectModel(RobotColor.RED)}
-      />
+      {paletteColors.map((color) => (
+        <BasicButton
+          key={`${modelType}_${color}`}
+          type="button"
+          shape={ButtonShape.CIRCLE}
+          color={color}
+          isSelected={player?.color == color}
+          onClick={() => selectBodyColor(color)}
+        />
+      ))}
     </ColorPalette>
   );
 }

@@ -74,6 +74,7 @@ export default function NameYourRobot() {
       );
 
       if (createdCharacterInfo.data) {
+        // firebase 데이터베이스에 새로운 플레이어 생성 요청
         await createPlayer({
           uid: user.uid,
           headTag: inputValue,
@@ -82,9 +83,10 @@ export default function NameYourRobot() {
           username: user.displayName,
         });
 
+        // 전역상태로 새로운 플레이어 정보 저장
         assignPlayer({
           ...player,
-          playerId: user.uid,
+          uid: user.uid,
           headTag: inputValue,
           objectPath: createdCharacterInfo.data.CharacterPath,
         });
@@ -92,7 +94,7 @@ export default function NameYourRobot() {
         // 현재 진행중인 게임 라운드의 남은 시간 업데이트
         updateGameRound({
           ...gameRound,
-          isPlaying: true,
+          isGameInProgress: !!Number(createdCharacterInfo.data.MainGameRemainTime),
           timeLeft: createdCharacterInfo.data.MainGameRemainTime,
         });
 

@@ -6,14 +6,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import axios from "axios";
+import _ from "lodash";
 import { ToastContainer } from "react-toastify";
 
 import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
+import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import wrapper from "@/slices/store";
-import { Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { KaKaoLoginUser, Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import theme from "@/styles/theme";
 
@@ -31,6 +33,7 @@ function MyApp(props: MyAppProps) {
 
   const router = useRouter();
   const gameRound = useGameRound();
+  const { authorize } = useAuthActions();
   const { updateGameRound } = useGameActions();
 
   useEffect(() => {
@@ -51,14 +54,29 @@ function MyApp(props: MyAppProps) {
           gameModeBaseObjectPath: res.data.GameModeBaseObjPath,
         });
       })
-      .catch(() => router.replace(Page.HOME));
+      .catch(() => {
+        router.replace(Page.HOME);
+      });
+  }, []);
+
+  useEffect(() => {
+    // furo 사용자 데려오기
+    window.Furo.getUser().then((user: KaKaoLoginUser) => {
+      if (_.isNil(user)) return;
+
+      const { uid, display_name, profile_url } = user;
+      authorize({
+        uid,
+        displayName: display_name,
+        image: profile_url,
+      });
+    });
   }, []);
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />

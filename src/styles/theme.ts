@@ -13,7 +13,8 @@ export const inter = Inter({
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#000000",
+      contrastText: "#FFFFFF",
     },
     secondary: {
       main: "#19857b",
@@ -30,6 +31,7 @@ const theme = createTheme({
     },
     common: {
       black: "#000000",
+      white: "#FFFFFF",
     },
   },
   typography: {

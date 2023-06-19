@@ -49,7 +49,7 @@ export default function WelcomeBack() {
           </Unit>
           <Unit>
             <HistoryName>최고점수</HistoryName>
-            <HistoryContext>850점</HistoryContext>
+            <HistoryContext>{player.score}</HistoryContext>
           </Unit>
         </GameHistory>
         <CanvasWrapper>
@@ -81,7 +81,7 @@ export default function WelcomeBack() {
           type="button"
           disabled={!!user}
           shape={ButtonShape.RECTANGLE}
-          onClick={() => router.push(Page.PLAY)}
+          onClick={() => router.push(Page.GOING_TO_HANGAR)}
         >
           출동하기
         </PlayButton>
