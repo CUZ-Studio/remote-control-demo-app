@@ -77,6 +77,7 @@ export default function NameYourRobot() {
         // firebase 데이터베이스에 새로운 플레이어 생성 요청
         await createPlayer({
           uid: user.uid,
+          profileUrl: user.image,
           headTag: inputValue,
           modelColor: player.color,
           modelType: player.model,
