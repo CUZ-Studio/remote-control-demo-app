@@ -26,32 +26,27 @@ export default function Probe(props) {
   })();
 
   const { nodes, materials } = useGLTF(`/assets/models/Probe/Glb/Probe.glb`);
-  const colorMap = useTexture(`/assets/models/Probe/Texture/Probe_B_${bodyColor}.png`);
+  const texture = useTexture(`/assets/models/Probe/Texture/Probe_B_${bodyColor}.png`);
 
   useFrame((state) => {
     if (!ref.current) return;
 
     const t = state.clock.getElapsedTime();
-    ref.current.rotation.set(
-      Math.cos(t / 4) / 8,
-      Math.sin(t / 4) / 8,
-      -0.2 - (1 + Math.sin(t / 1.5)) / 20,
-    );
-    ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
+    ref.current.rotation.set(Math.cos(t / 4) / 8, Math.sin(t / 4) / 8, 0);
   });
 
   useLayoutEffect(() => {
     Object.assign(materials?.Probe_Material, {
-      map: colorMap,
+      map: texture,
     });
-  }, [materials, colorMap]);
+  }, [materials, texture]);
   return (
     <group ref={ref} {...props} dispose={null}>
       <mesh
         geometry={nodes.probe.geometry}
         material={materials.Probe_Material}
-        position={[0, 0.721, 0]}
-        scale={0.01}
+        position={[0, 0.1, 0]}
+        scale={0.02}
       />
     </group>
   );

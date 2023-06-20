@@ -25,7 +25,7 @@ export default function CustomizeModel() {
       <MainSection>
         <Greeting>로봇의 색상을 선택해주세요</Greeting>
         <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
+          <Canvas shadows camera={{ position: [0, 0, 0], fov: 40 }}>
             <ambientLight intensity={0.7} />
             <spotLight
               intensity={0.5}
@@ -35,12 +35,7 @@ export default function CustomizeModel() {
               castShadow
             />
             <Model />
-            <OrbitControls
-              minPolarAngle={Math.PI / 2}
-              maxPolarAngle={Math.PI / 2}
-              enableZoom={true}
-              enablePan={true}
-            />
+            <OrbitControls minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} />
           </Canvas>
         </CanvasWrapper>
         <Picker modelType={player?.model} />
