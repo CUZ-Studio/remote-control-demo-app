@@ -11,7 +11,7 @@ export default function PlayGame() {
   return (
     <Container>
       <PlayerInfoBox>
-        <Image src="/assets/images/star.svg" alt="별" width={17} height={17} />
+        <Image src="/assets/images/star.svg" alt="star" width={17} height={17} />
         <PlayerName>{player.headTag || "ddsf"}</PlayerName>
         <Score>{player.score || 4560}</Score>
       </PlayerInfoBox>

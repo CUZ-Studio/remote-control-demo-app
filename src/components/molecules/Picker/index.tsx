@@ -48,23 +48,7 @@ export default function Picker({ modelType }: Props) {
     const colorsAvailable = (() => {
       switch (modelType) {
         case RobotModelType.PENGUIN:
-          return [
-            RobotColor.DARK_GREEN,
-            RobotColor.AQUA,
-            RobotColor.WHITE,
-            RobotColor.GREEN,
-            RobotColor.BLACK,
-            RobotColor.BROWN,
-          ];
         case RobotModelType.PROBE:
-          return [
-            RobotColor.BLACK,
-            RobotColor.ORANGE,
-            RobotColor.WHITE,
-            RobotColor.BROWN,
-            RobotColor.INDIGO,
-            RobotColor.SKY_BLUE,
-          ];
         case RobotModelType.SMART_DRONE:
         default:
           return [
