@@ -18,6 +18,7 @@ const playersCollection = collection(firestore, "players");
 
 interface Props {
   uid: string;
+  profileUrl: string;
   headTag: string;
   modelColor: RobotColor;
   modelType: RobotModelType;
@@ -28,6 +29,7 @@ interface Props {
 
 const createPlayer = async ({
   uid,
+  profileUrl,
   headTag,
   modelColor,
   modelType,
@@ -38,6 +40,7 @@ const createPlayer = async ({
   const _player = doc(firestore, `players/${uid}`);
   const playerData = {
     uid,
+    profileUrl,
     headTag,
     modelColor,
     modelType,
