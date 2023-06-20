@@ -30,7 +30,8 @@
     "**/*.tsx",
     "src/components/organisms/Model/index2.jsx",
     "src/components/organisms/Model/SmartDrone.jsx",
-    "public/FuroSDK.js"
+    "public/FuroSDK.js",
+    "src/pages/model-opti.jsx"
   ],
   "exclude": [
     "node_modules"

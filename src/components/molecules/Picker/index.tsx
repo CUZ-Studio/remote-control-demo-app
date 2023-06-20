@@ -9,8 +9,9 @@ import { ButtonShape, RobotColor, RobotModelType } from "@/types";
 
 export const modelColorState = proxy({
   items: {
-    SmartDrone_Body: RobotColor.WHITE,
-    Probe: RobotColor.BLACK,
+    SmartDrone_Body_Material: RobotColor.WHITE,
+    Probe_Material: RobotColor.BLACK,
+    Penguin_Material: RobotColor.BLACK,
   },
 });
 
@@ -27,9 +28,11 @@ export default function Picker({ modelType }: Props) {
     const key = (() => {
       switch (modelType) {
         case RobotModelType.SMART_DRONE:
-          return "SmartDrone_Body";
+          return "SmartDrone_Body_Material";
         case RobotModelType.PROBE:
-          return "Probe";
+          return "Probe_Material";
+        case RobotModelType.PENGUIN:
+          return "Penguin_Material";
         default:
           break;
       }
@@ -62,21 +65,18 @@ export default function Picker({ modelType }: Props) {
             RobotColor.INDIGO,
             RobotColor.SKY_BLUE,
           ];
-          break;
         case RobotModelType.SMART_DRONE:
+        default:
           return [
             RobotColor.YELLOW,
             RobotColor.BLUE,
             RobotColor.WHITE,
             RobotColor.GREEN,
-            RobotColor.GRAY,
+            RobotColor.BLACK,
             RobotColor.RED,
           ];
-        default:
-          break;
       }
     })();
-    console.log(colorsAvailable);
     if (colorsAvailable) setPaletteColors(colorsAvailable);
   }, [modelType]);
   return (
