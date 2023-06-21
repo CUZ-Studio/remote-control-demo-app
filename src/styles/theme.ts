@@ -17,7 +17,7 @@ const theme = createTheme({
       contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#19857b",
+      main: "#B8E5FF",
     },
     error: {
       light: red[100],

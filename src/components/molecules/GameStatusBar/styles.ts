@@ -13,7 +13,8 @@ export const StatusBar = styled("div", {
   width: 100%;
   bottom: 45px;
   z-index: 9;
-  background-color: ${({ theme, isActive }) => (isActive ? "#B8E5FF" : theme.palette.grey[500])};
+  background-color: ${({ theme, isActive }) =>
+    isActive ? theme.palette.secondary.main : theme.palette.grey[500]};
   font-family: Inter;
   font-size: 12px;
   font-weight: 400;
