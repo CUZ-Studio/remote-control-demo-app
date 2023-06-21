@@ -77,13 +77,13 @@ export default function ControlPanel() {
   return (
     <Panel>
       <JumpButton onClick={onJump}>
-        <Image src="/assets/icons/arrowUp.svg" alt="arrow" width={88} height={40} />
+        <Image src="/assets/icons/arrowUp.svg" alt="arrow up" width={88} height={40} />
       </JumpButton>
       <MoveLeftButton onClick={(e) => handleBackward(e, 1)}>
-        <Image src="/assets/icons/arrowLeft.svg" alt="arrow" width={40} height={97} />
+        <Image src="/assets/icons/arrowLeft.svg" alt="arrow left" width={40} height={97} />
       </MoveLeftButton>
       <MoveRightButton onClick={(e) => handleForward(e, 1)}>
-        <Image src="/assets/icons/arrowLeft.svg" alt="arrow" width={40} height={97} />
+        <Image src="/assets/icons/arrowLeft.svg" alt="arrow right" width={40} height={97} />
       </MoveRightButton>
       <FireButton onClick={handleFire}>
         <Image src="/assets/icons/fire.svg" alt="arrow" width={44} height={44} />
