@@ -11,7 +11,6 @@ import { modelColorState } from "@/components/molecules/Picker";
 import usePlayer from "@/hooks/usePlayer";
 import { RobotColor } from "@/types";
 import { useGLTF, useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 
 export default function Probe(props) {
   const ref = useRef();
@@ -28,14 +27,8 @@ export default function Probe(props) {
   const { nodes, materials } = useGLTF(`/assets/models/Probe/Glb/Probe.glb`);
   const texture = useTexture(`/assets/models/Probe/Texture/Probe_B_${bodyColor}.png`);
 
-  useFrame((state) => {
-    if (!ref.current) return;
-
-    const t = state.clock.getElapsedTime();
-    ref.current.rotation.set(Math.cos(t / 4) / 8, Math.sin(t / 4) / 8, 0);
-  });
-
   useLayoutEffect(() => {
+    texture.flipY = false;
     Object.assign(materials?.Probe_Material, {
       map: texture,
     });
@@ -43,10 +36,12 @@ export default function Probe(props) {
   return (
     <group ref={ref} {...props} dispose={null}>
       <mesh
+        receiveShadow
+        castShadow
         geometry={nodes.probe.geometry}
         material={materials.Probe_Material}
         position={[0, 0.1, 0]}
-        scale={0.02}
+        scale={0.018}
       />
     </group>
   );

@@ -11,7 +11,6 @@ import { modelColorState } from "@/components/molecules/Picker";
 import usePlayer from "@/hooks/usePlayer";
 import { RobotColor } from "@/types";
 import { useGLTF, useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 
 export default function Penguin(props) {
   const ref = useRef();
@@ -28,14 +27,8 @@ export default function Penguin(props) {
   const { nodes, materials } = useGLTF(`/assets/models/Penguin/Glb/Penguin.glb`);
   const texture = useTexture(`/assets/models/Penguin/Texture/Penguin_B_${bodyColor}.png`);
 
-  useFrame((state) => {
-    if (!ref.current) return;
-
-    const t = state.clock.getElapsedTime();
-    ref.current.rotation.set(Math.cos(t / 4) / 8, Math.sin(t / 4) / 8, 0);
-  });
-
   useLayoutEffect(() => {
+    texture.flipY = false;
     Object.assign(materials?.Penguin_Material, {
       map: texture,
     });
@@ -43,9 +36,11 @@ export default function Penguin(props) {
   return (
     <group ref={ref} {...props} dispose={null}>
       <mesh
+        receiveShadow
+        castShadow
         geometry={nodes.Penguin.geometry}
         material={materials.Penguin_Material}
-        position={[0, -0.6, 0]}
+        position={[0, -1, 0]}
         scale={0.015}
       />
     </group>

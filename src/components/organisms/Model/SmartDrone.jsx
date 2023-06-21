@@ -27,13 +27,14 @@ export default function SmartDrone(props) {
   const texture = useTexture(`/assets/models/SmartDrone/Texture/SmartDrone_B_${bodyColor}.png`);
 
   useLayoutEffect(() => {
+    texture.flipY = false;
     Object.assign(materials?.SmartDrone_Body_Material, {
       map: texture,
     });
   }, [materials, texture]);
   return (
     <group ref={ref} {...props} dispose={null}>
-      <group ref={ref} position={[0, 0, -0.5]} scale={0.008}>
+      <group ref={ref} position={[0.05, -0.5, 1.5]} scale={0.05}>
         <mesh geometry={nodes.Mesh.geometry} material={materials.SmartDrone_Body_Material} />
         <mesh geometry={nodes.Mesh_1.geometry} material={materials.SmartDrone_Face_Material} />
       </group>
