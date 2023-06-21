@@ -50,8 +50,13 @@ export default function NameYourRobot() {
       return;
     }
 
-    if (/[`~!@#$%^&*|\\'";:/?]/gi.test(inputValue)) {
-      setErrorMessage("문자 또는 숫자만 사용가능합니다");
+    if (/[`,~!@#$%^&*|\\'";:?]/gi.test(inputValue)) {
+      setErrorMessage("특수문자는 사용할 수 없습니다");
+      return;
+    }
+
+    if (inputValue.length < 2 || inputValue.length > 7) {
+      setErrorMessage("두자 이상 여덟자 미만이어야 합니다");
       return;
     }
 
