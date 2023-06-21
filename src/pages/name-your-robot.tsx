@@ -126,7 +126,7 @@ export default function NameYourRobot() {
               onFocus={() => setErrorMessage("")}
             />
           </InputWrapper>
-          <BasicButton type="submit" shape={ButtonShape.RECTANGLE} onClick={createCharacter}>
+          <BasicButton type="submit" shape={ButtonShape.RECTANGLE}>
             로봇 생성 완료
           </BasicButton>
         </StyledForm>
