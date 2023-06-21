@@ -86,7 +86,7 @@ export default function ControlPanel() {
         <Image src="/assets/icons/arrowLeft.svg" alt="arrow right" width={40} height={97} />
       </MoveRightButton>
       <FireButton onClick={handleFire}>
-        <Image src="/assets/icons/fire.svg" alt="arrow" width={44} height={44} />
+        <Image src="/assets/icons/fire.svg" alt="fire" width={44} height={44} />
       </FireButton>
     </Panel>
   );
