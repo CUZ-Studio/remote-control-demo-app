@@ -2,7 +2,6 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
@@ -32,7 +31,7 @@ export default function NameYourRobot() {
   const user = useUser();
   const gameRound = useGameStatus();
   const player = usePlayer();
-  const [inputValue, setInputValue] = useState(user?.displayName);
+  const [inputValue, setInputValue] = useState(player?.headTag || user?.displayName);
   const [errorMessage, setErrorMessage] = useState("");
   const { assignPlayer, updateGameRound } = useGameActions();
 
@@ -43,7 +42,7 @@ export default function NameYourRobot() {
     setInputValue(e.currentTarget.value);
   };
 
-  const createCharacter: FormEventHandler = async (e) => {
+  const createCharacter: FormEventHandler = (e) => {
     e.preventDefault();
 
     if (inputValue === "") {
@@ -56,57 +55,53 @@ export default function NameYourRobot() {
       return;
     }
 
-    try {
-      // 언리얼로 캐릭터 생성 요청 보내기
-      const createdCharacterInfo = await axios.put(
-        `${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`,
-        {
-          objectPath: gameRound.gameModeBaseObjectPath,
-          functionName: "BindingCharacter",
-          parameters: {
-            Model: player.model,
-            Color: player.color,
-            Name: inputValue,
-            UID: user.uid,
-          },
-          generateTransaction: true,
+    // 언리얼로 캐릭터 생성 요청 보내기
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: gameRound.gameModeBaseObjectPath,
+        functionName: "BindingCharacter",
+        parameters: {
+          Model: player.model,
+          Color: player.color,
+          Name: inputValue,
+          UID: user.uid,
         },
-      );
+        generateTransaction: true,
+      })
+      .then((res) => {
+        const createdCharacterInfo = res.data;
+        if (createdCharacterInfo) {
+          // firebase 데이터베이스에 새로운 플레이어 생성 요청
+          createPlayer({
+            uid: user.uid,
+            profileUrl: user.image,
+            headTag: inputValue,
+            modelColor: player.color,
+            modelType: player.model,
+            username: user.displayName,
+            score: player.score ?? 0,
+            playedNum: player.playedNum ?? 0,
+          });
 
-      if (createdCharacterInfo.data) {
-        // firebase 데이터베이스에 새로운 플레이어 생성 요청
-        await createPlayer({
-          uid: user.uid,
-          profileUrl: user.image,
-          headTag: inputValue,
-          modelColor: player.color,
-          modelType: player.model,
-          username: user.displayName,
-          score: player.score ?? 0,
-          playedNum: player.playedNum ?? 0,
-        });
+          // 전역상태로 새로운 플레이어 정보 저장
+          assignPlayer({
+            ...player,
+            uid: user.uid,
+            headTag: inputValue,
+            objectPath: createdCharacterInfo.CharacterPath,
+          });
 
-        // 전역상태로 새로운 플레이어 정보 저장
-        assignPlayer({
-          ...player,
-          uid: user.uid,
-          headTag: inputValue,
-          objectPath: createdCharacterInfo.data.CharacterPath,
-        });
+          // 현재 진행중인 게임 라운드의 남은 시간 업데이트
+          updateGameRound({
+            ...gameRound,
+            isGameInProgress: !!Number(createdCharacterInfo.MainGameRemainTime),
+            timeLeft: createdCharacterInfo.MainGameRemainTime,
+          });
 
-        // 현재 진행중인 게임 라운드의 남은 시간 업데이트
-        updateGameRound({
-          ...gameRound,
-          isGameInProgress: !!Number(createdCharacterInfo.data.MainGameRemainTime),
-          timeLeft: createdCharacterInfo.data.MainGameRemainTime,
-        });
-
-        // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
-        router.push(Page.GOING_TO_HANGAR);
-      }
-    } catch (error) {
-      toast.error("캐릭터를 생성할 수 없습니다. 잠시 후에 다시 시도해주세요.");
-    }
+          // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
+          router.push(Page.GOING_TO_HANGAR);
+        }
+      });
   };
 
   return (
@@ -131,7 +126,7 @@ export default function NameYourRobot() {
               onFocus={() => setErrorMessage("")}
             />
           </InputWrapper>
-          <BasicButton type="submit" shape={ButtonShape.RECTANGLE} disabled={!inputValue}>
+          <BasicButton type="submit" shape={ButtonShape.RECTANGLE}>
             로봇 생성 완료
           </BasicButton>
         </StyledForm>

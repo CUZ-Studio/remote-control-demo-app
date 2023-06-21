@@ -28,8 +28,6 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/organisms/Model/index2.jsx",
-    "src/components/organisms/Model/SmartDrone.jsx",
     "public/FuroSDK.js",
   ],
   "exclude": [

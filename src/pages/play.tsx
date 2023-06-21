@@ -8,11 +8,12 @@ import { Container, PlayerInfoBox, PlayerName, Score } from "@/styles/play.style
 
 export default function PlayGame() {
   const player = usePlayer();
+
   return (
     <Container>
       <PlayerInfoBox>
         <Image src="/assets/images/star.svg" alt="star" width={17} height={17} />
-        <PlayerName>{player.headTag || "ddsf"}</PlayerName>
+        <PlayerName>{player.headTag}</PlayerName>
         <Score>{player.score || 4560}</Score>
       </PlayerInfoBox>
       <ControlPanel />

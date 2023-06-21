@@ -68,20 +68,10 @@ export default function ControlPanel() {
       functionName: "OnFire",
     });
   };
-  const onStopFire = async () => {
-    await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player.objectPath,
-      functionName: "StopFire",
-    });
-  };
-  const handleFire = async (e: MouseEvent, sec: number) => {
+  const handleFire = async (e: MouseEvent) => {
     e.preventDefault();
 
     await onFire();
-
-    setTimeout(async () => {
-      await onStopFire();
-    }, 1000 * sec);
   };
 
   return (
@@ -95,7 +85,7 @@ export default function ControlPanel() {
       <MoveRightButton onClick={(e) => handleForward(e, 1)}>
         <Image src="/assets/icons/arrowLeft.svg" alt="arrow right" width={40} height={97} />
       </MoveRightButton>
-      <FireButton onClick={(e) => handleFire(e, 1)}>
+      <FireButton onClick={handleFire}>
         <Image src="/assets/icons/fire.svg" alt="fire" width={44} height={44} />
       </FireButton>
     </Panel>

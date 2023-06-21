@@ -41,4 +41,6 @@ export const FireButton = styled("div")`
   margin-left: -36px;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.palette.grey[600]};
+  z-index: 9;
+  cursor: pointer;
 `;
