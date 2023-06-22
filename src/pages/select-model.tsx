@@ -40,11 +40,11 @@ export default function SelectRobot() {
     switch (modelType) {
       case RobotModelType.PROBE:
         return `둥둥이 로봇,\n화가 나면 복어처럼 부풀어올라요!`;
-      case RobotModelType.SMART_DRONE:
-        return `지상형 스파이더 로봇,\n화가 나면 무서운 표정으로 바뀌어요!`;
       case RobotModelType.PENGUIN:
-      default:
         return `펭귄 로봇,\n화가 나면 파닥거리면서 불이 나와요!`;
+      case RobotModelType.SMART_DRONE:
+      default:
+        return `지상형 스파이더 로봇,\n화가 나면 무서운 표정으로 바뀌어요!`;
     }
   };
 

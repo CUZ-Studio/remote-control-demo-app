@@ -48,8 +48,9 @@ export default function HomePage() {
             headTag,
             model: modelType,
             color: modelColor,
-            score,
-            playedNum,
+            thisRoundScore: 0,
+            allRoundScore: score ?? [],
+            playedNum: playedNum ?? 0,
           });
         }
         // 사용자가 입장할 섹션을 선택하는 페이지로 이동

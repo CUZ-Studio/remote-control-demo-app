@@ -79,7 +79,7 @@ export default function NameYourRobot() {
             modelColor: player.color,
             modelType: player.model,
             username: user.displayName,
-            score: player.score ?? 0,
+            score: player.allRoundScore ?? [],
             playedNum: player.playedNum ?? 0,
           });
 
