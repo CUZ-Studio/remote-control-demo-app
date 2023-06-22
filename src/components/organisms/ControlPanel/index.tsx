@@ -4,6 +4,7 @@ import axios from "axios";
 import _ from "lodash";
 import { toast } from "react-toastify";
 
+import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
@@ -13,6 +14,7 @@ import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "
 export default function ControlPanel() {
   const user = useUser();
   const player = usePlayer();
+  const { assignPlayer } = useGameActions();
 
   const moveForward = async (val: 0 | 1 | -1) => {
     if (_.isNil(player)) return;
@@ -35,6 +37,7 @@ export default function ControlPanel() {
       }
     }
   };
+
   const handleForward = async (e: MouseEvent, sec: number) => {
     e.preventDefault();
 
@@ -44,6 +47,7 @@ export default function ControlPanel() {
       await moveForward(0);
     }, 1000 * sec);
   };
+
   const handleBackward = async (e: MouseEvent, sec: number) => {
     e.preventDefault();
 
@@ -62,16 +66,32 @@ export default function ControlPanel() {
       functionName: "OnJump",
     });
   };
-  const onFire = async () => {
+
+  const onFire = async () =>
     await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
       objectPath: player.objectPath,
       functionName: "OnFire",
     });
-  };
-  const handleFire = async (e: MouseEvent) => {
+
+  const getScore = async () =>
+    await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+      objectPath: player.objectPath,
+      functionName: "GetPlayerScore",
+    });
+
+  const handleFire = (e: MouseEvent) => {
     e.preventDefault();
 
-    await onFire();
+    onFire().then(() => {
+      setTimeout(() => {
+        getScore().then((res) => {
+          assignPlayer({
+            ...player,
+            score: res.data.PlayerScore,
+          });
+        });
+      }, 500);
+    });
   };
 
   return (

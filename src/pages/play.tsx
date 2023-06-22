@@ -14,7 +14,7 @@ export default function PlayGame() {
       <PlayerInfoBox>
         <Image src="/assets/images/star.svg" alt="star" width={17} height={17} />
         <PlayerName>{player.headTag}</PlayerName>
-        <Score>{player.score || 4560}</Score>
+        <Score>{player.score}</Score>
       </PlayerInfoBox>
       <ControlPanel />
       <GameStatusBar />
