@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { useRouter } from "next/router";
 
+import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
+import { Page } from "@/types";
 
 export default function Countdown() {
+  const router = useRouter();
   const gameRound = useGameStatus();
 
   const user = useUser();
@@ -24,16 +27,15 @@ export default function Countdown() {
   const targetRestTime = 10 * 1000 + new Date().getTime();
   const [restTimeLeft, setRestTimeLeft] = useState(targetRestTime - Date.now());
 
+  // 게임 시간 타이머
   useEffect(() => {
+    // 계산된 게임 시간이 0보다 적을 때 타이머를 진행하지 않음
     if (gameTimeLeft < 0) return;
+
     const interval = setInterval(() => {
-      const offset = targetDate - Date.now();
-      if (offset > 0) {
+      const gameTimeOffset = targetDate - Date.now();
+      if (gameTimeOffset > 0) {
         setGameTimeLeft(targetDate - Date.now());
-        updateGameRound({
-          ...gameRound,
-          isGameInProgress: true,
-        });
       } else {
         setGameTimeLeft(0);
         updateGameRound({
@@ -46,56 +48,50 @@ export default function Countdown() {
     return () => clearInterval(interval);
   }, [targetDate]);
 
+  // 쉬는 시간 타이머
   useEffect(() => {
+    // 게임이 진행 중일 때 타이머를 진행하지 않음
     if (isGaming) return;
 
     const interval = setInterval(() => {
-      const offset = targetRestTime - Date.now();
-      if (offset > 0) {
+      const restTimeOffset = targetRestTime - Date.now();
+      if (restTimeOffset > 0) {
         setRestTimeLeft(targetRestTime - Date.now());
-        updateGameRound({
-          ...gameRound,
-          isGameInProgress: false,
-        });
       } else {
         setRestTimeLeft(0);
         setIsGaming(true);
 
-        axios
-          .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-            objectPath: gameRound.gameModeBaseObjectPath,
-            functionName: "BindingCharacter",
-            parameters: {
-              Model: player.model,
-              Color: player.color,
-              Name: player.headTag,
-              UID: user.uid,
+        // 쉬는 시간이 끝나면,
+        // 재출동 페이지로 이동
+        router.push(Page.WELCOME_BACK).then(() => {
+          updatePlayer({
+            documentId: user.uid,
+            updated: {
+              score: player.allRoundScore
+                ? (player.allRoundScore || []).concat(player.thisRoundScore)
+                : [player.thisRoundScore],
             },
-            generateTransaction: true,
-          })
-          .then((res) => {
-            // 캐릭터 생성 성공시 오브젝트 상대 경로 업데이트
-            assignPlayer({
-              ...player,
-              objectPath: res.data.CharacterPath,
-            });
-            // 생성된 캐릭터가 게임 화면 중심에 나타나게 하기
-            axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-              objectPath: res.data.CharacterPath,
-              functionName: "SetPlayerLocation",
-              generateTransaction: true,
-            });
-            // 게임 남은 시간, 게임진행여부 상태 업데이트
-            updateGameRound({
-              ...gameRound,
-              isGameInProgress: true,
-              timeLeft: res.data.MainGameRemainTime,
-            });
           });
+          assignPlayer({
+            ...player,
+            objectPath: undefined,
+            allRoundScore: player.allRoundScore
+              ? (player.allRoundScore || []).concat(player.thisRoundScore)
+              : [player.thisRoundScore],
+          });
+        });
       }
     }, 1000);
     return () => clearInterval(interval);
   }, [isGaming]);
 
-  return <div>{isGaming ? `게임 시간: ${gameTimeLeft}` : `쉬는 시간: ${restTimeLeft}`}</div>;
+  return (
+    <div>
+      {isGaming
+        ? `게임 시간: ${gameTimeLeft.toString().substring(0, gameTimeLeft.toString().length - 3)}초`
+        : `쉬는 시간: ${restTimeLeft
+            .toString()
+            .substring(0, restTimeLeft.toString().length - 3)}초`}
+    </div>
+  );
 }

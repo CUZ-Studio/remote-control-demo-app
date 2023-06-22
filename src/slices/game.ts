@@ -9,7 +9,8 @@ export interface Player {
   headTag: string | undefined;
   model: RobotModelType | undefined;
   color: RobotColor | undefined;
-  score: number | undefined;
+  thisRoundScore: number | undefined;
+  allRoundScore: number[] | undefined;
   playedNum: number | undefined;
 }
 
@@ -31,7 +32,8 @@ const initialState: GameState = {
     headTag: undefined,
     model: undefined,
     color: undefined,
-    score: 0,
+    thisRoundScore: undefined,
+    allRoundScore: undefined,
     playedNum: undefined,
   },
   gameRound: {

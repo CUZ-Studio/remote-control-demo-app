@@ -83,11 +83,13 @@ export default function ControlPanel() {
     e.preventDefault();
 
     onFire().then(() => {
+      // 발사 이후 점수가 업데이트되기까지 약간의 지연시간이 소요되므로,
+      // 0.5초 뒤에 점수 요청 및 전역 상태 업데이트
       setTimeout(() => {
         getScore().then((res) => {
           assignPlayer({
             ...player,
-            score: res.data.PlayerScore,
+            thisRoundScore: res.data.PlayerScore,
           });
         });
       }, 500);
