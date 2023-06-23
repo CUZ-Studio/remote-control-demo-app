@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import axios from "axios";
 import _ from "lodash";
 import { toast } from "react-toastify";
 
+import Arrow from "@/components/atoms/Arrow";
+import Fire from "@/components/atoms/Fire";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
@@ -149,7 +150,7 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.JUMP)}
         onTouchEnd={handleMouseUpForMovement}
       >
-        <Image src="/assets/icons/arrowUp.svg" alt="arrow up" width={88} height={40} />
+        <Arrow isPressed={controlEvent === ControlPanelEvent.JUMP && isMouseHolding} />
       </JumpButton>
       <MoveLeftButton
         onClick={() => setControlEvent(ControlPanelEvent.MOVE_LEFT)}
@@ -158,7 +159,7 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
         onTouchEnd={handleMouseUpForMovement}
       >
-        <Image src="/assets/icons/arrowLeft.svg" alt="arrow left" width={40} height={97} />
+        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_LEFT && isMouseHolding} />
       </MoveLeftButton>
       <MoveRightButton
         onClick={() => setControlEvent(ControlPanelEvent.MOVE_RIGHT)}
@@ -167,7 +168,7 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
         onTouchEnd={handleMouseUpForMovement}
       >
-        <Image src="/assets/icons/arrowLeft.svg" alt="arrow right" width={40} height={97} />
+        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_RIGHT && isMouseHolding} />
       </MoveRightButton>
       <FireButton
         onClick={() => setControlEvent(ControlPanelEvent.FIRE)}
@@ -176,7 +177,7 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.FIRE)}
         onTouchEnd={handleMouseUpForFire}
       >
-        <Image src="/assets/icons/fire.svg" alt="fire" width={44} height={44} />
+        <Fire isPressed={controlEvent === ControlPanelEvent.FIRE && isMouseHolding} />
       </FireButton>
     </Panel>
   );
