@@ -1,4 +1,4 @@
-import { MouseEvent, MouseEventHandler } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import _ from "lodash";
@@ -7,11 +7,16 @@ import { toast } from "react-toastify";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { ControlPanelEvent, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
 
+let timer: NodeJS.Timeout;
+
 export default function ControlPanel() {
+  const [isMouseHolding, setIsMouseHolding] = useState(false);
+  const [controlEvent, setControlEvent] = useState<ControlPanelEvent>();
+
   const user = useUser();
   const player = usePlayer();
   const { assignPlayer } = useGameActions();
@@ -38,34 +43,11 @@ export default function ControlPanel() {
     }
   };
 
-  const handleForward = async (e: MouseEvent, sec: number) => {
-    e.preventDefault();
-
-    await moveForward(-1);
-
-    setTimeout(async () => {
-      await moveForward(0);
-    }, 1000 * sec);
-  };
-
-  const handleBackward = async (e: MouseEvent, sec: number) => {
-    e.preventDefault();
-
-    await moveForward(1);
-
-    setTimeout(async () => {
-      await moveForward(0);
-    }, 1000 * sec);
-  };
-
-  const onJump: MouseEventHandler = async (e) => {
-    e.preventDefault();
-
+  const onJump = async () =>
     await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
       objectPath: player.objectPath,
       functionName: "OnJump",
     });
-  };
 
   const onFire = async () =>
     await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -79,35 +61,121 @@ export default function ControlPanel() {
       functionName: "GetPlayerScore",
     });
 
-  const handleFire = (e: MouseEvent) => {
-    e.preventDefault();
-
-    onFire().then(() => {
-      // 발사 이후 점수가 업데이트되기까지 약간의 지연시간이 소요되므로,
-      // 0.5초 뒤에 점수 요청 및 전역 상태 업데이트
-      setTimeout(() => {
-        getScore().then((res) => {
-          assignPlayer({
-            ...player,
-            thisRoundScore: res.data.PlayerScore,
-          });
-        });
-      }, 500);
-    });
+  const handleMouseDown = (eventType: ControlPanelEvent) => {
+    setControlEvent(eventType);
+    setIsMouseHolding(true);
   };
+  const handleMouseUpForMovement = () => {
+    moveForward(0);
+
+    clearInterval(timer);
+    setIsMouseHolding(false);
+  };
+  const handleMouseUpForFire = () => {
+    getScore().then((res) => {
+      assignPlayer({
+        ...player,
+        thisRoundScore: res.data.PlayerScore,
+      });
+    });
+
+    clearInterval(timer);
+    setIsMouseHolding(false);
+  };
+  const repeat = (callback: () => void) => {
+    timer = setInterval(callback, 100);
+  };
+
+  useEffect(() => {
+    if (isMouseHolding) {
+      switch (controlEvent) {
+        case ControlPanelEvent.MOVE_LEFT:
+          {
+            repeat(() => {
+              moveForward(1);
+            });
+          }
+          break;
+        case ControlPanelEvent.MOVE_RIGHT:
+          {
+            repeat(() => {
+              moveForward(-1);
+            });
+          }
+          break;
+        case ControlPanelEvent.FIRE:
+          {
+            repeat(() => {
+              onFire();
+            });
+          }
+          break;
+        case ControlPanelEvent.JUMP:
+          {
+            repeat(() => {
+              onJump();
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (controlEvent) {
+        case ControlPanelEvent.MOVE_LEFT:
+        case ControlPanelEvent.MOVE_RIGHT:
+        case ControlPanelEvent.JUMP:
+          {
+            handleMouseUpForMovement();
+          }
+          break;
+        case ControlPanelEvent.FIRE:
+          {
+            handleMouseUpForFire();
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  }, [isMouseHolding, controlEvent]);
 
   return (
     <Panel>
-      <JumpButton onClick={onJump}>
+      <JumpButton
+        onClick={() => setControlEvent(ControlPanelEvent.JUMP)}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onMouseUp={handleMouseUpForMovement}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onTouchEnd={handleMouseUpForMovement}
+      >
         <Image src="/assets/icons/arrowUp.svg" alt="arrow up" width={88} height={40} />
       </JumpButton>
-      <MoveLeftButton onClick={(e) => handleBackward(e, 1)}>
+      <MoveLeftButton
+        onClick={() => setControlEvent(ControlPanelEvent.MOVE_LEFT)}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onMouseUp={handleMouseUpForMovement}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onTouchEnd={handleMouseUpForMovement}
+      >
         <Image src="/assets/icons/arrowLeft.svg" alt="arrow left" width={40} height={97} />
       </MoveLeftButton>
-      <MoveRightButton onClick={(e) => handleForward(e, 1)}>
+      <MoveRightButton
+        onClick={() => setControlEvent(ControlPanelEvent.MOVE_RIGHT)}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onMouseUp={handleMouseUpForMovement}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onTouchEnd={handleMouseUpForMovement}
+      >
         <Image src="/assets/icons/arrowLeft.svg" alt="arrow right" width={40} height={97} />
       </MoveRightButton>
-      <FireButton onClick={handleFire}>
+      <FireButton
+        onClick={() => setControlEvent(ControlPanelEvent.FIRE)}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onMouseUp={handleMouseUpForFire}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onTouchEnd={handleMouseUpForFire}
+      >
         <Image src="/assets/icons/fire.svg" alt="fire" width={44} height={44} />
       </FireButton>
     </Panel>
