@@ -108,7 +108,7 @@ export default function ControlPanel() {
             thisRoundScore: res.data.playerScore,
           });
         });
-      }, 2000);
+      }, 500);
     });
   };
 
