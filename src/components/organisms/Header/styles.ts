@@ -9,7 +9,7 @@ export const Root = styled("header", {
   position: fixed;
   z-index: 9;
   width: 100%;
-  height: ${({ showUserOnHeader }) => (showUserOnHeader ? "99px" : "90px")};
+  height: ${({ showUserOnHeader }) => (showUserOnHeader ? "11.7vh" : "10.5vh")};
   z-index: 9;
 `;
 
@@ -23,7 +23,7 @@ export const Inner = styled("div", {
   align-items: center;
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   height: 100%;
-  padding: 26px 15px;
+  padding: 3vh 3.8%;
   margin: 0 auto;
   background: ${({ theme }) => theme.palette.common.white};
 `;
@@ -41,14 +41,14 @@ export const ProfileBox = styled("div")`
 
 export const ProfileImageWrapper = styled("div")`
   width: 47px;
-  height: 47px;
+  aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
 `;
 
 export const ProfileImage = styled("div")`
   width: 47px;
-  height: 47px;
+  aspect-ratio: 1;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.palette.grey[200]};
 `;

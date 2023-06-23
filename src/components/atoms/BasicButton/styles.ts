@@ -47,8 +47,8 @@ export const StyledButton = styled("button", {
   ${({ shape }) =>
     shape === ButtonShape.CIRCLE &&
     `
-    width: 55px;
-    height: 55px;
+    width: 5vh;
+    height: 5vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,6 +57,6 @@ export const StyledButton = styled("button", {
   ${({ isSelected }) =>
     isSelected &&
     `
-  box-shadow: 2px 2px yellow;
+  border-width: 2px;
   `}
 `;

@@ -106,10 +106,16 @@ export default function WelcomeBack() {
         </GameHistory>
         <CanvasWrapper>
           <Canvas shadows camera={{ position: [0, 0, 4], fov: 40 }}>
-            <ambientLight intensity={0.5} />
+            <ambientLight intensity={0.8} />
             <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
             <Model />
-            <OrbitControls minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} />
+            <OrbitControls
+              minPolarAngle={Math.PI / 2}
+              maxPolarAngle={Math.PI / 2}
+              enableZoom={false}
+              enablePan={false}
+              enableRotate={false}
+            />
           </Canvas>
           <StarBox>
             <Image src="/assets/images/star.svg" alt="start" width={17} height={17} />

@@ -7,7 +7,7 @@ export const Container = styled("div")`
   flex-direction: column;
   width: 100%;
   align-items: center;
-  padding: 31px 0 0;
+  padding: 3.6vh 0 0;
 `;
 
 export const MainSection = styled("main")`
@@ -19,9 +19,9 @@ export const MainSection = styled("main")`
 export const Greeting = styled("h3")`
   white-space: pre;
   font-family: Inter;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 400;
-  line-height: 25px;
+  line-height: 1.5;
   letter-spacing: 0em;
   text-align: center;
   margin: 0;
@@ -31,14 +31,14 @@ export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 7.1vh;
 `;
 
 export const ButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 15px;
+  gap: 0.938rem;
 `;
 
 export const NextButton = styled(BasicButton)`

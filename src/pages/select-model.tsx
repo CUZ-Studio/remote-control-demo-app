@@ -60,19 +60,33 @@ export default function SelectRobot() {
         <Greeting>{`${user?.displayName}님,\n함께 지구를 살릴\n로봇을 생성해주세요!`}</Greeting>
         <CanvasWrapper>
           <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
-            <ambientLight intensity={0.5} />
+            <ambientLight intensity={0.8} />
             <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
             <Model />
-            <OrbitControls minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} />
+            <OrbitControls
+              minPolarAngle={Math.PI / 2}
+              maxPolarAngle={Math.PI / 2}
+              enableZoom={false}
+              enablePan={false}
+              enableRotate={false}
+            />
           </Canvas>
         </CanvasWrapper>
         <RobotDescription>{getDescription(player.model)}</RobotDescription>
       </MainSection>
       <OptionBox>
-        <Option type="button" onClick={() => selectModel(RobotModelType.PENGUIN)}>
+        <Option
+          type="button"
+          onClick={() => selectModel(RobotModelType.PENGUIN)}
+          isSelected={player.model === RobotModelType.PENGUIN}
+        >
           <Image width={77} height={77} src="/assets/images/models/penguin.svg" alt="penguin" />
         </Option>
-        <Option type="button" onClick={() => selectModel(RobotModelType.SMART_DRONE)}>
+        <Option
+          type="button"
+          onClick={() => selectModel(RobotModelType.SMART_DRONE)}
+          isSelected={player.model === RobotModelType.SMART_DRONE}
+        >
           <Image
             width={77}
             height={77}
@@ -80,7 +94,11 @@ export default function SelectRobot() {
             alt="smart drone"
           />
         </Option>
-        <Option type="button" onClick={() => selectModel(RobotModelType.PROBE)}>
+        <Option
+          type="button"
+          onClick={() => selectModel(RobotModelType.PROBE)}
+          isSelected={player.model === RobotModelType.PROBE}
+        >
           <Image width={77} height={77} src="/assets/images/models/probe.svg" alt="probe" />
         </Option>
       </OptionBox>
