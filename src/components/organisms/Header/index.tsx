@@ -80,8 +80,7 @@ export default function Header() {
             timeLeft: 0,
             isGameInProgress: false,
           });
-        })
-        .catch(() => toast.error("와하!"));
+        });
     }
   };
   return (
