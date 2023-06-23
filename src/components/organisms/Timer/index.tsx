@@ -86,7 +86,7 @@ export default function Countdown() {
   }, [isGaming]);
 
   return (
-    <div>
+    <div style={{ visibility: "hidden" }}>
       {isGaming
         ? `게임 시간: ${gameTimeLeft.toString().substring(0, gameTimeLeft.toString().length - 3)}초`
         : `쉬는 시간: ${restTimeLeft
