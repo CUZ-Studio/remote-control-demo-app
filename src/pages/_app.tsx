@@ -7,7 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import axios from "axios";
 import _ from "lodash";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
@@ -55,7 +55,8 @@ function MyApp(props: MyAppProps) {
         });
       })
       .catch(() => {
-        router.replace(Page.HOME);
+        // router.replace(Page.HOME);
+        toast.error("언리얼 게임모드 상대경로 정보 요청 실패");
       });
   }, []);
 
