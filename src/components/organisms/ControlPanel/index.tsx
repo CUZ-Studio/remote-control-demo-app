@@ -146,6 +146,8 @@ export default function ControlPanel() {
         onClick={() => setControlEvent(ControlPanelEvent.JUMP)}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.JUMP)}
         onMouseUp={handleMouseUpForMovement}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onTouchEnd={handleMouseUpForMovement}
       >
         <Image src="/assets/icons/arrowUp.svg" alt="arrow up" width={88} height={40} />
       </JumpButton>
@@ -153,6 +155,8 @@ export default function ControlPanel() {
         onClick={() => setControlEvent(ControlPanelEvent.MOVE_LEFT)}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
         onMouseUp={handleMouseUpForMovement}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onTouchEnd={handleMouseUpForMovement}
       >
         <Image src="/assets/icons/arrowLeft.svg" alt="arrow left" width={40} height={97} />
       </MoveLeftButton>
@@ -160,6 +164,8 @@ export default function ControlPanel() {
         onClick={() => setControlEvent(ControlPanelEvent.MOVE_RIGHT)}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
         onMouseUp={handleMouseUpForMovement}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onTouchEnd={handleMouseUpForMovement}
       >
         <Image src="/assets/icons/arrowLeft.svg" alt="arrow right" width={40} height={97} />
       </MoveRightButton>
@@ -167,6 +173,8 @@ export default function ControlPanel() {
         onClick={() => setControlEvent(ControlPanelEvent.FIRE)}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.FIRE)}
         onMouseUp={handleMouseUpForFire}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onTouchEnd={handleMouseUpForFire}
       >
         <Image src="/assets/icons/fire.svg" alt="fire" width={44} height={44} />
       </FireButton>
