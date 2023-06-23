@@ -101,7 +101,6 @@ export default function Header() {
             <Image width={24} height={24} src="/assets/icons/arrowBack.svg" alt="Back" />
           </ArrowBackIcon>
         )}
-        {router.asPath === Page.PLAY && <Timer />}
         <IconWrapper>
           <LogoutIcon onClick={logout} />
           <QuestionMarkIcon>
