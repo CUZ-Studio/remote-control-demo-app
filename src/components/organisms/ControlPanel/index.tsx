@@ -105,7 +105,7 @@ export default function ControlPanel() {
           console.log(res.data);
           assignPlayer({
             ...player,
-            thisRoundScore: res.data.PlayerScore,
+            thisRoundScore: res.data.playerScore,
           });
         });
       }, 2000);
