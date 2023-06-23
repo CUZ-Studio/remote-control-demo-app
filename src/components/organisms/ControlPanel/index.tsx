@@ -96,7 +96,7 @@ export default function ControlPanel() {
   return (
     <Panel>
       <JumpButton onClick={onJump}>
-        <Image src="/assets/icons/arrowLeft.svg" alt="arrow up" width={88} height={40} />
+        <Image src="/assets/icons/arrowUp.svg" alt="arrow up" width={88} height={40} />
       </JumpButton>
       <MoveLeftButton onClick={(e) => handleBackward(e, 1)}>
         <Image src="/assets/icons/arrowLeft.svg" alt="arrow left" width={40} height={97} />

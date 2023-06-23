@@ -30,6 +30,7 @@ export const Title = styled("h1")`
   font-weight: 400;
   line-height: 35px;
   margin: 0;
+  white-space: nowrap;
 `;
 
 export const SubTitle = styled("h2")`
@@ -37,6 +38,7 @@ export const SubTitle = styled("h2")`
   font-weight: 400;
   line-height: 35px;
   margin: 0;
+  white-space: nowrap;
 `;
 
 export const ButtonWrapper = styled("div")`

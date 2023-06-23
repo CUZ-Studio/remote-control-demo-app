@@ -9,11 +9,9 @@ export const Panel = styled("section")`
 
 export const JumpButton = styled("div")`
   position: absolute;
-  top: 0;
   left: 50%;
-  margin-left: -24px;
+  margin-left: -44px;
   cursor: pointer;
-  rotate: 90deg;
 `;
 
 export const MoveLeftButton = styled("div")`
