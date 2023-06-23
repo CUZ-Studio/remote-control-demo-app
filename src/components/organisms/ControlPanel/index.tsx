@@ -44,6 +44,26 @@ export default function ControlPanel() {
     }
   };
 
+  const handleForward = async (e: MouseEvent, sec: number) => {
+    e.preventDefault();
+
+    await moveForward(-1);
+
+    setTimeout(async () => {
+      await moveForward(0);
+    }, 1000 * sec);
+  };
+
+  const handleBackward = async (e: MouseEvent, sec: number) => {
+    e.preventDefault();
+
+    await moveForward(1);
+
+    setTimeout(async () => {
+      await moveForward(0);
+    }, 1000 * sec);
+  };
+
   const handleMouseDown = (eventType: ControlPanelEvent) => {
     setControlEvent(eventType);
     setIsMouseHolding(true);
@@ -134,23 +154,11 @@ export default function ControlPanel() {
       <JumpButton onClick={onJump}>
         <Image src="/assets/icons/arrowUp.svg" alt="arrow up" width={88} height={40} />
       </JumpButton>
-      <MoveLeftButton
-        onClick={() => setControlEvent(ControlPanelEvent.MOVE_LEFT)}
-        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
-        onMouseUp={handleMouseUpForMovement}
-        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
-        onTouchEnd={handleMouseUpForMovement}
-      >
-        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_LEFT && isMouseHolding} />{" "}
+      <MoveLeftButton onClick={(e) => handleBackward(e, 1)}>
+        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_LEFT && isMouseHolding} />
       </MoveLeftButton>
-      <MoveRightButton
-        onClick={() => setControlEvent(ControlPanelEvent.MOVE_RIGHT)}
-        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
-        onMouseUp={handleMouseUpForMovement}
-        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
-        onTouchEnd={handleMouseUpForMovement}
-      >
-        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_RIGHT && isMouseHolding} />{" "}
+      <MoveRightButton onClick={(e) => handleForward(e, 1)}>
+        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_RIGHT && isMouseHolding} />
       </MoveRightButton>
       <FireButton onClick={handleFire}>
         <Image src="/assets/icons/fire.svg" alt="fire" width={44} height={44} />
