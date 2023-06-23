@@ -70,6 +70,7 @@ export default function ControlPanel() {
     moveForward(0);
 
     clearInterval(timer);
+    setControlEvent(undefined);
     setIsMouseHolding(false);
   };
   const handleMouseUpForFire = () => {
@@ -81,6 +82,7 @@ export default function ControlPanel() {
     });
 
     clearInterval(timer);
+    setControlEvent(undefined);
     setIsMouseHolding(false);
   };
   const repeat = (callback: () => void) => {
