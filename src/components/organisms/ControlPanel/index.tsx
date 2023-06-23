@@ -86,7 +86,7 @@ export default function ControlPanel() {
     setIsMouseHolding(false);
   };
   const repeat = (callback: () => void) => {
-    timer = setInterval(callback, 100);
+    timer = setInterval(callback, 300);
   };
 
   useEffect(() => {
