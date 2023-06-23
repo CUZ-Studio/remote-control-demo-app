@@ -24,7 +24,7 @@ export default function Countdown() {
   }, [gameRound?.timeLeft, player?.objectPath]);
   const [gameTimeLeft, setGameTimeLeft] = useState(targetDate - Date.now());
 
-  const targetRestTime = 10 * 1000 + new Date().getTime();
+  const targetRestTime = 28 * 1000 + new Date().getTime();
   const [restTimeLeft, setRestTimeLeft] = useState(targetRestTime - Date.now());
 
   // 게임 시간 타이머
