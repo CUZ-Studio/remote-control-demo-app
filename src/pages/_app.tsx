@@ -31,7 +31,6 @@ export interface MyAppProps extends AppProps {
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
-  const router = useRouter();
   const gameRound = useGameRound();
   const { authorize } = useAuthActions();
   const { updateGameRound } = useGameActions();
@@ -43,8 +42,7 @@ function MyApp(props: MyAppProps) {
     // 로그인 여부와 상관없이 미리 요청해서 받아두는 게 좋음
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-        objectPath:
-          "/Game/Level/UEDPIE_0_Main.Main:PersistentLevel.BP_GetGameModeBaseObjectPath_C_1",
+        objectPath: process.env.NEXT_PUBLIC_GAME_MODE_OBJECT_PATH,
         access: REMOTE_CONTROL_API_ACCESS_TYPE.READ_ACCESS,
         propertyName: "GameModeBaseObjPath",
       })
