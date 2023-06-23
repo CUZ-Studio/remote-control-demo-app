@@ -33,6 +33,7 @@ import {
 
 export default function WelcomeBack() {
   const router = useRouter();
+
   const user = useUser();
   const player = usePlayer();
   const gameRound = useGameStatus();

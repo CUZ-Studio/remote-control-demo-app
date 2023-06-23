@@ -3,6 +3,13 @@ export enum ButtonShape {
   RECTANGLE = "rectangle",
 }
 
+export enum ControlPanelEvent {
+  MOVE_LEFT = "move-left",
+  MOVE_RIGHT = "move-right",
+  JUMP = "jump",
+  FIRE = "fire",
+}
+
 export enum Page {
   HOME = "/",
   SELECT_MODEL = "/select-model",
