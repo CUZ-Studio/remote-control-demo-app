@@ -32,11 +32,7 @@ export default function Welcome() {
         <SubTitle>: 시간여행자의 여정</SubTitle>
       </TitleWrapper>
       <ImageWrapper>
-        {getImageSrc() ? (
-          <Image width={283} height={283} src={getImageSrc()} alt={`section ${selectedSection}`} />
-        ) : (
-          <PlaceholderImage />
-        )}
+        {getImageSrc() && <Image fill src={getImageSrc()} alt={`section ${selectedSection}`} />}
       </ImageWrapper>
       <CardRoulette selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
     </Container>

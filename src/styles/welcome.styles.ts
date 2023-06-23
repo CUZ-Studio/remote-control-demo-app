@@ -6,14 +6,14 @@ export const Container = styled("div")`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-top: 100px;
+  padding-top: 10vh;
 `;
 
 export const TitleWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   margin-left: -15px;
-  margin-bottom: 89px;
+  margin-bottom: 10.5vh;
 `;
 
 export const Title = styled("h1")`
@@ -41,11 +41,12 @@ export const ImageWrapper = styled("div")`
   left: 0;
   margin-left: -32px;
   z-index: 4;
-  width: fit-content;
+  width: 72.5%;
+  aspect-ratio: 1;
 `;
 
 export const PlaceholderImage = styled("div")`
-  width: 200px;
+  width: 51%;
   height: 373px;
   background: ${({ theme }) => theme.palette.grey[400]};
 `;
