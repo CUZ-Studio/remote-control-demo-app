@@ -100,8 +100,6 @@ export default function Countdown() {
           thisRoundBestPlayerUID,
         });
 
-        console.log(thisRoundBestPlayerUID, thisRoundBestPlayerUID === player.uid);
-
         if (thisRoundBestPlayerUID === player.uid) {
           updatePlayer({
             documentId: player.uid,
