@@ -12,7 +12,15 @@ export default function PlayGame() {
   return (
     <Container>
       <PlayerInfoBox>
-        <Image src="/assets/images/star.svg" alt="star" width={17} height={17} />
+        {Array.from(Array(player.gotFirstPlace)).map((_, index) => (
+          <Image
+            key={`star-${index}`}
+            src="/assets/images/star.svg"
+            alt="start"
+            width={17}
+            height={17}
+          />
+        ))}
         <PlayerName>{player.headTag}</PlayerName>
         <Score>{player.thisRoundScore || 0}</Score>
       </PlayerInfoBox>

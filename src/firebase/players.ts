@@ -75,13 +75,13 @@ const updatePlayer = async ({
   updated: {
     score?: number[];
     playedNum?: number;
+    gotFirstPlace?: number;
   };
 }) => {
   const _player = doc(firestore, `players/${documentId}`);
 
   try {
-    const res = await updateDoc(_player, updated);
-    console.log(res);
+    await updateDoc(_player, updated);
   } catch (error) {
     console.error(error);
   }

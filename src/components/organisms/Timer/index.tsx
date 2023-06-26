@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
@@ -61,28 +62,57 @@ export default function Countdown() {
         setRestTimeLeft(0);
         setIsGaming(true);
 
+        const tempAllRoundScore = player.allRoundScore ? { ...player.allRoundScore } : {};
+        tempAllRoundScore[gameRound.currentRoundName] = player.thisRoundScore;
+
         // 쉬는 시간이 끝나면,
         // 재출동 페이지로 이동
         router.push(Page.WELCOME_BACK).then(() => {
           updatePlayer({
             documentId: user.uid,
             updated: {
-              score: player.allRoundScore
-                ? (player.allRoundScore || []).concat(player.thisRoundScore)
-                : [player.thisRoundScore],
+              score: tempAllRoundScore,
             },
           });
           assignPlayer({
             ...player,
             objectPath: undefined,
-            allRoundScore: player.allRoundScore
-              ? (player.allRoundScore || []).concat(player.thisRoundScore)
-              : [player.thisRoundScore],
+            allRoundScore: tempAllRoundScore,
           });
         });
       }
     }, 1000);
     return () => clearInterval(interval);
+  }, [isGaming]);
+
+  useEffect(() => {
+    if (isGaming) return;
+
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: gameRound.gameModeBaseObjectPath,
+        functionName: "GetCurrentRoundBestOfPlayer",
+      })
+      .then((res) => {
+        const thisRoundBestPlayerUID = res.data.PlayerUID;
+        updateGameRound({
+          ...gameRound,
+          thisRoundBestPlayerUID,
+        });
+
+        if (thisRoundBestPlayerUID === player.uid) {
+          updatePlayer({
+            documentId: player.uid,
+            updated: {
+              gotFirstPlace: player.gotFirstPlace ?? 0 + 1,
+            },
+          });
+          assignPlayer({
+            ...player,
+            gotFirstPlace: player.gotFirstPlace ?? 0 + 1,
+          });
+        }
+      });
   }, [isGaming]);
 
   return (

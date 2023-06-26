@@ -34,6 +34,7 @@ export default function NameYourRobot() {
   const [inputValue, setInputValue] = useState(player?.headTag || user?.displayName);
   const [errorMessage, setErrorMessage] = useState("");
   const { assignPlayer, updateGameRound } = useGameActions();
+  const [disabled, setDisabled] = useState(false);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
@@ -54,6 +55,8 @@ export default function NameYourRobot() {
       setErrorMessage("문자 또는 숫자만 사용가능합니다");
       return;
     }
+
+    setDisabled(true);
 
     // 언리얼로 캐릭터 생성 요청 보내기
     axios
@@ -79,7 +82,7 @@ export default function NameYourRobot() {
             modelColor: player.color,
             modelType: player.model,
             username: user.displayName,
-            score: player.allRoundScore ?? [],
+            score: player.allRoundScore ?? {},
             playedNum: player.playedNum ?? 0,
           });
 
@@ -101,7 +104,8 @@ export default function NameYourRobot() {
           // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
           router.push(Page.GOING_TO_HANGAR);
         }
-      });
+      })
+      .catch(() => setDisabled(false));
   };
 
   return (
@@ -132,7 +136,7 @@ export default function NameYourRobot() {
               onFocus={() => setErrorMessage("")}
             />
           </InputWrapper>
-          <BasicButton type="submit" shape={ButtonShape.RECTANGLE}>
+          <BasicButton type="submit" shape={ButtonShape.RECTANGLE} disabled={disabled}>
             로봇 생성 완료
           </BasicButton>
         </StyledForm>
