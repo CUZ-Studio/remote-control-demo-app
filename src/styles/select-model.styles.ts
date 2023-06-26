@@ -54,7 +54,7 @@ export const Option = styled("button", {
   isSelected: boolean;
 }>`
   width: 11vh;
-  height: 11vh;
+  aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;
