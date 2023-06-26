@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { MouseEventHandler, useMemo } from "react";
+import { MouseEventHandler, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -33,6 +33,7 @@ import {
 
 export default function WelcomeBack() {
   const router = useRouter();
+  const [disabled, setDisabled] = useState(false);
 
   const user = useUser();
   const player = usePlayer();
@@ -40,7 +41,10 @@ export default function WelcomeBack() {
   const { assignPlayer, updateGameRound } = useGameActions();
 
   const maxScore = useMemo(
-    () => ((player.allRoundScore ?? []).length ? Math.max(...player.allRoundScore) : 0),
+    () =>
+      Object.values(player.allRoundScore ?? {}).length
+        ? Math.max(...Object.values(player.allRoundScore).map((elem) => Number(elem)))
+        : 0,
     [player.allRoundScore],
   );
 
@@ -48,6 +52,7 @@ export default function WelcomeBack() {
   const createCharacter: MouseEventHandler = (e) => {
     e.preventDefault();
 
+    setDisabled(true);
     // 언리얼로 캐릭터 생성 요청 보내기
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -81,7 +86,8 @@ export default function WelcomeBack() {
 
         // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
         router.push(Page.GOING_TO_HANGAR);
-      });
+      })
+      .catch(() => setDisabled(false));
   };
   return (
     <Container>
@@ -118,14 +124,27 @@ export default function WelcomeBack() {
             />
           </Canvas>
           <StarBox>
-            <Image src="/assets/images/star.svg" alt="start" width={17} height={17} />
+            {Array.from(Array(player.gotFirstPlace)).map((_, index) => (
+              <Image
+                key={`star-${index}`}
+                src="/assets/images/star.svg"
+                alt="start"
+                width={17}
+                height={17}
+              />
+            ))}
           </StarBox>
         </CanvasWrapper>
         <RobotName>{player.headTag}</RobotName>
       </MainSection>
       <ButtonWrapper>
         <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
-        <PlayButton type="button" shape={ButtonShape.RECTANGLE} onClick={createCharacter}>
+        <PlayButton
+          type="button"
+          shape={ButtonShape.RECTANGLE}
+          disabled={disabled}
+          onClick={createCharacter}
+        >
           출동하기
         </PlayButton>
       </ButtonWrapper>

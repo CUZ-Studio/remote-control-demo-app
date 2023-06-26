@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
@@ -15,7 +14,7 @@ import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import wrapper from "@/slices/store";
-import { KaKaoLoginUser, Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { KaKaoLoginUser, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import theme from "@/styles/theme";
 

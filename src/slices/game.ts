@@ -10,14 +10,21 @@ export interface Player {
   model: RobotModelType | undefined;
   color: RobotColor | undefined;
   thisRoundScore: number | undefined;
-  allRoundScore: number[] | undefined;
+  allRoundScore:
+    | {
+        [key: string]: number;
+      }
+    | undefined;
   playedNum: number | undefined;
+  gotFirstPlace: number | undefined;
 }
 
 export interface GameRound {
   gameModeBaseObjectPath: string | undefined;
   isGameInProgress: boolean;
   timeLeft: number | null;
+  currentRoundName: string | undefined;
+  thisRoundBestPlayerUID: string | undefined;
 }
 
 export interface GameState {
@@ -35,11 +42,14 @@ const initialState: GameState = {
     thisRoundScore: undefined,
     allRoundScore: undefined,
     playedNum: undefined,
+    gotFirstPlace: undefined,
   },
   gameRound: {
     gameModeBaseObjectPath: undefined,
     isGameInProgress: false,
     timeLeft: 0,
+    currentRoundName: undefined,
+    thisRoundBestPlayerUID: undefined,
   },
 };
 
