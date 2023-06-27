@@ -10,3 +10,5 @@ interface Window {
     refreshTokenSilently: any;
   };
 }
+
+declare module "badwords-ko";

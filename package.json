@@ -21,6 +21,7 @@
     "@react-three/fiber": "^8.13.2",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
+    "badwords-ko": "^1.0.3",
     "firebase": "^9.22.2",
     "lodash": "^4.17.21",
     "next": "13.4.4",
@@ -38,6 +39,7 @@
     "valtio": "^1.10.5"
   },
   "devDependencies": {
+    "@types/bad-words": "^3.0.1",
     "@types/lodash": "^4.14.195",
     "@types/node": "20.2.5",
     "@types/react": "18.2.8",
