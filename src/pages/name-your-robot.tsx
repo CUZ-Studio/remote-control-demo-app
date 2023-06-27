@@ -13,6 +13,7 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { ButtonShape, Page } from "@/types";
+import isProfane from "@/utils/isProfane";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -51,8 +52,13 @@ export default function NameYourRobot() {
       return;
     }
 
-    if (/[`~!@#$%^&*|\\'";:/?]/gi.test(inputValue)) {
+    if (/[`~!@#$%^&*|\\'",;:/?]/gi.test(inputValue)) {
       setErrorMessage("문자 또는 숫자만 사용가능합니다");
+      return;
+    }
+
+    if (isProfane({ keyword: inputValue })) {
+      setErrorMessage("비속어를 포함하고 있습니다");
       return;
     }
 
