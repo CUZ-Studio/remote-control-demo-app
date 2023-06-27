@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 
 import Header from "@/components/organisms/Header";
@@ -11,11 +11,16 @@ interface Props {
 }
 
 export default function BasicLayout({ children }: Props) {
+  const [windowHeight, setWindowHeight] = useState<number>();
   const user = useUser();
+
+  useEffect(() => {
+    setWindowHeight(window.innerHeight);
+  }, []);
   return (
     <>
       {user && <Header />}
-      <Root>
+      <Root windowHeight={windowHeight}>
         <Inner isMobile={isMobile}>{children}</Inner>
       </Root>
     </>
