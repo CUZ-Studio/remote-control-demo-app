@@ -12,7 +12,7 @@ export default function PlayGame() {
   return (
     <Container>
       <PlayerInfoBox>
-        {Array.from(Array(player.gotFirstPlace)).map((_, index) => (
+        {Array.from(Array(player?.gotFirstPlace)).map((_, index) => (
           <Image
             key={`star-${index}`}
             src="/assets/images/star.svg"
