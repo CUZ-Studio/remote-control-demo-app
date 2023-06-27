@@ -19,7 +19,6 @@ import {
   ProfileBox,
   ProfileImage,
   ProfileImageWrapper,
-  QuestionMarkIcon,
   Root,
   UserName,
 } from "./styles";
@@ -48,6 +47,15 @@ export default function Header() {
     }
   })();
 
+  const showLogoutOnHeader = (() => {
+    switch (router.asPath) {
+      case Page.START_YOUR_JOURNEY:
+        return true;
+      default:
+        return false;
+    }
+  })();
+
   const getPreviousPage = (() => {
     switch (router.asPath) {
       case Page.NAME_YOUR_ROBOT:
@@ -55,8 +63,9 @@ export default function Header() {
       case Page.GOING_TO_HANGAR:
         return Page.NAME_YOUR_ROBOT;
       case Page.CUSTOMIZE_DESIGN:
-      default:
         return Page.SELECT_MODEL;
+      default:
+        return Page.START_YOUR_JOURNEY;
     }
   })();
 
@@ -102,12 +111,11 @@ export default function Header() {
           </ArrowBackIcon>
         )}
         {router.asPath === Page.PLAY && <Timer />}
-        <IconWrapper>
-          <LogoutIcon onClick={logout} />
-          <QuestionMarkIcon>
-            <Image width={22.75} height={22.75} src="/assets/icons/questionMark.svg" alt="Back" />
-          </QuestionMarkIcon>
-        </IconWrapper>
+        {showLogoutOnHeader && (
+          <IconWrapper>
+            <LogoutIcon onClick={logout} />
+          </IconWrapper>
+        )}
       </Inner>
     </Root>
   );
