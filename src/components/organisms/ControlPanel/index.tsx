@@ -1,18 +1,16 @@
-import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
-import Image from "next/image";
+import { MouseEvent, MouseEventHandler, useState } from "react";
 import axios from "axios";
 import _ from "lodash";
 import { toast } from "react-toastify";
 
 import Arrow from "@/components/atoms/Arrow";
+import Fire from "@/components/atoms/Fire";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { ControlPanelEvent, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
-
-let timer: NodeJS.Timeout;
 
 export default function ControlPanel() {
   const [isMouseHolding, setIsMouseHolding] = useState(false);
@@ -51,7 +49,7 @@ export default function ControlPanel() {
 
     setTimeout(async () => {
       await moveForward(0);
-    }, 1000 * sec);
+    }, 1500 * sec);
   };
 
   const handleBackward = async (e: MouseEvent, sec: number) => {
@@ -61,7 +59,7 @@ export default function ControlPanel() {
 
     setTimeout(async () => {
       await moveForward(0);
-    }, 1000 * sec);
+    }, 1500 * sec);
   };
 
   const handleMouseDown = (eventType: ControlPanelEvent) => {
@@ -69,10 +67,8 @@ export default function ControlPanel() {
     setIsMouseHolding(true);
   };
 
-  const handleMouseUpForMovement = () => {
-    moveForward(0);
-
-    clearInterval(timer);
+  const handleMouseUp = () => {
+    setControlEvent(undefined);
     setIsMouseHolding(false);
   };
 
@@ -111,57 +107,35 @@ export default function ControlPanel() {
     });
   };
 
-  const repeat = (callback: () => void) => {
-    timer = setInterval(callback, 1000);
-  };
-
-  useEffect(() => {
-    if (isMouseHolding) {
-      switch (controlEvent) {
-        case ControlPanelEvent.MOVE_LEFT:
-          {
-            repeat(() => {
-              moveForward(1);
-            });
-          }
-          break;
-        case ControlPanelEvent.MOVE_RIGHT:
-          {
-            repeat(() => {
-              moveForward(-1);
-            });
-          }
-          break;
-        default:
-          break;
-      }
-    } else {
-      switch (controlEvent) {
-        case ControlPanelEvent.MOVE_LEFT:
-        case ControlPanelEvent.MOVE_RIGHT:
-          {
-            handleMouseUpForMovement();
-          }
-          break;
-        default:
-          break;
-      }
-    }
-  }, [isMouseHolding, controlEvent]);
-
   return (
     <Panel>
-      <JumpButton onClick={onJump}>
-        <Image src="/assets/icons/arrowUp.svg" alt="arrow up" width={88} height={40} />
+      <JumpButton
+        onClick={onJump}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onMouseUp={handleMouseUp}
+      >
+        <Arrow isPressed={controlEvent === ControlPanelEvent.JUMP && isMouseHolding} />
       </JumpButton>
-      <MoveLeftButton onClick={(e) => handleBackward(e, 1)}>
+      <MoveLeftButton
+        onClick={(e) => handleBackward(e, 1)}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onMouseUp={handleMouseUp}
+      >
         <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_LEFT && isMouseHolding} />
       </MoveLeftButton>
-      <MoveRightButton onClick={(e) => handleForward(e, 1)}>
+      <MoveRightButton
+        onClick={(e) => handleForward(e, 1)}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onMouseUp={handleMouseUp}
+      >
         <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_RIGHT && isMouseHolding} />
       </MoveRightButton>
-      <FireButton onClick={handleFire}>
-        <Image src="/assets/icons/fire.svg" alt="fire" width={44} height={44} />
+      <FireButton
+        onClick={handleFire}
+        onMouseDown={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onMouseUp={handleMouseUp}
+      >
+        <Fire isPressed={controlEvent === ControlPanelEvent.FIRE && isMouseHolding} />
       </FireButton>
     </Panel>
   );

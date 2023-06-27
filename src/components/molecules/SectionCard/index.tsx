@@ -1,4 +1,4 @@
-import { Dispatch, MouseEventHandler, SetStateAction } from "react";
+import { Dispatch, MouseEventHandler, SetStateAction, useState } from "react";
 import { useRouter } from "next/router";
 
 import usePlayer from "@/hooks/usePlayer";
@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function SectionCard({ sectionNumber, selectedSection, setSelectedSection }: Props) {
+  const [isMouseHolding, setIsMouseHolding] = useState(false);
   const router = useRouter();
   const player = usePlayer();
 
@@ -83,7 +84,13 @@ export default function SectionCard({ sectionNumber, selectedSection, setSelecte
       <Title isSelected={sectionNumber === selectedSection}>{cardInfo.title}</Title>
       <SubTitle isSelected={sectionNumber === selectedSection}>{cardInfo.subTitle}</SubTitle>
       {sectionNumber === selectedSection && (
-        <EnterButton type="button" onClick={enterSection}>
+        <EnterButton
+          type="button"
+          isPressed={isMouseHolding}
+          onClick={enterSection}
+          onMouseDown={() => setIsMouseHolding(true)}
+          onMouseUp={() => setIsMouseHolding(false)}
+        >
           입장하기
         </EnterButton>
       )}

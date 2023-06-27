@@ -112,10 +112,15 @@ export const Card = styled("div", {
   user-select: none;
 `;
 
-export const EnterButton = styled("button")`
+export const EnterButton = styled("button", {
+  shouldForwardProp: (props) => props !== "isPressed",
+})<{
+  isPressed: boolean;
+}>`
   padding: 8px 13px;
   border: none;
-  background-color: ${({ theme }) => theme.palette.grey[300]};
+  background-color: ${({ theme, isPressed }) =>
+    isPressed ? theme.palette.secondary.main : theme.palette.grey[300]};
   font-family: Inter;
   font-size: 20px;
   font-weight: 400;

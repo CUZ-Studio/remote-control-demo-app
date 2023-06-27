@@ -3,9 +3,11 @@ import { styled } from "@mui/material/styles";
 import { ButtonShape } from "@/types";
 
 export const StyledButton = styled("button", {
-  shouldForwardProp: (props) => props !== "isSelected" && props !== "shape" && props !== "color",
+  shouldForwardProp: (props) =>
+    props !== "isSelected" && props !== "isPressed" && props !== "shape" && props !== "color",
 })<{
   isSelected: boolean;
+  isPressed: boolean;
   shape: ButtonShape;
   color: string;
 }>`
@@ -42,7 +44,12 @@ export const StyledButton = styled("button", {
   }};
   cursor: pointer;
   color: ${({ theme }) => theme.palette.common.black};
-  background-color: ${({ theme, color }) => color || theme.palette.grey[200]};
+  background-color: ${({ theme, color, isPressed }) => {
+    if (color) return isPressed ? theme.palette.secondary.main : color;
+    else {
+      return isPressed ? theme.palette.secondary.main : theme.palette.grey[200];
+    }
+  }};
 
   ${({ shape }) =>
     shape === ButtonShape.CIRCLE &&
