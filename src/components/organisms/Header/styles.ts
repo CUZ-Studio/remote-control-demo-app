@@ -1,4 +1,3 @@
-import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { styled } from "@mui/material/styles";
 
 export const Root = styled("header", {
@@ -23,14 +22,13 @@ export const Inner = styled("div", {
   align-items: center;
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   height: 100%;
-  padding: 3vh 3.8%;
+  padding: 26px 15px;
   margin: 0 auto;
   background: ${({ theme }) => theme.palette.common.white};
-`;
 
-export const LogoutIcon = styled(ExitToAppRoundedIcon)`
-  font-size: 20px;
-  cursor: pointer;
+  img {
+    cursor: pointer;
+  }
 `;
 
 export const ProfileBox = styled("div")`
@@ -71,10 +69,4 @@ export const ArrowBackIcon = styled("div")`
 export const QuestionMarkIcon = styled("div")`
   display: flex;
   cursor: pointer;
-`;
-
-export const IconWrapper = styled("div")`
-  display: flex;
-  align-items: center;
-  gap: 8px;
 `;

@@ -13,9 +13,7 @@ import { Page } from "@/types";
 import Timer from "../Timer";
 import {
   ArrowBackIcon,
-  IconWrapper,
   Inner,
-  LogoutIcon,
   ProfileBox,
   ProfileImage,
   ProfileImageWrapper,
@@ -112,9 +110,13 @@ export default function Header() {
         )}
         {router.asPath === Page.PLAY && <Timer />}
         {showLogoutOnHeader && (
-          <IconWrapper>
-            <LogoutIcon onClick={logout} />
-          </IconWrapper>
+          <Image
+            src="/assets/icons/logout.svg"
+            alt="logout"
+            width={24}
+            height={24}
+            onClick={logout}
+          />
         )}
       </Inner>
     </Root>
