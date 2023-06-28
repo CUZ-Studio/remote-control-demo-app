@@ -1,66 +1,23 @@
-import { MouseEvent, MouseEventHandler, useState } from "react";
+import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
 import axios from "axios";
-import _ from "lodash";
 import { toast } from "react-toastify";
 
 import Arrow from "@/components/atoms/Arrow";
 import Fire from "@/components/atoms/Fire";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
-import useUser from "@/hooks/useUser";
-import { ControlPanelEvent, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { ControlPanelEvent } from "@/types";
 
 import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
+
+let timer: NodeJS.Timeout;
 
 export default function ControlPanel() {
   const [isMouseHolding, setIsMouseHolding] = useState(false);
   const [controlEvent, setControlEvent] = useState<ControlPanelEvent>();
 
-  const user = useUser();
   const player = usePlayer();
   const { assignPlayer } = useGameActions();
-
-  const moveForward = async (val: 0 | 1 | -1) => {
-    if (_.isNil(player)) return;
-    if (_.isNil(user)) return;
-
-    try {
-      await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
-        objectPath: player.objectPath,
-        access: REMOTE_CONTROL_API_ACCESS_TYPE.WRITE_TRANSACTION_ACCESS,
-        propertyName: "MoveForward",
-        propertyValue: {
-          MoveForward: val,
-        },
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      if (e.code === "ERR_NETWORK") {
-        toast.error("네트워크 연결을 확인하세요");
-      }
-    }
-  };
-
-  const handleForward = async (e: MouseEvent, sec: number) => {
-    e.preventDefault();
-
-    await moveForward(-1);
-
-    setTimeout(async () => {
-      await moveForward(0);
-    }, 1500 * sec);
-  };
-
-  const handleBackward = async (e: MouseEvent, sec: number) => {
-    e.preventDefault();
-
-    await moveForward(1);
-
-    setTimeout(async () => {
-      await moveForward(0);
-    }, 1500 * sec);
-  };
 
   const handleMouseDown = (eventType: ControlPanelEvent) => {
     setControlEvent(eventType);
@@ -68,8 +25,13 @@ export default function ControlPanel() {
   };
 
   const handleMouseUp = () => {
+    clearInterval(timer);
     setControlEvent(undefined);
     setIsMouseHolding(false);
+  };
+
+  const repeat = (callback: () => void) => {
+    timer = setInterval(callback, 10);
   };
 
   const onJump: MouseEventHandler = async () =>
@@ -107,26 +69,81 @@ export default function ControlPanel() {
     });
   };
 
+  const moveLeft = async () => {
+    try {
+      await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: player.objectPath,
+        functionName: "SetMoveForwardLeft",
+        generateTransaction: true,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+      if (e.code === "ERR_NETWORK") {
+        toast.error("네트워크 연결을 확인하세요");
+      }
+    }
+  };
+
+  const moveRight = async () => {
+    try {
+      await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: player.objectPath,
+        functionName: "SetMoveForwardRight",
+        generateTransaction: true,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+      if (e.code === "ERR_NETWORK") {
+        toast.error("네트워크 연결을 확인하세요");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!isMouseHolding) return;
+    switch (controlEvent) {
+      case ControlPanelEvent.MOVE_LEFT:
+        {
+          repeat(moveLeft);
+        }
+
+        break;
+      case ControlPanelEvent.MOVE_RIGHT:
+        {
+          repeat(moveRight);
+        }
+        break;
+      default:
+        break;
+    }
+  }, [isMouseHolding, controlEvent, player?.objectPath]);
+
   return (
     <Panel>
       <JumpButton
         onClick={onJump}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.JUMP)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onTouchEnd={handleMouseUp}
       >
         <Arrow isPressed={controlEvent === ControlPanelEvent.JUMP && isMouseHolding} />
       </JumpButton>
       <MoveLeftButton
-        onClick={(e) => handleBackward(e, 1)}
+        onClick={moveLeft}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onTouchEnd={handleMouseUp}
       >
         <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_LEFT && isMouseHolding} />
       </MoveLeftButton>
       <MoveRightButton
-        onClick={(e) => handleForward(e, 1)}
+        onClick={moveRight}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onTouchEnd={handleMouseUp}
       >
         <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_RIGHT && isMouseHolding} />
       </MoveRightButton>
@@ -134,6 +151,8 @@ export default function ControlPanel() {
         onClick={handleFire}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.FIRE)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onTouchEnd={handleMouseUp}
       >
         <Fire isPressed={controlEvent === ControlPanelEvent.FIRE && isMouseHolding} />
       </FireButton>
