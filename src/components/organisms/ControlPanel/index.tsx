@@ -68,6 +68,7 @@ export default function ControlPanel() {
       }, 500);
     });
   };
+
   const moveLeft = async () => {
     try {
       await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -82,6 +83,7 @@ export default function ControlPanel() {
       }
     }
   };
+
   const moveRight = async () => {
     try {
       await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -122,6 +124,8 @@ export default function ControlPanel() {
         onClick={onJump}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.JUMP)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onTouchEnd={handleMouseUp}
       >
         <Arrow isPressed={controlEvent === ControlPanelEvent.JUMP && isMouseHolding} />
       </JumpButton>
@@ -129,6 +133,8 @@ export default function ControlPanel() {
         onClick={moveLeft}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onTouchEnd={handleMouseUp}
       >
         <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_LEFT && isMouseHolding} />
       </MoveLeftButton>
@@ -136,6 +142,8 @@ export default function ControlPanel() {
         onClick={moveRight}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onTouchEnd={handleMouseUp}
       >
         <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_RIGHT && isMouseHolding} />
       </MoveRightButton>
@@ -143,6 +151,8 @@ export default function ControlPanel() {
         onClick={handleFire}
         onMouseDown={() => handleMouseDown(ControlPanelEvent.FIRE)}
         onMouseUp={handleMouseUp}
+        onTouchStart={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onTouchEnd={handleMouseUp}
       >
         <Fire isPressed={controlEvent === ControlPanelEvent.FIRE && isMouseHolding} />
       </FireButton>
