@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
@@ -14,7 +15,7 @@ import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import wrapper from "@/slices/store";
-import { KaKaoLoginUser, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { KaKaoLoginUser, Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import theme from "@/styles/theme";
 
@@ -28,6 +29,7 @@ export interface MyAppProps extends AppProps {
 }
 
 function MyApp(props: MyAppProps) {
+  const router = useRouter();
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const gameRound = useGameRound();
@@ -52,15 +54,29 @@ function MyApp(props: MyAppProps) {
         });
       })
       .catch(() => {
-        // router.replace(Page.HOME);
         toast.error("언리얼 게임모드 상대경로 정보 요청 실패");
       });
   }, []);
 
+  const isProtectedRoute = (url: string) => {
+    const protectedRoutes: string[] = [
+      Page.CUSTOMIZE_DESIGN,
+      Page.GOING_TO_HANGAR,
+      Page.NAME_YOUR_ROBOT,
+      Page.PLAY,
+      Page.SELECT_MODEL,
+      Page.WELCOME_BACK,
+    ];
+    return protectedRoutes.includes(url);
+  };
+
   useEffect(() => {
     // furo 사용자 데려오기
     window.Furo.getUser().then((user: KaKaoLoginUser) => {
-      if (_.isNil(user)) return;
+      if (_.isNil(user)) {
+        if (isProtectedRoute(router.asPath)) router.replace(Page.HOME);
+        return;
+      }
 
       const { uid, display_name, profile_url } = user;
       authorize({
@@ -69,7 +85,7 @@ function MyApp(props: MyAppProps) {
         image: profile_url,
       });
     });
-  }, []);
+  }, [router.asPath]);
   return (
     <CacheProvider value={emotionCache}>
       <Head>
