@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import _ from "lodash";
 
-import { getPlayer } from "@/firebase/players";
+import { createPlayer, getPlayer } from "@/firebase/players";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
@@ -35,9 +35,11 @@ export default function HomePage() {
         displayName: display_name,
         image: profile_url,
       });
+
       // 이전에 플레이한 경험이 있는 사용자라면,
       // 로봇 커스텀 정보를 불러오기
       getPlayer(uid).then(async (res) => {
+        console.log(res);
         // 만약 로그인한 사용자에 대해 서버에 저장된 로봇 캐릭터 정보가 있다면,
         if (res.length !== 0) {
           const { uid, headTag, modelType, modelColor, score, playedNum, gotFirstPlace } = res[0];
@@ -52,6 +54,13 @@ export default function HomePage() {
             playedNum: playedNum ?? 0,
             objectPath: player?.objectPath,
             gotFirstPlace: gotFirstPlace ?? 0,
+          });
+        } else {
+          // 없다면, 새로운 문서 생성
+          createPlayer({
+            uid: uid,
+            profileUrl: profile_url,
+            username: display_name,
           });
         }
         // 사용자가 입장할 섹션을 선택하는 페이지로 이동
