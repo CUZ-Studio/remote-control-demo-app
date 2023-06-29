@@ -7,15 +7,17 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import axios from "axios";
 import _ from "lodash";
+import { Provider as ReduxProvider } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
+import { PersistGate } from "redux-persist/integration/react";
 
 import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
-import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
-import wrapper from "@/slices/store";
-import { KaKaoLoginUser, Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import useUser from "@/hooks/useUser";
+import { persistor, store, wrapper } from "@/slices/store";
+import { Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import theme from "@/styles/theme";
 
@@ -32,8 +34,8 @@ function MyApp(props: MyAppProps) {
   const router = useRouter();
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
+  const user = useUser();
   const gameRound = useGameRound();
-  const { authorize } = useAuthActions();
   const { updateGameRound } = useGameActions();
 
   useEffect(() => {
@@ -66,50 +68,45 @@ function MyApp(props: MyAppProps) {
       Page.PLAY,
       Page.SELECT_MODEL,
       Page.WELCOME_BACK,
+      Page.START_YOUR_JOURNEY,
     ];
     return protectedRoutes.includes(url);
   };
 
   useEffect(() => {
     // furo 사용자 데려오기
-    window.Furo.getUser().then((user: KaKaoLoginUser) => {
-      if (_.isNil(user)) {
-        if (isProtectedRoute(router.asPath)) router.replace(Page.HOME);
-        return;
-      }
-
-      const { uid, display_name, profile_url } = user;
-      authorize({
-        uid,
-        displayName: display_name,
-        image: profile_url,
-      });
-    });
+    if (_.isNil(user)) {
+      if (isProtectedRoute(router.asPath)) router.replace(Page.HOME);
+    }
   }, [router.asPath]);
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <BasicLayout>
-          <Component {...pageProps} />
-        </BasicLayout>
-        <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          hideProgressBar
-          newestOnTop={true}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          pauseOnHover
-          theme="dark"
-          limit={1}
-        />
-      </ThemeProvider>
+      <ReduxProvider store={store}>
+        <PersistGate persistor={persistor} loading={null}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <BasicLayout>
+              <Component {...pageProps} />
+            </BasicLayout>
+            <ToastContainer
+              position="top-center"
+              autoClose={1000}
+              hideProgressBar
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              pauseOnHover
+              theme="dark"
+              limit={1}
+            />
+          </ThemeProvider>
+        </PersistGate>
+      </ReduxProvider>
     </CacheProvider>
   );
 }

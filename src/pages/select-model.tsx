@@ -7,6 +7,7 @@ import Model from "@/components/organisms/Model";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
+import { Player } from "@/slices/game";
 import { ButtonShape, Page, RobotModelType } from "@/types";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -31,12 +32,13 @@ export default function SelectRobot() {
 
   const selectModel = (modelType: RobotModelType) => {
     assignPlayer({
-      ...player,
+      ...(player as Player),
       model: modelType,
     });
   };
 
   const getDescription = (modelType: RobotModelType) => {
+    if (modelType === undefined) return;
     switch (modelType) {
       case RobotModelType.PROBE:
         return `둥둥이 로봇,\n화가 나면 복어처럼 부풀어올라요!`;
@@ -50,7 +52,7 @@ export default function SelectRobot() {
 
   useEffect(() => {
     assignPlayer({
-      ...player,
+      ...(player as Player),
       color: undefined,
     });
   }, []);
@@ -72,20 +74,20 @@ export default function SelectRobot() {
             />
           </Canvas>
         </CanvasWrapper>
-        <RobotDescription>{getDescription(player.model)}</RobotDescription>
+        <RobotDescription>{getDescription(player?.model as RobotModelType)}</RobotDescription>
       </MainSection>
       <OptionBox>
         <Option
           type="button"
           onClick={() => selectModel(RobotModelType.PENGUIN)}
-          isSelected={player.model === RobotModelType.PENGUIN}
+          isSelected={player?.model === RobotModelType.PENGUIN}
         >
           <Image width={77} height={77} src="/assets/images/models/penguin.svg" alt="penguin" />
         </Option>
         <Option
           type="button"
           onClick={() => selectModel(RobotModelType.SMART_DRONE)}
-          isSelected={player.model === RobotModelType.SMART_DRONE}
+          isSelected={player?.model === RobotModelType.SMART_DRONE}
         >
           <Image
             width={77}
@@ -97,7 +99,7 @@ export default function SelectRobot() {
         <Option
           type="button"
           onClick={() => selectModel(RobotModelType.PROBE)}
-          isSelected={player.model === RobotModelType.PROBE}
+          isSelected={player?.model === RobotModelType.PROBE}
         >
           <Image width={77} height={77} src="/assets/images/models/probe.svg" alt="probe" />
         </Option>

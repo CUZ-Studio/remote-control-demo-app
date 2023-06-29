@@ -5,6 +5,7 @@ import BasicButton from "@/components/atoms/BasicButton";
 import { ColorPalette } from "@/components/organisms/Model/styles";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
+import { Player } from "@/slices/game";
 import { ButtonShape, RobotColor, RobotModelType } from "@/types";
 
 export const modelColorState = proxy({
@@ -16,7 +17,7 @@ export const modelColorState = proxy({
 });
 
 interface Props {
-  modelType: RobotModelType;
+  modelType: RobotModelType | undefined;
 }
 
 export default function Picker({ modelType }: Props) {
@@ -38,7 +39,7 @@ export default function Picker({ modelType }: Props) {
       }
     })();
     assignPlayer({
-      ...player,
+      ...(player as Player),
       color: modelColor,
     });
     if (key) modelColorState.items[key] = modelColor;

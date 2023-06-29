@@ -20,5 +20,5 @@ export default function Model() {
     }
   };
 
-  return <>{getModel(player?.model)}</>;
+  return <>{getModel(player?.model as RobotModelType)}</>;
 }

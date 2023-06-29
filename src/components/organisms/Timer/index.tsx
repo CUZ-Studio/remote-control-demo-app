@@ -7,6 +7,7 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
+import { Player } from "@/slices/game";
 import { Page } from "@/types";
 
 export default function Countdown() {
@@ -19,7 +20,7 @@ export default function Countdown() {
   const [isGaming, setIsGaming] = useState(true);
 
   const targetDate = useMemo(() => {
-    return gameRound.timeLeft * 1000 + new Date().getTime();
+    return (gameRound?.timeLeft || 0) * 1000 + new Date().getTime();
     // 플레이어 상대경로가 변화할 때마다 새로운 라운드가 시작했다는 의미이므로,
     // 남은 시간을 다시 계산해줘야 함
   }, [gameRound?.timeLeft, player?.objectPath]);
@@ -62,20 +63,22 @@ export default function Countdown() {
         setRestTimeLeft(0);
         setIsGaming(true);
 
-        const tempAllRoundScore = player.allRoundScore ? { ...player.allRoundScore } : {};
-        tempAllRoundScore[gameRound.currentRoundName] = player.thisRoundScore;
+        const tempAllRoundScore = player?.allRoundScore ? { ...player.allRoundScore } : {};
+        if (gameRound.currentRoundName)
+          tempAllRoundScore[gameRound.currentRoundName] = player?.thisRoundScore as number;
 
         // 쉬는 시간이 끝나면,
         // 재출동 페이지로 이동
         router.push(Page.WELCOME_BACK).then(() => {
-          updatePlayer({
-            documentId: user.uid,
-            updated: {
-              score: tempAllRoundScore,
-            },
-          });
+          if (user)
+            updatePlayer({
+              documentId: user?.uid,
+              updated: {
+                score: tempAllRoundScore,
+              },
+            });
           assignPlayer({
-            ...player,
+            ...(player as Player),
             objectPath: undefined,
             allRoundScore: tempAllRoundScore,
           });
@@ -100,16 +103,16 @@ export default function Countdown() {
           thisRoundBestPlayerUID,
         });
 
-        if (thisRoundBestPlayerUID === player.uid) {
+        if (player && thisRoundBestPlayerUID === player.uid) {
           updatePlayer({
-            documentId: player.uid,
+            documentId: player.uid as string,
             updated: {
               gotFirstPlace: player.gotFirstPlace ?? 0 + 1,
             },
           });
           assignPlayer({
-            ...player,
-            gotFirstPlace: player.gotFirstPlace ?? 0 + 1,
+            ...(player as Player),
+            gotFirstPlace: player?.gotFirstPlace ?? 0 + 1,
           });
         }
       });
