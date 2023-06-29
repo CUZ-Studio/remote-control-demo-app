@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import _ from "lodash";
 
 import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
@@ -17,7 +18,15 @@ export default function Countdown() {
   const user = useUser();
   const player = usePlayer();
   const { assignPlayer, updateGameRound } = useGameActions();
-  const [isGaming, setIsGaming] = useState(true);
+  const [isGaming, setIsGaming] = useState(false);
+
+  const countDown = useMemo(() => {
+    if (_.isNil(gameRound?.timeLeft)) return 0;
+    if (gameRound?.timeLeft - 180 > 0)
+      return (gameRound?.timeLeft - 180 + 1) * 1000 + new Date().getTime();
+    return 0;
+  }, [gameRound?.timeLeft]);
+  const [countDownLeft, setCountDownLeft] = useState(countDown - Date.now());
 
   const targetDate = useMemo(() => {
     return (gameRound?.timeLeft || 0) * 1000 + new Date().getTime();
@@ -29,6 +38,29 @@ export default function Countdown() {
   const targetRestTime = 28 * 1000 + new Date().getTime();
   const [restTimeLeft, setRestTimeLeft] = useState(targetRestTime - Date.now());
 
+  // 카운트다운 타이머
+  useEffect(() => {
+    if (countDownLeft < 0) return;
+
+    const interval = setInterval(() => {
+      const countDownOffset = countDown - Date.now();
+      if (countDownOffset > 0) {
+        setCountDownLeft(countDown - Date.now());
+        updateGameRound({
+          ...gameRound,
+          isGameInProgress: false,
+        });
+      } else {
+        setGameTimeLeft(180 * 1000);
+        updateGameRound({
+          ...gameRound,
+          isGameInProgress: true,
+        });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [countDown]);
+
   // 게임 시간 타이머
   useEffect(() => {
     // 계산된 게임 시간이 0보다 적을 때 타이머를 진행하지 않음
@@ -37,6 +69,7 @@ export default function Countdown() {
     const interval = setInterval(() => {
       const gameTimeOffset = targetDate - Date.now();
       if (gameTimeOffset > 0) {
+        setIsGaming(true);
         setGameTimeLeft(targetDate - Date.now());
       } else {
         setGameTimeLeft(0);
@@ -119,12 +152,18 @@ export default function Countdown() {
   }, [isGaming]);
 
   return (
-    <div style={{ visibility: "hidden" }}>
-      {isGaming
-        ? `게임 시간: ${gameTimeLeft.toString().substring(0, gameTimeLeft.toString().length - 3)}초`
-        : `쉬는 시간: ${restTimeLeft
-            .toString()
-            .substring(0, restTimeLeft.toString().length - 3)}초`}
+    <div>
+      <div>{isGaming ? "게임중" : "게임안하는 중"}</div>
+      <div>
+        카운트다운:{" "}
+        {countDownLeft.toString().substring(0, countDownLeft.toString().length - 3) || 0}초
+      </div>
+      <div>
+        게임 시간: {gameTimeLeft.toString().substring(0, gameTimeLeft.toString().length - 3) || 0}초
+      </div>
+      <div>
+        쉬는 시간: {restTimeLeft.toString().substring(0, restTimeLeft.toString().length - 3) || 0}초
+      </div>
     </div>
   );
 }

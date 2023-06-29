@@ -41,13 +41,11 @@ export default function WelcomeBack() {
   const gameRound = useGameStatus();
   const { assignPlayer, updateGameRound } = useGameActions();
 
-  const maxScore = useMemo(
-    () =>
-      Object.values(player?.allRoundScore ?? {}).length
-        ? Math.max(...Object.values(player?.allRoundScore ?? {}).map((elem) => Number(elem)))
-        : 0,
-    [player?.allRoundScore],
-  );
+  const maxScore = useMemo(() => {
+    return Object.values(player?.allRoundScore ?? {}).length
+      ? Math.max(...Object.values(player?.allRoundScore ?? {}).map((elem) => Number(elem)))
+      : 0;
+  }, [player?.allRoundScore]);
 
   // 재-게임시 실행하게 되는 함수
   const createCharacter: MouseEventHandler = (e) => {
