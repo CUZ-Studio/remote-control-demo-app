@@ -8,7 +8,7 @@ import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
 import ErrorBox from "@/components/atoms/ErrorBox";
 import Model from "@/components/organisms/Model";
-import { createPlayer } from "@/firebase/players";
+import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
@@ -83,15 +83,15 @@ export default function NameYourRobot() {
         if (createdCharacterInfo) {
           // firebase 데이터베이스에 새로운 플레이어 생성 요청
           if (_.isNil(user) || _.isNil(player)) return;
-          createPlayer({
-            uid: user?.uid,
-            profileUrl: user.image,
-            headTag: inputValue as string,
-            modelColor: player.color as RobotColor,
-            modelType: player.model as RobotModelType,
-            username: user.displayName,
-            score: player.allRoundScore ?? {},
-            playedNum: player.playedNum ?? 0,
+          updatePlayer({
+            documentId: user?.uid,
+            updated: {
+              headTag: inputValue as string,
+              modelColor: player.color as RobotColor,
+              modelType: player.model as RobotModelType,
+              score: player.allRoundScore ?? {},
+              playedNum: player.playedNum ?? 0,
+            },
           });
 
           // 전역상태로 새로운 플레이어 정보 저장
