@@ -43,7 +43,6 @@ export default function HomePage() {
           const { uid, headTag, modelType, modelColor, score, playedNum, gotFirstPlace } = res[0];
 
           assignPlayer({
-            ...player,
             uid: uid,
             headTag,
             model: modelType,
@@ -51,6 +50,7 @@ export default function HomePage() {
             thisRoundScore: 0,
             allRoundScore: score ?? {},
             playedNum: playedNum ?? 0,
+            objectPath: player?.objectPath,
             gotFirstPlace: gotFirstPlace ?? 0,
           });
         }

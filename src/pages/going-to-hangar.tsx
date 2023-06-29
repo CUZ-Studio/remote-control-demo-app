@@ -38,12 +38,13 @@ export default function GoingToHangar() {
         });
       });
     // firebase 데이터베이스에 출동횟수 + 1한 값으로 업데이트
-    updatePlayer({
-      documentId: player.uid,
-      updated: {
-        playedNum: player.playedNum ? player.playedNum + 1 : 1,
-      },
-    });
+    if (player.uid)
+      updatePlayer({
+        documentId: player.uid,
+        updated: {
+          playedNum: player.playedNum ? player.playedNum + 1 : 1,
+        },
+      });
     // 전역 상태에 출동회수 +1한 값으로 업데이트
     assignPlayer({
       ...player,

@@ -9,6 +9,7 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
+import { Player } from "@/slices/game";
 import { ButtonShape, Page } from "@/types";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -42,10 +43,10 @@ export default function WelcomeBack() {
 
   const maxScore = useMemo(
     () =>
-      Object.values(player.allRoundScore ?? {}).length
-        ? Math.max(...Object.values(player.allRoundScore).map((elem) => Number(elem)))
+      Object.values(player?.allRoundScore ?? {}).length
+        ? Math.max(...Object.values(player?.allRoundScore ?? {}).map((elem) => Number(elem)))
         : 0,
-    [player.allRoundScore],
+    [player?.allRoundScore],
   );
 
   // 재-게임시 실행하게 되는 함수
@@ -59,10 +60,10 @@ export default function WelcomeBack() {
         objectPath: gameRound.gameModeBaseObjectPath,
         functionName: "BindingCharacter",
         parameters: {
-          Model: player.model,
-          Color: player.color,
-          Name: player.headTag,
-          UID: user.uid,
+          Model: player?.model,
+          Color: player?.color,
+          Name: player?.headTag,
+          UID: user?.uid,
         },
         generateTransaction: true,
       })
@@ -71,8 +72,8 @@ export default function WelcomeBack() {
         // 전역상태로 새로운 플레이어 정보 저장
         // 새로운 라운드를 위해 점수는 0점으로 리셋
         assignPlayer({
-          ...player,
-          uid: user.uid,
+          ...(player as Player),
+          uid: user?.uid,
           thisRoundScore: 0,
           objectPath: createdCharacterInfo.CharacterPath,
         });
@@ -99,7 +100,7 @@ export default function WelcomeBack() {
         <GameHistory>
           <Unit>
             <HistoryName>출동수</HistoryName>
-            <HistoryContext>{player.playedNum}회</HistoryContext>
+            <HistoryContext>{player?.playedNum}회</HistoryContext>
           </Unit>
           <Unit>
             <HistoryName>전체랭킹</HistoryName>
@@ -124,7 +125,7 @@ export default function WelcomeBack() {
             />
           </Canvas>
           <StarBox>
-            {Array.from(Array(player.gotFirstPlace)).map((_, index) => (
+            {Array.from(Array(player?.gotFirstPlace)).map((_, index) => (
               <Image
                 key={`star-${index}`}
                 src="/assets/images/star.svg"
@@ -135,7 +136,7 @@ export default function WelcomeBack() {
             ))}
           </StarBox>
         </CanvasWrapper>
-        <RobotName>{player.headTag}</RobotName>
+        <RobotName>{player?.headTag}</RobotName>
       </MainSection>
       <ButtonWrapper>
         <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>

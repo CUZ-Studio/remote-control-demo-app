@@ -1,6 +1,25 @@
-import { createWrapper, HYDRATE } from "next-redux-wrapper";
-import { Action, applyMiddleware, combineReducers, createStore, Middleware } from "redux";
-import thunkMiddleware, { ThunkAction } from "redux-thunk";
+import { createWrapper, MakeStore } from "next-redux-wrapper";
+import { combineReducers, Store } from "redux";
+import logger from "redux-logger";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+import {
+  Action,
+  configureStore,
+  EnhancedStore,
+  getDefaultMiddleware,
+  ThunkAction,
+} from "@reduxjs/toolkit";
 
 import game, { GameState } from "./game";
 import auth, { AuthState } from "./user";
@@ -10,48 +29,39 @@ export interface ReducerState {
   game: GameState;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const bindMiddleware = (middleware: Middleware<any, any, any>[]) => {
-  if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { composeWithDevTools } = require("redux-devtools-extension");
-    return composeWithDevTools(applyMiddleware(...middleware));
-  }
-  return applyMiddleware(...middleware);
+const persistConfig = {
+  key: "root",
+  version: 1,
+  storage,
 };
 
-const combinedReducer = combineReducers({
+const rootReducer = combineReducers({
   auth,
   game,
 });
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const rootReducer = (state: any, action: any) => {
-  if (action.type === HYDRATE) {
-    const nextState = {
-      ...state,
-      ...action.payload,
-    };
-    if (state.auth.user) nextState.auth.user = state.auth.user;
-    if (state.game.player) nextState.game.player = state.game.player;
-    if (state.game.gameRound) nextState.game.gameRound = state.game.gameRound;
-    return nextState;
-  } else {
-    return combinedReducer(state, action);
-  }
-};
-
-const makeStore = () => {
-  return createStore(rootReducer, bindMiddleware([thunkMiddleware]));
-};
-
-export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = AppStore["dispatch"];
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
-
-const wrapper = createWrapper<AppStore>(makeStore, {
-  debug: process.env.NODE_ENV === "development",
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }).concat(logger),
 });
 
-export default wrapper;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+const setupStore = (context: any): EnhancedStore => store;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const makeStore: MakeStore<any> = (context: any) => setupStore(context);
+export const persistor = persistStore(store);
+export const wrapper = createWrapper<Store>(makeStore);
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;

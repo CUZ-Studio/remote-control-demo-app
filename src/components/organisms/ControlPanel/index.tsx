@@ -1,11 +1,13 @@
 import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
 import axios from "axios";
+import _ from "lodash";
 import { toast } from "react-toastify";
 
 import Arrow from "@/components/atoms/Arrow";
 import Fire from "@/components/atoms/Fire";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
+import { Player } from "@/slices/game";
 import { ControlPanelEvent } from "@/types";
 
 import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
@@ -34,23 +36,32 @@ export default function ControlPanel() {
     timer = setInterval(callback, 10);
   };
 
-  const onJump: MouseEventHandler = async () =>
-    await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player.objectPath,
+  const onJump: MouseEventHandler = async () => {
+    if (_.isNil(player?.objectPath)) return;
+
+    return await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+      objectPath: player?.objectPath,
       functionName: "OnJump",
     });
+  };
 
-  const onFire = async () =>
-    await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player.objectPath,
+  const onFire = async () => {
+    if (_.isNil(player?.objectPath)) return;
+
+    return await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+      objectPath: player?.objectPath,
       functionName: "OnFire",
     });
+  };
 
-  const getScore = async () =>
-    await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player.objectPath,
+  const getScore = async () => {
+    if (_.isNil(player?.objectPath)) return;
+
+    return await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+      objectPath: player?.objectPath,
       functionName: "GetPlayerScore",
     });
+  };
 
   const handleFire = (e: MouseEvent) => {
     e.preventDefault();
@@ -60,8 +71,9 @@ export default function ControlPanel() {
       // 0.5초 뒤에 점수 요청 및 전역 상태 업데이트
       setTimeout(() => {
         getScore().then((res) => {
+          if (_.isNil(res)) return;
           assignPlayer({
-            ...player,
+            ...(player as Player),
             thisRoundScore: res.data.PlayerScore,
           });
         });
@@ -71,8 +83,10 @@ export default function ControlPanel() {
 
   const moveLeft = async () => {
     try {
+      if (_.isNil(player?.objectPath)) return;
+
       await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: player.objectPath,
+        objectPath: player?.objectPath,
         functionName: "SetMoveForwardLeft",
         generateTransaction: true,
       });
@@ -86,8 +100,10 @@ export default function ControlPanel() {
 
   const moveRight = async () => {
     try {
+      if (_.isNil(player?.objectPath)) return;
+
       await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: player.objectPath,
+        objectPath: player?.objectPath,
         functionName: "SetMoveForwardRight",
         generateTransaction: true,
       });

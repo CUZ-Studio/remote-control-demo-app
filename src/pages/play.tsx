@@ -21,8 +21,8 @@ export default function PlayGame() {
             height={17}
           />
         ))}
-        <PlayerName>{player.headTag}</PlayerName>
-        <Score>{player.thisRoundScore || 0}</Score>
+        <PlayerName>{player?.headTag}</PlayerName>
+        <Score>{player?.thisRoundScore || 0}</Score>
       </PlayerInfoBox>
       <ControlPanel />
       <GameStatusBar />

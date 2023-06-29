@@ -56,6 +56,15 @@ export default function Header() {
     }
   })();
 
+  const isVisible = (() => {
+    switch (router.asPath) {
+      case Page.HOME:
+        return false;
+      default:
+        return true;
+    }
+  })();
+
   const getPreviousPage = (() => {
     switch (router.asPath) {
       case Page.NAME_YOUR_ROBOT:
@@ -92,18 +101,18 @@ export default function Header() {
     }
   };
   return (
-    <Root showUserOnHeader={showUserOnHeader}>
+    <Root showUserOnHeader={showUserOnHeader} isVisible={isVisible}>
       <Inner isMobile={isMobile}>
         {showUserOnHeader ? (
           <ProfileBox>
-            {user.image ? (
+            {user?.image ? (
               <ProfileImageWrapper>
                 <Image width={47} height={47} src={user.image} alt={user.displayName} />
               </ProfileImageWrapper>
             ) : (
               <ProfileImage />
             )}
-            <UserName>{user.displayName}</UserName>
+            <UserName>{user?.displayName}</UserName>
           </ProfileBox>
         ) : (
           <ArrowBackIcon onClick={() => router.push(getPreviousPage)}>

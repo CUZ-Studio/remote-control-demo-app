@@ -1,4 +1,3 @@
-import useUser from "@/hooks/useUser";
 import { ButtonShape } from "@/types";
 
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/styles/home.styles";
 
 export default function HomePage() {
-  const user = useUser();
   return (
     <Container>
       <MainSection>
@@ -25,7 +23,6 @@ export default function HomePage() {
       <ButtonWrapper>
         <StartButton
           type="button"
-          disabled={!!user}
           shape={ButtonShape.RECTANGLE}
           onClick={() => {
             (window as Window).location = process.env.NEXT_PUBLIC_FURO_OAUTH_CUSTOM_URL as string;

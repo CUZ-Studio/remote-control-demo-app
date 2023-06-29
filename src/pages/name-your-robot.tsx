@@ -2,6 +2,7 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import _ from "lodash";
 
 import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
@@ -12,7 +13,7 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { ButtonShape, Page } from "@/types";
+import { ButtonShape, Page, RobotColor, RobotModelType } from "@/types";
 import isProfane from "@/utils/isProfane";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -52,12 +53,12 @@ export default function NameYourRobot() {
       return;
     }
 
-    if (/[`~!@#$%^&*|\\'",;:/?]/gi.test(inputValue)) {
+    if (/[`~!@#$%^&*|\\'",;:/?]/gi.test(inputValue as string)) {
       setErrorMessage("문자 또는 숫자만 사용가능합니다");
       return;
     }
 
-    if (isProfane({ keyword: inputValue })) {
+    if (isProfane({ keyword: inputValue as string })) {
       setErrorMessage("비속어를 포함하고 있습니다");
       return;
     }
@@ -70,10 +71,10 @@ export default function NameYourRobot() {
         objectPath: gameRound.gameModeBaseObjectPath,
         functionName: "BindingCharacter",
         parameters: {
-          Model: player.model,
-          Color: player.color,
+          Model: player?.model,
+          Color: player?.color,
           Name: inputValue,
-          UID: user.uid,
+          UID: user?.uid,
         },
         generateTransaction: true,
       })
@@ -81,12 +82,13 @@ export default function NameYourRobot() {
         const createdCharacterInfo = res.data;
         if (createdCharacterInfo) {
           // firebase 데이터베이스에 새로운 플레이어 생성 요청
+          if (_.isNil(user) || _.isNil(player)) return;
           createPlayer({
-            uid: user.uid,
+            uid: user?.uid,
             profileUrl: user.image,
-            headTag: inputValue,
-            modelColor: player.color,
-            modelType: player.model,
+            headTag: inputValue as string,
+            modelColor: player.color as RobotColor,
+            modelType: player.model as RobotModelType,
             username: user.displayName,
             score: player.allRoundScore ?? {},
             playedNum: player.playedNum ?? 0,
@@ -136,7 +138,7 @@ export default function NameYourRobot() {
         <StyledForm noValidate onSubmit={createCharacter}>
           <InputWrapper>
             <BasicInput
-              value={inputValue}
+              value={inputValue as string}
               error={!!errorMessage}
               onChange={handleChange}
               onFocus={() => setErrorMessage("")}

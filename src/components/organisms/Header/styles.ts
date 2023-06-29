@@ -2,8 +2,9 @@ import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { styled } from "@mui/material/styles";
 
 export const Root = styled("header", {
-  shouldForwardProp: (props) => props !== "showUserOnHeader",
+  shouldForwardProp: (props) => props !== "isVisible" && props !== "showUserOnHeader",
 })<{
+  isVisible: boolean;
   showUserOnHeader: boolean;
 }>`
   position: fixed;
@@ -11,6 +12,7 @@ export const Root = styled("header", {
   width: 100%;
   height: ${({ showUserOnHeader }) => (showUserOnHeader ? "11.7vh" : "10.5vh")};
   z-index: 9;
+  visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
 `;
 
 export const Inner = styled("div", {

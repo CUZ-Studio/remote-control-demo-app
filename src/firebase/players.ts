@@ -23,7 +23,9 @@ interface Props {
   modelColor: RobotColor;
   modelType: RobotModelType;
   username: string;
-  score: number[]; // 지금까지 출동해서 받은 점수들의 배열
+  score: {
+    [key: string]: number;
+  }; // 지금까지 출동해서 받은 점수들의 배열
   playedNum: number;
 }
 
@@ -73,7 +75,9 @@ const updatePlayer = async ({
 }: {
   documentId: string;
   updated: {
-    score?: number[];
+    score?: {
+      [key: string]: number;
+    };
     playedNum?: number;
     gotFirstPlace?: number;
   };
