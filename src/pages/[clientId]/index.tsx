@@ -39,7 +39,6 @@ export default function HomePage() {
       // 이전에 플레이한 경험이 있는 사용자라면,
       // 로봇 커스텀 정보를 불러오기
       getPlayer(uid).then(async (res) => {
-        console.log(res);
         // 만약 로그인한 사용자에 대해 서버에 저장된 로봇 캐릭터 정보가 있다면,
         if (res.length !== 0) {
           const { uid, headTag, modelType, modelColor, score, playedNum, gotFirstPlace } = res[0];
