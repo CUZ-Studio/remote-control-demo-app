@@ -2,7 +2,7 @@ import usePlayer from "@/hooks/usePlayer";
 import { RobotModelType } from "@/types";
 
 import Penguin from "./Penguin";
-import Probe from "./Probe";
+import Probe from "./Probe_anim";
 import SmartDrone from "./SmartDrone";
 
 export default function Model() {

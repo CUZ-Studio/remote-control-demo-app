@@ -25,7 +25,7 @@ export const Inner = styled("div", {
   align-items: center;
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   height: 100%;
-  padding: 3vh 3.8%;
+  padding: 3vh 32px;
   margin: 0 auto;
   background: ${({ theme }) => theme.palette.common.white};
 `;
