@@ -9,6 +9,7 @@ export interface Player {
   headTag: string | undefined;
   model: RobotModelType | undefined;
   color: RobotColor | undefined;
+  highestRankEver: number | undefined;
   thisRoundScore: number | undefined;
   allRoundScore:
     | {
@@ -40,6 +41,7 @@ const initialState: GameState = {
     headTag: undefined,
     model: undefined,
     color: undefined,
+    highestRankEver: undefined,
     thisRoundScore: undefined,
     allRoundScore: undefined,
     playedNum: undefined,
