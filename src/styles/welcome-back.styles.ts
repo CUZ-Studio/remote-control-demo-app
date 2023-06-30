@@ -110,7 +110,7 @@ export const CanvasWrapper = styled("div")`
   width: 100%;
 `;
 
-export const StarBox = styled("div")`
+export const RewardBox = styled("div")`
   position: absolute;
   bottom: 0;
   z-index: 3;
@@ -118,6 +118,7 @@ export const StarBox = styled("div")`
   margin: 0 auto;
   left: 50%;
   transform: translateX(-50%);
+  gap: 2px;
 `;
 
 export const RobotName = styled("span")`

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
@@ -11,9 +11,16 @@ import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
 import { Page } from "@/types";
 
+enum TimeSchedule {
+  COUNTDOWN = "countdown",
+  GAMING = "gaming",
+  RESTTIME = "resttiem",
+}
+
 export default function Countdown() {
   const router = useRouter();
   const gameRound = useGameStatus();
+  const [currentTimeSchedule, setCurrentTimeSchedule] = useState(TimeSchedule.COUNTDOWN);
 
   const user = useUser();
   const player = usePlayer();
@@ -29,7 +36,7 @@ export default function Countdown() {
   const [countDownLeft, setCountDownLeft] = useState(countDown - Date.now());
 
   const targetDate = useMemo(() => {
-    return (gameRound?.timeLeft || 0) * 1000 + new Date().getTime();
+    return ((gameRound?.timeLeft || 0) + 1) * 1000 + new Date().getTime();
     // 플레이어 상대경로가 변화할 때마다 새로운 라운드가 시작했다는 의미이므로,
     // 남은 시간을 다시 계산해줘야 함
   }, [gameRound?.timeLeft, player?.objectPath]);
@@ -42,20 +49,18 @@ export default function Countdown() {
   useEffect(() => {
     if (countDownLeft < 0) return;
 
+    updateGameRound({
+      ...gameRound,
+      isGameInProgress: false,
+    });
     const interval = setInterval(() => {
       const countDownOffset = countDown - Date.now();
       if (countDownOffset > 0) {
         setCountDownLeft(countDown - Date.now());
-        updateGameRound({
-          ...gameRound,
-          isGameInProgress: false,
-        });
+        setCurrentTimeSchedule(TimeSchedule.COUNTDOWN);
       } else {
         setGameTimeLeft(180 * 1000);
-        updateGameRound({
-          ...gameRound,
-          isGameInProgress: true,
-        });
+        setCurrentTimeSchedule(TimeSchedule.GAMING);
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -78,6 +83,7 @@ export default function Countdown() {
           isGameInProgress: false,
         });
         setIsGaming(false);
+        setCurrentTimeSchedule(TimeSchedule.RESTTIME);
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -140,30 +146,38 @@ export default function Countdown() {
           updatePlayer({
             documentId: player.uid as string,
             updated: {
-              gotFirstPlace: player.gotFirstPlace ?? 0 + 1,
+              gotFirstPlace: (player.gotFirstPlace || 0) + 1,
             },
           });
           assignPlayer({
             ...(player as Player),
-            gotFirstPlace: player?.gotFirstPlace ?? 0 + 1,
+            gotFirstPlace: (player?.gotFirstPlace || 0) + 1,
           });
         }
       });
   }, [isGaming]);
 
-  return (
-    <div>
-      <div>{isGaming ? "게임중" : "게임안하는 중"}</div>
-      <div>
-        카운트다운:{" "}
-        {countDownLeft.toString().substring(0, countDownLeft.toString().length - 3) || 0}초
-      </div>
-      <div>
-        게임 시간: {gameTimeLeft.toString().substring(0, gameTimeLeft.toString().length - 3) || 0}초
-      </div>
-      <div>
-        쉬는 시간: {restTimeLeft.toString().substring(0, restTimeLeft.toString().length - 3) || 0}초
-      </div>
-    </div>
-  );
+  const displayTimer = useCallback(() => {
+    switch (currentTimeSchedule) {
+      case TimeSchedule.COUNTDOWN: {
+        return `게임 시작까지 ${
+          countDownLeft.toString().substring(0, countDownLeft.toString().length - 3) || 0
+        }초 남음`;
+      }
+      case TimeSchedule.GAMING: {
+        return `게임 시간이 ${
+          gameTimeLeft.toString().substring(0, gameTimeLeft.toString().length - 3) || 0
+        }초 남음`;
+      }
+      case TimeSchedule.RESTTIME: {
+        return `쉬는 시간이 ${
+          restTimeLeft.toString().substring(0, restTimeLeft.toString().length - 3) || 0
+        }초 남음`;
+      }
+      default:
+        break;
+    }
+  }, [countDownLeft, currentTimeSchedule, gameTimeLeft, restTimeLeft]);
+
+  return <div>{displayTimer()}</div>;
 }

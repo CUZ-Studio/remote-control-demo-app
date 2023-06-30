@@ -25,8 +25,8 @@ import {
   MainSection,
   PlayButton,
   ResetRobot,
+  RewardBox,
   RobotName,
-  StarBox,
   TitleWrapper,
   Unit,
   Welcome,
@@ -122,17 +122,19 @@ export default function WelcomeBack() {
               enableRotate={false}
             />
           </Canvas>
-          <StarBox>
-            {Array.from(Array(player?.gotFirstPlace)).map((_, index) => (
-              <Image
-                key={`star-${index}`}
-                src="/assets/images/star.svg"
-                alt="start"
-                width={17}
-                height={17}
-              />
-            ))}
-          </StarBox>
+          <RewardBox>
+            {Array.from(Array(Number(player?.gotFirstPlace) >= 3 ? 3 : player?.gotFirstPlace)).map(
+              (_, index) => (
+                <Image
+                  key={`star-${index}`}
+                  src="/assets/images/star.svg"
+                  alt="start"
+                  width={17}
+                  height={17}
+                />
+              ),
+            )}
+          </RewardBox>
         </CanvasWrapper>
         <RobotName>{player?.headTag}</RobotName>
       </MainSection>
