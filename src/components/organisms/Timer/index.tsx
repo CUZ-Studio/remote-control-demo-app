@@ -7,6 +7,7 @@ import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
+import usePrevious from "@/hooks/usePrevious";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
 import { Page, TimeSchedule } from "@/types";
@@ -14,6 +15,7 @@ import { Page, TimeSchedule } from "@/types";
 export default function Countdown() {
   const router = useRouter();
   const gameRound = useGameStatus();
+  const prevTimeSchedule = usePrevious(gameRound.currentTimeSchedule);
 
   const user = useUser();
   const player = usePlayer();
@@ -42,28 +44,28 @@ export default function Countdown() {
   useEffect(() => {
     if (countDownLeft < 0) return;
 
-    updateGameRound({
-      ...gameRound,
-      isGameInProgress: false,
-    });
     const interval = setInterval(() => {
       const countDownOffset = countDown - Date.now();
       if (countDownOffset > 0) {
         setCountDownLeft(countDown - Date.now());
         updateGameRound({
           ...gameRound,
+          isGameInProgress: false,
           currentTimeSchedule: TimeSchedule.COUNTDOWN,
         });
       } else {
         setGameTimeLeft(180 * 1000);
-        updateGameRound({
-          ...gameRound,
-          currentTimeSchedule: TimeSchedule.GAMING,
-        });
+        if (prevTimeSchedule === TimeSchedule.COUNTDOWN) {
+          updateGameRound({
+            ...gameRound,
+            isGameInProgress: true,
+            currentTimeSchedule: TimeSchedule.GAMING,
+          });
+        }
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [countDown]);
+  }, [countDown, prevTimeSchedule]);
 
   // 게임 시간 타이머
   useEffect(() => {
@@ -77,19 +79,18 @@ export default function Countdown() {
         setGameTimeLeft(targetDate - Date.now());
       } else {
         setGameTimeLeft(0);
-        updateGameRound({
-          ...gameRound,
-          isGameInProgress: false,
-        });
         setIsGaming(false);
-        updateGameRound({
-          ...gameRound,
-          currentTimeSchedule: TimeSchedule.RESTTIME,
-        });
+        if (prevTimeSchedule === TimeSchedule.GAMING) {
+          updateGameRound({
+            ...gameRound,
+            isGameInProgress: false,
+            currentTimeSchedule: TimeSchedule.RESTTIME,
+          });
+        }
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, [targetDate, prevTimeSchedule]);
 
   // 쉬는 시간 타이머
   useEffect(() => {

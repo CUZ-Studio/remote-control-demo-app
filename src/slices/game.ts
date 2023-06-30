@@ -22,7 +22,7 @@ export interface Player {
 export interface GameRound {
   gameModeBaseObjectPath: string | undefined;
   isGameInProgress: boolean;
-  currentTimeSchedule: TimeSchedule;
+  currentTimeSchedule: TimeSchedule | undefined;
   timeLeft: number | null;
   currentRoundName: string | undefined;
   thisRoundBestPlayerUID: string | undefined;
@@ -48,7 +48,7 @@ const initialState: GameState = {
   gameRound: {
     gameModeBaseObjectPath: undefined,
     isGameInProgress: false,
-    currentTimeSchedule: TimeSchedule.COUNTDOWN,
+    currentTimeSchedule: undefined,
     timeLeft: 0,
     currentRoundName: undefined,
     thisRoundBestPlayerUID: undefined,
