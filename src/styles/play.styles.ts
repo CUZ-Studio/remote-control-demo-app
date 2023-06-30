@@ -15,6 +15,11 @@ export const PlayerInfoBox = styled("div")`
   margin-bottom: 118px;
 `;
 
+export const RewardBox = styled("div")`
+  display: flex;
+  gap: 2px;
+`;
+
 export const PlayerName = styled("span")`
   padding: 4px 25.5px;
   background-color: ${({ theme }) => theme.palette.grey[200]};

@@ -1,6 +1,5 @@
 import { createWrapper, MakeStore } from "next-redux-wrapper";
 import { combineReducers, Store } from "redux";
-import logger from "redux-logger";
 import {
   FLUSH,
   PAUSE,
@@ -47,7 +46,7 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }).concat(logger),
+  }),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars

@@ -1,6 +1,6 @@
 import { HYDRATE } from "next-redux-wrapper";
 
-import { RobotColor, RobotModelType } from "@/types";
+import { RobotColor, RobotModelType, TimeSchedule } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Player {
@@ -22,6 +22,7 @@ export interface Player {
 export interface GameRound {
   gameModeBaseObjectPath: string | undefined;
   isGameInProgress: boolean;
+  currentTimeSchedule: TimeSchedule | undefined;
   timeLeft: number | null;
   currentRoundName: string | undefined;
   thisRoundBestPlayerUID: string | undefined;
@@ -47,6 +48,7 @@ const initialState: GameState = {
   gameRound: {
     gameModeBaseObjectPath: undefined,
     isGameInProgress: false,
+    currentTimeSchedule: undefined,
     timeLeft: 0,
     currentRoundName: undefined,
     thisRoundBestPlayerUID: undefined,

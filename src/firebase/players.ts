@@ -19,36 +19,22 @@ const playersCollection = collection(firestore, "players");
 interface Props {
   uid: string;
   profileUrl: string;
-  headTag: string;
-  modelColor: RobotColor;
-  modelType: RobotModelType;
+  headTag?: string;
+  modelColor?: RobotColor;
+  modelType?: RobotModelType;
   username: string;
-  score: {
+  score?: {
     [key: string]: number;
   }; // 지금까지 출동해서 받은 점수들의 배열
-  playedNum: number;
+  playedNum?: number;
 }
 
-const createPlayer = async ({
-  uid,
-  profileUrl,
-  headTag,
-  modelColor,
-  modelType,
-  username,
-  score,
-  playedNum,
-}: Props) => {
+const createPlayer = async ({ uid, profileUrl, username }: Props) => {
   const _player = doc(firestore, `players/${uid}`);
   const playerData = {
     uid,
     profileUrl,
-    headTag,
-    modelColor,
-    modelType,
     username,
-    score,
-    playedNum,
   };
 
   try {
@@ -75,6 +61,9 @@ const updatePlayer = async ({
 }: {
   documentId: string;
   updated: {
+    headTag?: string;
+    modelColor?: RobotColor;
+    modelType?: RobotModelType;
     score?: {
       [key: string]: number;
     };
