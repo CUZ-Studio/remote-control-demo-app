@@ -75,11 +75,10 @@ export default function ControlPanel() {
       // 0.5초 뒤에 점수 요청 및 전역 상태 업데이트
       setTimeout(() => {
         getScore().then((res) => {
-          console.log(res?.data);
           if (_.isNil(res)) return;
           assignPlayer({
             ...(player as Player),
-            thisRoundScore: res.data.playerScore,
+            thisRoundScore: res.data.PlayerScore,
           });
         });
       }, 500);
