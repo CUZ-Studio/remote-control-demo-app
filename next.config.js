@@ -7,6 +7,10 @@ const nextConfig = {
         protocol: "http",
         hostname: "k.kakaocdn.net",
       },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+      },
     ],
   },
 };

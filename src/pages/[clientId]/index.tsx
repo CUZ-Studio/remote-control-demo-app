@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import _ from "lodash";
 
+import { KAKAO_DEFAULT_PROFILE_IMAGE_URL } from "@/constants/url";
 import { createPlayer, getPlayer } from "@/firebase/players";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import { KaKaoLoginUser, Page } from "@/types";
+import fetchImagesInFirebaseStorage from "@/utils/getImageUrl";
 
 import { Container } from "@/styles/home.styles";
 
@@ -30,10 +32,15 @@ export default function HomePage() {
       if (_.isNil(user)) return;
 
       const { uid, display_name, profile_url } = user;
-      authorize({
-        uid,
-        displayName: display_name,
-        image: profile_url,
+
+      fetchImagesInFirebaseStorage().then((cuzImageUrls) => {
+        const cuzProfileUrl = cuzImageUrls[Math.floor(Math.random() * cuzImageUrls.length)];
+
+        authorize({
+          uid,
+          displayName: display_name,
+          image: profile_url === KAKAO_DEFAULT_PROFILE_IMAGE_URL ? cuzProfileUrl : profile_url,
+        });
       });
 
       // 이전에 플레이한 경험이 있는 사용자라면,

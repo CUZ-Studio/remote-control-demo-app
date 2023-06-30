@@ -11,7 +11,6 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
 import { ButtonShape, Page } from "@/types";
-import fetchImages from "@/utils/getImageUrl";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -54,9 +53,6 @@ export default function WelcomeBack() {
 
     setDisabled(true);
 
-    const cuzImageUrls = await fetchImages();
-    const randomCuzImageUrl = cuzImageUrls[Math.floor(Math.random() * cuzImageUrls.length)];
-
     // 언리얼로 캐릭터 생성 요청 보내기
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -68,7 +64,7 @@ export default function WelcomeBack() {
           Name: player?.headTag,
           UID: user?.uid,
           PlayerWinCount: player?.gotFirstPlace || 0,
-          ProfileURL: user?.image ?? randomCuzImageUrl,
+          ProfileURL: user?.image,
         },
         generateTransaction: true,
       })
