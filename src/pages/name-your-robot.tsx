@@ -14,6 +14,7 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { ButtonShape, Page, RobotColor, RobotModelType } from "@/types";
+import fetchImages from "@/utils/getImageUrl";
 import isProfane from "@/utils/isProfane";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -45,7 +46,7 @@ export default function NameYourRobot() {
     setInputValue(e.currentTarget.value);
   };
 
-  const createCharacter: FormEventHandler = (e) => {
+  const createCharacter: FormEventHandler = async (e) => {
     e.preventDefault();
 
     if (inputValue === "") {
@@ -65,6 +66,9 @@ export default function NameYourRobot() {
 
     setDisabled(true);
 
+    const cuzImageUrls = await fetchImages();
+    const randomCuzImageUrl = cuzImageUrls[Math.floor(Math.random() * cuzImageUrls.length)];
+
     // 언리얼로 캐릭터 생성 요청 보내기
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -75,6 +79,8 @@ export default function NameYourRobot() {
           Color: player?.color,
           Name: inputValue,
           UID: user?.uid,
+          PlayerWinCount: player?.gotFirstPlace || 0,
+          ProfileURL: user?.image ?? randomCuzImageUrl,
         },
         generateTransaction: true,
       })
