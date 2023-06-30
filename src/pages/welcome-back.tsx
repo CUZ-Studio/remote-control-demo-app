@@ -11,6 +11,7 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
 import { ButtonShape, Page } from "@/types";
+import fetchImages from "@/utils/getImageUrl";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -48,10 +49,14 @@ export default function WelcomeBack() {
   }, [player?.allRoundScore]);
 
   // 재-게임시 실행하게 되는 함수
-  const createCharacter: MouseEventHandler = (e) => {
+  const createCharacter: MouseEventHandler = async (e) => {
     e.preventDefault();
 
     setDisabled(true);
+
+    const cuzImageUrls = await fetchImages();
+    const randomCuzImageUrl = cuzImageUrls[Math.floor(Math.random() * cuzImageUrls.length)];
+
     // 언리얼로 캐릭터 생성 요청 보내기
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
@@ -62,6 +67,8 @@ export default function WelcomeBack() {
           Color: player?.color,
           Name: player?.headTag,
           UID: user?.uid,
+          PlayerWinCount: player?.gotFirstPlace || 0,
+          ProfileURL: user?.image ?? randomCuzImageUrl,
         },
         generateTransaction: true,
       })
@@ -88,6 +95,7 @@ export default function WelcomeBack() {
       })
       .catch(() => setDisabled(false));
   };
+
   return (
     <Container>
       <MainSection>
