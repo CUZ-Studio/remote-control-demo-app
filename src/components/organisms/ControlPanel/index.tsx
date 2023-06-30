@@ -79,7 +79,7 @@ export default function ControlPanel() {
           if (_.isNil(res)) return;
           assignPlayer({
             ...(player as Player),
-            thisRoundScore: res.data.PlayerScore,
+            thisRoundScore: res.data.playerScore,
           });
         });
       }, 500);
