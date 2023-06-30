@@ -8,6 +8,7 @@ import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
+import { Player } from "@/slices/game";
 import { KaKaoLoginUser, Page } from "@/types";
 import fetchImagesInFirebaseStorage from "@/utils/getImageUrl";
 
@@ -51,6 +52,7 @@ export default function HomePage() {
           const { uid, headTag, modelType, modelColor, score, playedNum, gotFirstPlace } = res[0];
 
           assignPlayer({
+            ...(player as Player),
             uid: uid,
             headTag,
             model: modelType,
@@ -58,7 +60,6 @@ export default function HomePage() {
             thisRoundScore: 0,
             allRoundScore: score ?? {},
             playedNum: playedNum ?? 0,
-            objectPath: player?.objectPath,
             gotFirstPlace: gotFirstPlace ?? 0,
           });
         } else {
