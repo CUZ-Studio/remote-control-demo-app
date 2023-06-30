@@ -13,7 +13,7 @@ export enum ControlPanelEvent {
 export enum TimeSchedule {
   COUNTDOWN = "countdown",
   GAMING = "gaming",
-  RESTTIME = "resttiem",
+  RESTTIME = "resttime",
 }
 
 export enum Page {
