@@ -7,7 +7,7 @@ export const Root = styled("div", {
 }>`
   display: flex;
   width: 100%;
-  height: ${({ windowHeight }) => (windowHeight ? `${windowHeight}px` : "100%")};
+  min-height: ${({ windowHeight }) => (windowHeight ? `${windowHeight}px` : "100%")};
   background-color: ${({ theme }) => theme.palette.common.black};
 `;
 
