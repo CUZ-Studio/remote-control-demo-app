@@ -4,7 +4,7 @@ import GameStatusBar from "@/components/molecules/GameStatusBar";
 import ControlPanel from "@/components/organisms/ControlPanel";
 import usePlayer from "@/hooks/usePlayer";
 
-import { Container, PlayerInfoBox, PlayerName, Score } from "@/styles/play.styles";
+import { Container, PlayerInfoBox, PlayerName, RewardBox, Score } from "@/styles/play.styles";
 
 export default function PlayGame() {
   const player = usePlayer();
@@ -12,15 +12,19 @@ export default function PlayGame() {
   return (
     <Container>
       <PlayerInfoBox>
-        {Array.from(Array(player?.gotFirstPlace)).map((_, index) => (
-          <Image
-            key={`star-${index}`}
-            src="/assets/images/star.svg"
-            alt="start"
-            width={17}
-            height={17}
-          />
-        ))}
+        <RewardBox>
+          {Array.from(Array(Number(player?.gotFirstPlace) >= 3 ? 3 : player?.gotFirstPlace)).map(
+            (_, index) => (
+              <Image
+                key={`star-${index}`}
+                src="/assets/images/star.svg"
+                alt="start"
+                width={17}
+                height={17}
+              />
+            ),
+          )}
+        </RewardBox>
         <PlayerName>{player?.headTag}</PlayerName>
         <Score>{player?.thisRoundScore || 0}</Score>
       </PlayerInfoBox>

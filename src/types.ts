@@ -10,6 +10,12 @@ export enum ControlPanelEvent {
   FIRE = "fire",
 }
 
+export enum TimeSchedule {
+  COUNTDOWN = "countdown",
+  GAMING = "gaming",
+  RESTTIME = "resttime",
+}
+
 export enum Page {
   HOME = "/",
   SELECT_MODEL = "/select-model",

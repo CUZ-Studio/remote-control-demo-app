@@ -25,8 +25,8 @@ import {
   MainSection,
   PlayButton,
   ResetRobot,
+  RewardBox,
   RobotName,
-  StarBox,
   TitleWrapper,
   Unit,
   Welcome,
@@ -41,13 +41,11 @@ export default function WelcomeBack() {
   const gameRound = useGameStatus();
   const { assignPlayer, updateGameRound } = useGameActions();
 
-  const maxScore = useMemo(
-    () =>
-      Object.values(player?.allRoundScore ?? {}).length
-        ? Math.max(...Object.values(player?.allRoundScore ?? {}).map((elem) => Number(elem)))
-        : 0,
-    [player?.allRoundScore],
-  );
+  const maxScore = useMemo(() => {
+    return Object.values(player?.allRoundScore ?? {}).length
+      ? Math.max(...Object.values(player?.allRoundScore ?? {}).map((elem) => Number(elem)))
+      : 0;
+  }, [player?.allRoundScore]);
 
   // 재-게임시 실행하게 되는 함수
   const createCharacter: MouseEventHandler = (e) => {
@@ -124,17 +122,19 @@ export default function WelcomeBack() {
               enableRotate={false}
             />
           </Canvas>
-          <StarBox>
-            {Array.from(Array(player?.gotFirstPlace)).map((_, index) => (
-              <Image
-                key={`star-${index}`}
-                src="/assets/images/star.svg"
-                alt="start"
-                width={17}
-                height={17}
-              />
-            ))}
-          </StarBox>
+          <RewardBox>
+            {Array.from(Array(Number(player?.gotFirstPlace) >= 3 ? 3 : player?.gotFirstPlace)).map(
+              (_, index) => (
+                <Image
+                  key={`star-${index}`}
+                  src="/assets/images/star.svg"
+                  alt="start"
+                  width={17}
+                  height={17}
+                />
+              ),
+            )}
+          </RewardBox>
         </CanvasWrapper>
         <RobotName>{player?.headTag}</RobotName>
       </MainSection>

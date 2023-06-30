@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Arrow from "@/components/atoms/Arrow";
 import Fire from "@/components/atoms/Fire";
 import useGameActions from "@/hooks/useGameActions";
+import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import { Player } from "@/slices/game";
 import { ControlPanelEvent } from "@/types";
@@ -19,6 +20,7 @@ export default function ControlPanel() {
   const [controlEvent, setControlEvent] = useState<ControlPanelEvent>();
 
   const player = usePlayer();
+  const gameRound = useGameStatus();
   const { assignPlayer } = useGameActions();
 
   const handleMouseDown = (eventType: ControlPanelEvent) => {
@@ -38,6 +40,7 @@ export default function ControlPanel() {
 
   const onJump: MouseEventHandler = async () => {
     if (_.isNil(player?.objectPath)) return;
+    if (!gameRound.isGameInProgress) return;
 
     return await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
       objectPath: player?.objectPath,
@@ -65,6 +68,7 @@ export default function ControlPanel() {
 
   const handleFire = (e: MouseEvent) => {
     e.preventDefault();
+    if (!gameRound.isGameInProgress) return;
 
     onFire().then(() => {
       // 발사 이후 점수가 업데이트되기까지 약간의 지연시간이 소요되므로,
@@ -84,6 +88,7 @@ export default function ControlPanel() {
   const moveLeft = async () => {
     try {
       if (_.isNil(player?.objectPath)) return;
+      if (!gameRound.isGameInProgress) return;
 
       await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
         objectPath: player?.objectPath,
@@ -101,6 +106,7 @@ export default function ControlPanel() {
   const moveRight = async () => {
     try {
       if (_.isNil(player?.objectPath)) return;
+      if (!gameRound.isGameInProgress) return;
 
       await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
         objectPath: player?.objectPath,
@@ -143,7 +149,11 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.JUMP)}
         onTouchEnd={handleMouseUp}
       >
-        <Arrow isPressed={controlEvent === ControlPanelEvent.JUMP && isMouseHolding} />
+        <Arrow
+          isPressed={
+            controlEvent === ControlPanelEvent.JUMP && isMouseHolding && gameRound.isGameInProgress
+          }
+        />
       </JumpButton>
       <MoveLeftButton
         onClick={moveLeft}
@@ -152,7 +162,13 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
         onTouchEnd={handleMouseUp}
       >
-        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_LEFT && isMouseHolding} />
+        <Arrow
+          isPressed={
+            controlEvent === ControlPanelEvent.MOVE_LEFT &&
+            isMouseHolding &&
+            gameRound.isGameInProgress
+          }
+        />
       </MoveLeftButton>
       <MoveRightButton
         onClick={moveRight}
@@ -161,7 +177,13 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
         onTouchEnd={handleMouseUp}
       >
-        <Arrow isPressed={controlEvent === ControlPanelEvent.MOVE_RIGHT && isMouseHolding} />
+        <Arrow
+          isPressed={
+            controlEvent === ControlPanelEvent.MOVE_RIGHT &&
+            isMouseHolding &&
+            gameRound.isGameInProgress
+          }
+        />
       </MoveRightButton>
       <FireButton
         onClick={handleFire}
@@ -170,7 +192,11 @@ export default function ControlPanel() {
         onTouchStart={() => handleMouseDown(ControlPanelEvent.FIRE)}
         onTouchEnd={handleMouseUp}
       >
-        <Fire isPressed={controlEvent === ControlPanelEvent.FIRE && isMouseHolding} />
+        <Fire
+          isPressed={
+            controlEvent === ControlPanelEvent.FIRE && isMouseHolding && gameRound.isGameInProgress
+          }
+        />
       </FireButton>
     </Panel>
   );
