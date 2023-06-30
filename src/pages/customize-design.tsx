@@ -25,7 +25,7 @@ export default function CustomizeModel() {
       <MainSection>
         <Greeting>로봇의 색상을 선택해주세요</Greeting>
         <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 40 }}>
+          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
             <ambientLight intensity={0.8} />
             <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
             <Model />
