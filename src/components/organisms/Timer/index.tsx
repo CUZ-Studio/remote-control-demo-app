@@ -9,18 +9,11 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { Page } from "@/types";
-
-enum TimeSchedule {
-  COUNTDOWN = "countdown",
-  GAMING = "gaming",
-  RESTTIME = "resttiem",
-}
+import { Page, TimeSchedule } from "@/types";
 
 export default function Countdown() {
   const router = useRouter();
   const gameRound = useGameStatus();
-  const [currentTimeSchedule, setCurrentTimeSchedule] = useState(TimeSchedule.COUNTDOWN);
 
   const user = useUser();
   const player = usePlayer();
@@ -57,10 +50,16 @@ export default function Countdown() {
       const countDownOffset = countDown - Date.now();
       if (countDownOffset > 0) {
         setCountDownLeft(countDown - Date.now());
-        setCurrentTimeSchedule(TimeSchedule.COUNTDOWN);
+        updateGameRound({
+          ...gameRound,
+          currentTimeSchedule: TimeSchedule.COUNTDOWN,
+        });
       } else {
         setGameTimeLeft(180 * 1000);
-        setCurrentTimeSchedule(TimeSchedule.GAMING);
+        updateGameRound({
+          ...gameRound,
+          currentTimeSchedule: TimeSchedule.GAMING,
+        });
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -83,7 +82,10 @@ export default function Countdown() {
           isGameInProgress: false,
         });
         setIsGaming(false);
-        setCurrentTimeSchedule(TimeSchedule.RESTTIME);
+        updateGameRound({
+          ...gameRound,
+          currentTimeSchedule: TimeSchedule.RESTTIME,
+        });
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -158,7 +160,7 @@ export default function Countdown() {
   }, [isGaming]);
 
   const displayTimer = useCallback(() => {
-    switch (currentTimeSchedule) {
+    switch (gameRound.currentTimeSchedule) {
       case TimeSchedule.COUNTDOWN: {
         return `게임 시작까지 ${
           countDownLeft.toString().substring(0, countDownLeft.toString().length - 3) || 0
@@ -177,7 +179,7 @@ export default function Countdown() {
       default:
         break;
     }
-  }, [countDownLeft, currentTimeSchedule, gameTimeLeft, restTimeLeft]);
+  }, [countDownLeft, gameRound.currentTimeSchedule, gameTimeLeft, restTimeLeft]);
 
   return <div>{displayTimer()}</div>;
 }
