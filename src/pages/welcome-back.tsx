@@ -94,18 +94,19 @@ export default function WelcomeBack() {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       .catch((error: any) => {
         setDisabled(false);
-        noticeToSlack({
-          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
-          errorName: error.name,
-          errorCode: error.response?.status,
-          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
-        });
-        noticeToSWIT({
-          assignees: [Developer.GODA, Developer.GUNI],
+        const notice = {
           isUrgent: true,
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        };
+        noticeToSlack({
+          ...notice,
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+        });
+        noticeToSWIT({
+          ...notice,
+          assignees: [Developer.GODA, Developer.GUNI],
         });
       });
   };
@@ -128,17 +129,18 @@ export default function WelcomeBack() {
         }
       })
       .catch((error) => {
-        noticeToSlack({
-          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+        const notice = {
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"GetGameRanking" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        };
+        noticeToSlack({
+          ...notice,
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
         });
         noticeToSWIT({
+          ...notice,
           assignees: [Developer.GODA, Developer.GUNI],
-          errorName: error.name,
-          errorCode: error.response?.status,
-          errorMessage: `"GetGameRanking" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
         });
       });
   }, []);

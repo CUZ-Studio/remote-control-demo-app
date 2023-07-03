@@ -102,19 +102,19 @@ export default function Header() {
         })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .catch((error) => {
-          noticeToSlack({
-            assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          const notice = {
             isUrgent: true,
             errorName: error.name,
             errorCode: error.response?.status,
             errorMessage: `"SetPlayerDefaultLocation" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+          };
+          noticeToSlack({
+            ...notice,
+            assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
           });
           noticeToSWIT({
+            ...notice,
             assignees: [Developer.GODA, Developer.GUNI],
-            isUrgent: true,
-            errorName: error.name,
-            errorCode: error.response?.status,
-            errorMessage: `"SetPlayerDefaultLocation" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
           });
         });
     }
