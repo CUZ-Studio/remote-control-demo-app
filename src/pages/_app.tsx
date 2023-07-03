@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import axios from "axios";
-import _ from "lodash";
 import { Provider as ReduxProvider } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
@@ -15,9 +13,8 @@ import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
-import useUser from "@/hooks/useUser";
 import { persistor, store, wrapper } from "@/slices/store";
-import { Page, REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
 
 import theme from "@/styles/theme";
 
@@ -31,10 +28,8 @@ export interface MyAppProps extends AppProps {
 }
 
 function MyApp(props: MyAppProps) {
-  const router = useRouter();
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
-  const user = useUser();
   const gameRound = useGameRound();
   const { updateGameRound } = useGameActions();
 
@@ -64,26 +59,6 @@ function MyApp(props: MyAppProps) {
         toast.error("언리얼 게임모드 상대경로 정보 요청 실패");
       });
   }, []);
-
-  const isProtectedRoute = (url: string) => {
-    const protectedRoutes: string[] = [
-      Page.CUSTOMIZE_DESIGN,
-      Page.GOING_TO_HANGAR,
-      Page.NAME_YOUR_ROBOT,
-      Page.PLAY,
-      Page.SELECT_MODEL,
-      Page.WELCOME_BACK,
-      Page.START_YOUR_JOURNEY,
-    ];
-    return protectedRoutes.includes(url);
-  };
-
-  useEffect(() => {
-    // furo 사용자 데려오기
-    if (_.isNil(user)) {
-      if (isProtectedRoute(router.asPath)) router.replace(Page.HOME);
-    }
-  }, [router.asPath]);
   return (
     <CacheProvider value={emotionCache}>
       <Head>

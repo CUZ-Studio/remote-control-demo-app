@@ -1,9 +1,9 @@
 import usePlayer from "@/hooks/usePlayer";
 import { RobotModelType } from "@/types";
 
-import Penguin from "./Penguin";
-import Probe from "./Probe";
-import SmartDrone from "./SmartDrone";
+import Penguin from "./Penguin_anim";
+import Probe from "./Probe_anim";
+import SmartDrone from "./SmartDrone_anim";
 
 export default function Model() {
   const player = usePlayer();
