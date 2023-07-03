@@ -54,7 +54,7 @@ export default function PenguinAnim(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
-        <group name="Armature" scale={0.0075} position={[0, -0.5, 0]}>
+        <group name="Armature" scale={0.0072} position={[0, -0.5, 0]}>
           <primitive object={nodes.Bone_Main} />
           <skinnedMesh
             name="Body"
