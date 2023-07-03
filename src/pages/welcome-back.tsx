@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { MouseEventHandler, useMemo, useState } from "react";
+import { MouseEventHandler, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -92,6 +92,26 @@ export default function WelcomeBack() {
       .catch(() => setDisabled(false));
   };
 
+  useEffect(() => {
+    axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: gameRound.gameModeBaseObjectPath,
+        functionName: "GetGameRanking",
+      })
+      .then((res) => {
+        console.log(res.data.gameRanking);
+        const highestRankEver = res.data.gameRanking.findIndex(
+          (elem: string) => elem === user?.uid,
+        );
+        if (highestRankEver > -1) {
+          assignPlayer({
+            ...(player as Player),
+            highestRankEver,
+          });
+        }
+      });
+  }, []);
+
   return (
     <Container>
       <MainSection>
@@ -106,7 +126,7 @@ export default function WelcomeBack() {
           </Unit>
           <Unit>
             <HistoryName>전체랭킹</HistoryName>
-            <HistoryContext>3위</HistoryContext>
+            <HistoryContext>{player?.highestRankEver || "-"}위</HistoryContext>
           </Unit>
           <Unit>
             <HistoryName>최고점수</HistoryName>

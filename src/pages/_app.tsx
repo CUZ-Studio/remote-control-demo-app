@@ -43,6 +43,11 @@ function MyApp(props: MyAppProps) {
     // 언리얼 게임모드 상대경로 정보 요청하기
     // 로그인하는 즉시 캐릭터 생성 요청을 보내게 될 때에 경로가 필요할 수 있으므로,
     // 로그인 여부와 상관없이 미리 요청해서 받아두는 게 좋음
+
+    console.log(
+      process.env.NEXT_PUBLIC_UNREAL_DOMAIN,
+      process.env.NEXT_PUBLIC_GAME_MODE_OBJECT_PATH,
+    );
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/property`, {
         objectPath: process.env.NEXT_PUBLIC_GAME_MODE_OBJECT_PATH,
