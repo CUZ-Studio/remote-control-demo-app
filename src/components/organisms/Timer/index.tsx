@@ -11,6 +11,7 @@ import usePrevious from "@/hooks/usePrevious";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
 import { Page, TimeSchedule } from "@/types";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 
 export default function Countdown() {
   const router = useRouter();
@@ -157,6 +158,13 @@ export default function Countdown() {
             gotFirstPlace: (player?.gotFirstPlace || 0) + 1,
           });
         }
+      })
+      .catch((error) => {
+        noticeToSWIT({
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetCurrentRoundBestOfPlayer" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
       });
   }, [isGaming]);
 

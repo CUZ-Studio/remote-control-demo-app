@@ -11,6 +11,7 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
 import { ButtonShape, Page } from "@/types";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -89,26 +90,41 @@ export default function WelcomeBack() {
         // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
         router.push(Page.GOING_TO_HANGAR);
       })
-      .catch(() => setDisabled(false));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+      .catch((error: any) => {
+        setDisabled(false);
+        noticeToSWIT({
+          isUrgent: true,
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
+      });
   };
 
   useEffect(() => {
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: gameRound.gameModeBaseObjectPath,
+        objectPath: `${gameRound.gameModeBaseObjectPath}ss`,
         functionName: "GetGameRanking",
       })
       .then((res) => {
-        console.log(res.data.gameRanking);
         const highestRankEver = res.data.gameRanking.findIndex(
           (elem: string) => elem === user?.uid,
         );
         if (highestRankEver > -1) {
           assignPlayer({
             ...(player as Player),
-            highestRankEver,
+            highestRankEver: highestRankEver + 1,
           });
         }
+      })
+      .catch((error) => {
+        noticeToSWIT({
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetGameRanking" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
       });
   }, []);
 

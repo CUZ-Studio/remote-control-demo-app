@@ -1,7 +1,6 @@
 import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
 import axios from "axios";
 import _ from "lodash";
-import { toast } from "react-toastify";
 
 import Arrow from "@/components/atoms/Arrow";
 import Fire from "@/components/atoms/Fire";
@@ -10,6 +9,7 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import { Player } from "@/slices/game";
 import { ControlPanelEvent } from "@/types";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
 
@@ -42,28 +42,52 @@ export default function ControlPanel() {
     if (_.isNil(player?.objectPath)) return;
     if (!gameRound.isGameInProgress) return;
 
-    return await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player?.objectPath,
-      functionName: "OnJump",
-    });
+    return await axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: player?.objectPath,
+        functionName: "OnJump",
+      })
+      .catch((error) => {
+        noticeToSWIT({
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"OnJump" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
+      });
   };
 
   const onFire = async () => {
     if (_.isNil(player?.objectPath)) return;
 
-    return await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player?.objectPath,
-      functionName: "OnFire",
-    });
+    return await axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: player?.objectPath,
+        functionName: "OnFire",
+      })
+      .catch((error) => {
+        noticeToSWIT({
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"OnFire" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
+      });
   };
 
   const getScore = async () => {
     if (_.isNil(player?.objectPath)) return;
 
-    return await axios.put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-      objectPath: player?.objectPath,
-      functionName: "GetPlayerScore",
-    });
+    return await axios
+      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
+        objectPath: player?.objectPath,
+        functionName: "GetPlayerScore",
+      })
+      .catch((error) => {
+        noticeToSWIT({
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetPlayerScore" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
+      });
   };
 
   const handleFire = (e: MouseEvent) => {
@@ -75,7 +99,7 @@ export default function ControlPanel() {
       // 0.5초 뒤에 점수 요청 및 전역 상태 업데이트
       setTimeout(() => {
         getScore().then((res) => {
-          if (_.isNil(res)) return;
+          if (!res) return;
           assignPlayer({
             ...(player as Player),
             thisRoundScore: res.data.PlayerScore,
@@ -96,10 +120,12 @@ export default function ControlPanel() {
         generateTransaction: true,
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      if (e.code === "ERR_NETWORK") {
-        toast.error("네트워크 연결을 확인하세요");
-      }
+    } catch (error: any) {
+      noticeToSWIT({
+        errorName: error.name,
+        errorCode: error.response?.status,
+        errorMessage: `"SetMoveForwardLeft" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+      });
     }
   };
 
@@ -114,10 +140,12 @@ export default function ControlPanel() {
         generateTransaction: true,
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      if (e.code === "ERR_NETWORK") {
-        toast.error("네트워크 연결을 확인하세요");
-      }
+    } catch (error: any) {
+      noticeToSWIT({
+        errorName: error.name,
+        errorCode: error.response?.status,
+        errorMessage: `"SetMoveForwardRight" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+      });
     }
   };
 

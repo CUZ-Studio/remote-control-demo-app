@@ -15,6 +15,7 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { ButtonShape, Page, RobotColor, RobotModelType } from "@/types";
 import isProfane from "@/utils/isProfane";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -115,7 +116,16 @@ export default function NameYourRobot() {
           router.push(Page.GOING_TO_HANGAR);
         }
       })
-      .catch(() => setDisabled(false));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .catch((error) => {
+        setDisabled(false);
+        noticeToSWIT({
+          isUrgent: true,
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
+      });
   };
 
   return (

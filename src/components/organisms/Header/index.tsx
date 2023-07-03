@@ -9,6 +9,7 @@ import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Page } from "@/types";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import Timer from "../Timer";
 import {
@@ -96,6 +97,15 @@ export default function Header() {
             ...gameRound,
             timeLeft: 0,
             isGameInProgress: false,
+          });
+        })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .catch((error) => {
+          noticeToSWIT({
+            isUrgent: true,
+            errorName: error.name,
+            errorCode: error.response?.status,
+            errorMessage: `"SetPlayerDefaultLocation" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
           });
         });
     }

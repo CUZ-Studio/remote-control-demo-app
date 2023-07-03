@@ -8,6 +8,7 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import { Page } from "@/types";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import { Container, LoadingMessage } from "@/styles/going-to-hangar";
 
@@ -35,6 +36,13 @@ export default function GoingToHangar() {
           ...gameRound,
           isGameInProgress: true,
           currentRoundName,
+        });
+      })
+      .catch((error) => {
+        noticeToSWIT({
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetCurrentRoundName" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
         });
       });
     // firebase 데이터베이스에 출동횟수 + 1한 값으로 업데이트
