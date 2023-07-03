@@ -13,7 +13,8 @@ import createEmotionCache from "@/createEmotionCache";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import { persistor, store, wrapper } from "@/slices/store";
-import { REMOTE_CONTROL_API_ACCESS_TYPE } from "@/types";
+import { Developer, REMOTE_CONTROL_API_ACCESS_TYPE, Slack_Developer_User_ID } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import theme from "@/styles/theme";
@@ -48,7 +49,15 @@ function MyApp(props: MyAppProps) {
         });
       })
       .catch((error) => {
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          isUrgent: true,
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GameModeBaseObjPath" 프로퍼티를 호출하는 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           isUrgent: true,
           errorName: error.name,
           errorCode: error.response?.status,

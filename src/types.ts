@@ -83,3 +83,15 @@ export interface KaKaoLoginUser {
   project_id: string;
   uid: string;
 }
+
+export enum Developer {
+  GODA = "고다",
+  GUNI = "구니",
+  SAM = "Sia",
+}
+
+export enum Slack_Developer_User_ID {
+  GODA = "U05FLKVPZMF",
+  GUNI = "U05F81CPXRQ",
+  SAM = "U03QK3Q34G6",
+}

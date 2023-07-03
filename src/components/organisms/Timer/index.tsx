@@ -10,7 +10,8 @@ import usePlayer from "@/hooks/usePlayer";
 import usePrevious from "@/hooks/usePrevious";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { Page, TimeSchedule } from "@/types";
+import { Developer, Page, Slack_Developer_User_ID, TimeSchedule } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
 export default function Countdown() {
@@ -160,7 +161,14 @@ export default function Countdown() {
         }
       })
       .catch((error) => {
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetCurrentRoundBestOfPlayer" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"GetCurrentRoundBestOfPlayer" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,

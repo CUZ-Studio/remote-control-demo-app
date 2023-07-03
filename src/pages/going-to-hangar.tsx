@@ -7,7 +7,8 @@ import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
-import { Page } from "@/types";
+import { Developer, Page, Slack_Developer_User_ID } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import { Container, LoadingMessage } from "@/styles/going-to-hangar";
@@ -39,7 +40,14 @@ export default function GoingToHangar() {
         });
       })
       .catch((error) => {
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetCurrentRoundName" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"GetCurrentRoundName" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,

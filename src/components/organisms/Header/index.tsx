@@ -8,7 +8,8 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { Page } from "@/types";
+import { Developer, Page, Slack_Developer_User_ID } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import Timer from "../Timer";
@@ -101,7 +102,15 @@ export default function Header() {
         })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .catch((error) => {
+          noticeToSlack({
+            assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+            isUrgent: true,
+            errorName: error.name,
+            errorCode: error.response?.status,
+            errorMessage: `"SetPlayerDefaultLocation" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+          });
           noticeToSWIT({
+            assignees: [Developer.GODA, Developer.GUNI],
             isUrgent: true,
             errorName: error.name,
             errorCode: error.response?.status,

@@ -8,7 +8,8 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import { Player } from "@/slices/game";
-import { ControlPanelEvent } from "@/types";
+import { ControlPanelEvent, Developer, Slack_Developer_User_ID } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
@@ -48,7 +49,14 @@ export default function ControlPanel() {
         functionName: "OnJump",
       })
       .catch((error) => {
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"OnJump" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"OnJump" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
@@ -65,7 +73,14 @@ export default function ControlPanel() {
         functionName: "OnFire",
       })
       .catch((error) => {
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"OnFire" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"OnFire" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
@@ -82,7 +97,14 @@ export default function ControlPanel() {
         functionName: "GetPlayerScore",
       })
       .catch((error) => {
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetPlayerScore" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"GetPlayerScore" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
@@ -121,7 +143,14 @@ export default function ControlPanel() {
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      noticeToSlack({
+        assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+        errorName: error.name,
+        errorCode: error.response?.status,
+        errorMessage: `"SetMoveForwardLeft" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+      });
       noticeToSWIT({
+        assignees: [Developer.GODA, Developer.GUNI],
         errorName: error.name,
         errorCode: error.response?.status,
         errorMessage: `"SetMoveForwardLeft" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
@@ -141,7 +170,14 @@ export default function ControlPanel() {
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      noticeToSlack({
+        assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+        errorName: error.name,
+        errorCode: error.response?.status,
+        errorMessage: `"SetMoveForwardRight" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+      });
       noticeToSWIT({
+        assignees: [Developer.GODA, Developer.GUNI],
         errorName: error.name,
         errorCode: error.response?.status,
         errorMessage: `"SetMoveForwardRight" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,

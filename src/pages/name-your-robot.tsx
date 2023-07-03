@@ -13,8 +13,16 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { ButtonShape, Page, RobotColor, RobotModelType } from "@/types";
+import {
+  ButtonShape,
+  Developer,
+  Page,
+  RobotColor,
+  RobotModelType,
+  Slack_Developer_User_ID,
+} from "@/types";
 import isProfane from "@/utils/isProfane";
+import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -119,7 +127,14 @@ export default function NameYourRobot() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .catch((error) => {
         setDisabled(false);
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           isUrgent: true,
           errorName: error.name,
           errorCode: error.response?.status,

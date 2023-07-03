@@ -10,7 +10,8 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { ButtonShape, Page } from "@/types";
+import { ButtonShape, Developer, Page, Slack_Developer_User_ID } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -93,7 +94,14 @@ export default function WelcomeBack() {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       .catch((error: any) => {
         setDisabled(false);
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           isUrgent: true,
           errorName: error.name,
           errorCode: error.response?.status,
@@ -120,7 +128,14 @@ export default function WelcomeBack() {
         }
       })
       .catch((error) => {
+        noticeToSlack({
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetGameRanking" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        });
         noticeToSWIT({
+          assignees: [Developer.GODA, Developer.GUNI],
           errorName: error.name,
           errorCode: error.response?.status,
           errorMessage: `"GetGameRanking" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
