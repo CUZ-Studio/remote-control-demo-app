@@ -7,7 +7,7 @@ import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
-import { Developer, Page, Slack_Developer_User_ID } from "@/types";
+import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
@@ -51,7 +51,7 @@ export default function GoingToHangar() {
         });
         noticeToSWIT({
           ...notice,
-          assignees: [Developer.GODA, Developer.GUNI],
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
     // firebase 데이터베이스에 출동횟수 + 1한 값으로 업데이트

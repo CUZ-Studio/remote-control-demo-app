@@ -84,7 +84,7 @@ export interface KaKaoLoginUser {
   uid: string;
 }
 
-export enum Developer {
+export enum Swit_Developer_User_ID {
   GODA = "고다",
   GUNI = "구니",
   SAM = "Sia",

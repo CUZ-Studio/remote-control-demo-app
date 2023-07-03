@@ -8,7 +8,7 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { Developer, Page, Slack_Developer_User_ID } from "@/types";
+import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
@@ -114,7 +114,7 @@ export default function Header() {
           });
           noticeToSWIT({
             ...notice,
-            assignees: [Developer.GODA, Developer.GUNI],
+            assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
           });
         });
     }

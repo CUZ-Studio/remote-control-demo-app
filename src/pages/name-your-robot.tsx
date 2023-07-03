@@ -15,11 +15,11 @@ import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import {
   ButtonShape,
-  Developer,
   Page,
   RobotColor,
   RobotModelType,
   Slack_Developer_User_ID,
+  Swit_Developer_User_ID,
 } from "@/types";
 import isProfane from "@/utils/isProfane";
 import noticeToSlack from "@/utils/noticeToSlack";
@@ -140,7 +140,7 @@ export default function NameYourRobot() {
         });
         noticeToSWIT({
           ...notice,
-          assignees: [Developer.GODA, Developer.GUNI],
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
   };

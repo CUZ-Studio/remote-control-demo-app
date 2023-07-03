@@ -13,7 +13,11 @@ import createEmotionCache from "@/createEmotionCache";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import { persistor, store, wrapper } from "@/slices/store";
-import { Developer, REMOTE_CONTROL_API_ACCESS_TYPE, Slack_Developer_User_ID } from "@/types";
+import {
+  REMOTE_CONTROL_API_ACCESS_TYPE,
+  Slack_Developer_User_ID,
+  Swit_Developer_User_ID,
+} from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
@@ -61,7 +65,7 @@ function MyApp(props: MyAppProps) {
         });
         noticeToSWIT({
           ...notice,
-          assignees: [Developer.GODA, Developer.GUNI],
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
   }, []);

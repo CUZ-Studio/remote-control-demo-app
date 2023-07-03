@@ -10,7 +10,7 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { ButtonShape, Developer, Page, Slack_Developer_User_ID } from "@/types";
+import { ButtonShape, Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
@@ -106,7 +106,7 @@ export default function WelcomeBack() {
         });
         noticeToSWIT({
           ...notice,
-          assignees: [Developer.GODA, Developer.GUNI],
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
   };
@@ -140,7 +140,7 @@ export default function WelcomeBack() {
         });
         noticeToSWIT({
           ...notice,
-          assignees: [Developer.GODA, Developer.GUNI],
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
   }, []);

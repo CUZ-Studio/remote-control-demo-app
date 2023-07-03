@@ -10,7 +10,7 @@ import usePlayer from "@/hooks/usePlayer";
 import usePrevious from "@/hooks/usePrevious";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { Developer, Page, Slack_Developer_User_ID, TimeSchedule } from "@/types";
+import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID, TimeSchedule } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
@@ -172,7 +172,7 @@ export default function Countdown() {
         });
         noticeToSWIT({
           ...notice,
-          assignees: [Developer.GODA, Developer.GUNI],
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
   }, [isGaming]);
