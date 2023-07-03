@@ -10,7 +10,9 @@ import usePlayer from "@/hooks/usePlayer";
 import usePrevious from "@/hooks/usePrevious";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { Page, TimeSchedule } from "@/types";
+import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID, TimeSchedule } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 
 export default function Countdown() {
   const router = useRouter();
@@ -157,6 +159,21 @@ export default function Countdown() {
             gotFirstPlace: (player?.gotFirstPlace || 0) + 1,
           });
         }
+      })
+      .catch((error) => {
+        const notice = {
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetCurrentRoundBestOfPlayer" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        };
+        noticeToSlack({
+          ...notice,
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+        });
+        noticeToSWIT({
+          ...notice,
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
+        });
       });
   }, [isGaming]);
 

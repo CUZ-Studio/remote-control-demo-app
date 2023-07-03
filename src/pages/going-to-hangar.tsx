@@ -7,7 +7,9 @@ import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
-import { Page } from "@/types";
+import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
+import noticeToSlack from "@/utils/noticeToSlack";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import { Container, LoadingMessage } from "@/styles/going-to-hangar";
 
@@ -35,6 +37,21 @@ export default function GoingToHangar() {
           ...gameRound,
           isGameInProgress: true,
           currentRoundName,
+        });
+      })
+      .catch((error) => {
+        const notice = {
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"GetCurrentRoundName" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        };
+        noticeToSlack({
+          ...notice,
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+        });
+        noticeToSWIT({
+          ...notice,
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
     // firebase 데이터베이스에 출동횟수 + 1한 값으로 업데이트

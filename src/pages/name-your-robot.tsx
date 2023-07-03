@@ -13,8 +13,17 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { ButtonShape, Page, RobotColor, RobotModelType } from "@/types";
+import {
+  ButtonShape,
+  Page,
+  RobotColor,
+  RobotModelType,
+  Slack_Developer_User_ID,
+  Swit_Developer_User_ID,
+} from "@/types";
 import isProfane from "@/utils/isProfane";
+import noticeToSlack from "@/utils/noticeToSlack";
+import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -115,7 +124,25 @@ export default function NameYourRobot() {
           router.push(Page.GOING_TO_HANGAR);
         }
       })
-      .catch(() => setDisabled(false));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .catch((error) => {
+        setDisabled(false);
+
+        const notice = {
+          isUrgent: true,
+          errorName: error.name,
+          errorCode: error.response?.status,
+          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        };
+        noticeToSlack({
+          ...notice,
+          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
+        });
+        noticeToSWIT({
+          ...notice,
+          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
+        });
+      });
   };
 
   return (
