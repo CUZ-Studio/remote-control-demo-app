@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import { Developer } from "@/types";
+import { Swit_Developer_User_ID } from "@/types";
 
 interface Props {
-  assignees: Developer[];
+  assignees: Swit_Developer_User_ID[];
   isUrgent?: boolean;
   errorName: string;
   errorCode: number;
