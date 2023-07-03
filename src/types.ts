@@ -50,17 +50,19 @@ export enum RobotModelType {
 }
 
 export enum RobotColor {
-  YELLOW = "Yellow",
-  BLUE = "Blue",
-  WHITE = "White",
-  GREEN = "Green",
-  BLACK = "Black",
-  RED = "Red",
-}
-
-export enum RobotMotion {
-  IDLE = "idle",
-  ACTION = "Action",
+  YELLOW = "Yellow", // SmartDrone
+  BLUE = "Blue", // SmartDrone
+  WHITE = "White", // SmartDrone, Penguin, Probe
+  GREEN = "Green", // SmartDrone, Penguin
+  GRAY = "Gray", // SmartDrone
+  BLACK = "Black", // Penguin, Probe
+  RED = "Red", // SmartDrone
+  DARK_GREEN = "DarkGreen", // Penguin
+  AQUA = "Aqua", // Penguin
+  BROWN = "Brown", // Penguin, Probe
+  ORANGE = "Orange", // Probe
+  INDIGO = "Indigo", // Probe
+  SKY_BLUE = "SkyBlue", // Probe
 }
 
 export interface KaKaoLoginUser {
