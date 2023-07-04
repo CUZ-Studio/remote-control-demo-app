@@ -114,7 +114,7 @@ export default function WelcomeBack() {
   useEffect(() => {
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: `${gameRound.gameModeBaseObjectPath}ss`,
+        objectPath: gameRound.gameModeBaseObjectPath,
         functionName: "GetGameRanking",
       })
       .then((res) => {
