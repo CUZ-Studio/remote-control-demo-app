@@ -13,7 +13,7 @@ export default function PlayGame() {
     <Container>
       <PlayerInfoBox>
         <RewardBox>
-          {Array.from(Array(Number(player?.gotFirstPlace) >= 3 ? 3 : player?.gotFirstPlace)).map(
+          {Array.from(Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace)).map(
             (_, index) => (
               <Image
                 key={`star-${index}`}
