@@ -85,9 +85,9 @@ export interface KaKaoLoginUser {
 }
 
 export enum Swit_Developer_User_ID {
-  GODA = "고다",
-  GUNI = "구니",
-  SAM = "Sia",
+  GODA = "230601014915056C9is",
+  GUNI = "230601014947964vEW6",
+  SAM = "210625025348065GqTl",
 }
 
 export enum Slack_Developer_User_ID {
