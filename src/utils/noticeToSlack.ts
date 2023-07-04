@@ -19,8 +19,8 @@ export default function noticeToSlack({
     `${process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL}`,
     JSON.stringify({
       text: `${assignees.map((assigneeID) => `<@${assigneeID}>`)} ${
-        isUrgent && ":rotating_light:"
-      } [${errorName} - ${errorCode}] ${errorMessage}`,
+        isUrgent ? ":rotating_light:" : ""
+      } [${errorName}${errorCode ? ` - ${errorCode}` : ""}] ${errorMessage}`,
     }),
   );
 }
