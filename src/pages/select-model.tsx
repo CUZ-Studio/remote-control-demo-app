@@ -7,6 +7,7 @@ import Model from "@/components/organisms/Model";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
+import { MixpanelTracking } from "@/services/mixpanel";
 import { Player } from "@/slices/game";
 import { ButtonShape, Page, RobotModelType } from "@/types";
 import { OrbitControls } from "@react-three/drei";
@@ -55,6 +56,10 @@ export default function SelectRobot() {
       ...(player as Player),
       modelColor: undefined,
     });
+  }, []);
+
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
   }, []);
   return (
     <Container>

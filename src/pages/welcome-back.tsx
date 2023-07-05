@@ -6,11 +6,12 @@ import axios from "axios";
 import _ from "lodash";
 
 import Model from "@/components/organisms/Model";
-import { getPlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
+import { getPlayer } from "@/services/firebase/players";
+import { MixpanelTracking } from "@/services/mixpanel";
 import { Player } from "@/slices/game";
 import { ButtonShape, Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
@@ -166,6 +167,9 @@ export default function WelcomeBack() {
       });
   }, []);
 
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
+  }, []);
   return (
     <Container>
       <MainSection>

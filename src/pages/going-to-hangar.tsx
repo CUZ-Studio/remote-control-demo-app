@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
 
-import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
+import { updatePlayer } from "@/services/firebase/players";
+import { MixpanelTracking } from "@/services/mixpanel";
 import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
@@ -18,6 +19,10 @@ export default function GoingToHangar() {
   const player = usePlayer();
   const gameRound = useGameStatus();
   const { updateGameRound, assignPlayer } = useGameActions();
+
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
+  }, []);
 
   useEffect(() => {
     if (_.isNil(player)) return;

@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
 
-import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import usePrevious from "@/hooks/usePrevious";
 import useUser from "@/hooks/useUser";
+import { updatePlayer } from "@/services/firebase/players";
 import { Player } from "@/slices/game";
 import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID, TimeSchedule } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";

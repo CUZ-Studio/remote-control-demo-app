@@ -1,14 +1,19 @@
+import { useEffect } from "react";
 import Image from "next/image";
 
 import GameStatusBar from "@/components/molecules/GameStatusBar";
 import ControlPanel from "@/components/organisms/ControlPanel";
 import usePlayer from "@/hooks/usePlayer";
+import { MixpanelTracking } from "@/services/mixpanel";
 
 import { Container, PlayerInfoBox, PlayerName, RewardBox, Score } from "@/styles/play.styles";
 
 export default function PlayGame() {
   const player = usePlayer();
 
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
+  }, []);
   return (
     <Container>
       <PlayerInfoBox>

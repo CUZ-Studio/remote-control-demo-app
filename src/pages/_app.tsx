@@ -12,6 +12,7 @@ import BasicLayout from "@/components/templates/BasicLayout";
 import createEmotionCache from "@/createEmotionCache";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
+import { MixpanelTracking } from "@/services/mixpanel";
 import { persistor, store, wrapper } from "@/slices/store";
 import {
   REMOTE_CONTROL_API_ACCESS_TYPE,
@@ -35,6 +36,10 @@ function MyApp(props: MyAppProps) {
 
   const gameRound = useGameRound();
   const { updateGameRound } = useGameActions();
+
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
+  }, []);
 
   useEffect(() => {
     // 언리얼 게임모드 상대경로 정보 요청하기
