@@ -3,8 +3,10 @@ import { MouseEventHandler, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
+import _ from "lodash";
 
 import Model from "@/components/organisms/Model";
+import { getPlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
@@ -47,7 +49,26 @@ export default function WelcomeBack() {
     return Object.values(player?.allRoundScore ?? {}).length
       ? Math.max(...Object.values(player?.allRoundScore ?? {}).map((elem) => Number(elem)))
       : 0;
-  }, [player?.allRoundScore]);
+  }, [player]);
+
+  // 게임이 끝나고 다시 출동하는 경우,
+  // 방금 끝난 게임 라운드에서 받은 점수 및 역대 최고 점수, 등수를 업데이트해야 함
+  useEffect(() => {
+    if (_.isNil(user)) return;
+
+    getPlayer(user.uid).then(async (res) => {
+      if (res.length === 0) return;
+      const { score, playedNum, gotFirstPlace } = res[0];
+
+      assignPlayer({
+        ...(player as Player),
+        thisRoundScore: 0,
+        allRoundScore: score ?? {},
+        playedNum: playedNum ?? 0,
+        gotFirstPlace: gotFirstPlace ?? 0,
+      });
+    });
+  }, [user]);
 
   // 재-게임시 실행하게 되는 함수
   const createCharacter: MouseEventHandler = async (e) => {
