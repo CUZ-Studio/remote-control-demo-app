@@ -33,7 +33,7 @@ export default function SelectRobot() {
   const selectModel = (modelType: RobotModelType) => {
     assignPlayer({
       ...(player as Player),
-      model: modelType,
+      modelType,
     });
   };
 
@@ -53,7 +53,7 @@ export default function SelectRobot() {
   useEffect(() => {
     assignPlayer({
       ...(player as Player),
-      color: undefined,
+      modelColor: undefined,
     });
   }, []);
   return (
@@ -74,20 +74,20 @@ export default function SelectRobot() {
             />
           </Canvas>
         </CanvasWrapper>
-        <RobotDescription>{getDescription(player?.model as RobotModelType)}</RobotDescription>
+        <RobotDescription>{getDescription(player?.modelType as RobotModelType)}</RobotDescription>
       </MainSection>
       <OptionBox>
         <Option
           type="button"
           onClick={() => selectModel(RobotModelType.PENGUIN)}
-          isSelected={player?.model === RobotModelType.PENGUIN}
+          isSelected={player?.modelType === RobotModelType.PENGUIN}
         >
           <Image width={77} height={77} src="/assets/images/models/penguin.svg" alt="penguin" />
         </Option>
         <Option
           type="button"
           onClick={() => selectModel(RobotModelType.SMART_DRONE)}
-          isSelected={player?.model === RobotModelType.SMART_DRONE}
+          isSelected={player?.modelType ? player?.modelType === RobotModelType.SMART_DRONE : true}
         >
           <Image
             width={77}
@@ -99,7 +99,7 @@ export default function SelectRobot() {
         <Option
           type="button"
           onClick={() => selectModel(RobotModelType.PROBE)}
-          isSelected={player?.model === RobotModelType.PROBE}
+          isSelected={player?.modelType === RobotModelType.PROBE}
         >
           <Image width={77} height={77} src="/assets/images/models/probe.svg" alt="probe" />
         </Option>
@@ -108,7 +108,7 @@ export default function SelectRobot() {
         <NextButton
           type="button"
           shape={ButtonShape.RECTANGLE}
-          disabled={!player?.model}
+          disabled={!player?.modelType}
           onClick={() => router.push(Page.CUSTOMIZE_DESIGN)}
         >
           다음

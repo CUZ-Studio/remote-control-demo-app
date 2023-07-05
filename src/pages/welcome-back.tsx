@@ -61,11 +61,11 @@ export default function WelcomeBack() {
         objectPath: gameRound.gameModeBaseObjectPath,
         functionName: "BindingCharacter",
         parameters: {
-          Model: player?.model,
-          Color: player?.color,
+          Model: player?.modelType,
+          Color: player?.modelColor,
           Name: player?.headTag,
           UID: user?.uid,
-          PlayerWinCount: player?.gotFirstPlace || 0,
+          PlayerWinCount: Number(player?.gotFirstPlace) || 0,
           ProfileURL: user?.image,
         },
         generateTransaction: true,
@@ -180,17 +180,17 @@ export default function WelcomeBack() {
             />
           </Canvas>
           <RewardBox>
-            {Array.from(Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace)).map(
-              (_, index) => (
-                <Image
-                  key={`star-${index}`}
-                  src="/assets/images/star.svg"
-                  alt="start"
-                  width={17}
-                  height={17}
-                />
-              ),
-            )}
+            {Array.from(
+              Array(Number(player?.gotFirstPlace) >= 5 ? 5 : Number(player?.gotFirstPlace)),
+            ).map((_, index) => (
+              <Image
+                key={`star-${index}`}
+                src="/assets/images/star.svg"
+                alt="start"
+                width={17}
+                height={17}
+              />
+            ))}
           </RewardBox>
         </CanvasWrapper>
         <RobotName>{player?.headTag}</RobotName>

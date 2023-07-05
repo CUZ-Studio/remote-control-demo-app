@@ -64,8 +64,8 @@ export default function SectionCard({ sectionNumber, selectedSection, setSelecte
       switch (sectionNumber) {
         case 3:
         default: {
-          if (!player?.model) return Page.SELECT_MODEL;
-          else if (!player?.color) return Page.CUSTOMIZE_DESIGN;
+          if (!player?.modelType) return Page.SELECT_MODEL;
+          else if (!player?.modelColor) return Page.CUSTOMIZE_DESIGN;
           else if (!player?.headTag) return Page.NAME_YOUR_ROBOT;
           else return Page.WELCOME_BACK;
         }

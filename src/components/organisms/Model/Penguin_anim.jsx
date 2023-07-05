@@ -18,7 +18,7 @@ export default function PenguinAnim(props) {
   const player = usePlayer();
 
   const bodyColor = (() => {
-    if (player.color) return player.color;
+    if (player.modelColor) return player.modelColor;
     else {
       return snap.items.Penguin_Material ?? RobotColor.WHITE;
     }

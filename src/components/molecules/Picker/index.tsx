@@ -40,7 +40,7 @@ export default function Picker({ modelType }: Props) {
     })();
     assignPlayer({
       ...(player as Player),
-      color: modelColor,
+      modelColor,
     });
     if (key) modelColorState.items[key] = modelColor;
   };
@@ -72,7 +72,9 @@ export default function Picker({ modelType }: Props) {
           type="button"
           shape={ButtonShape.CIRCLE}
           color={color}
-          isSelected={player?.color == color}
+          isSelected={
+            player?.modelColor ? player?.modelColor === color : RobotColor.WHITE === color
+          }
           onClick={() => selectBodyColor(color)}
         />
       ))}
