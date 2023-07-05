@@ -1,4 +1,4 @@
-import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, TouchEventHandler, useCallback, useState } from "react";
 import axios from "axios";
 import _ from "lodash";
 
@@ -14,8 +14,6 @@ import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
 
-let timer: NodeJS.Timeout;
-
 export default function ControlPanel() {
   const [isMouseHolding, setIsMouseHolding] = useState(false);
   const [controlEvent, setControlEvent] = useState<ControlPanelEvent>();
@@ -30,16 +28,11 @@ export default function ControlPanel() {
   };
 
   const handleMouseUp = () => {
-    clearInterval(timer);
     setControlEvent(undefined);
     setIsMouseHolding(false);
   };
 
-  const repeat = (callback: () => void) => {
-    timer = setInterval(callback, 10);
-  };
-
-  const onJump: MouseEventHandler = async () => {
+  const handleJump = async () => {
     if (_.isNil(player?.objectPath)) return;
     if (!gameRound.isGameInProgress) return;
 
@@ -63,6 +56,19 @@ export default function ControlPanel() {
           assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
         });
       });
+  };
+
+  const makeJumpApiRequestThrottled = useCallback(
+    _.throttle(() => handleJump(), 500),
+    [player, gameRound],
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onJump: MouseEventHandler | TouchEventHandler = (e: any) => {
+    e.preventDefault();
+
+    handleMouseDown(ControlPanelEvent.JUMP);
+    makeJumpApiRequestThrottled();
   };
 
   const onFire = async () => {
@@ -115,8 +121,7 @@ export default function ControlPanel() {
       });
   };
 
-  const handleFire = (e: MouseEvent) => {
-    e.preventDefault();
+  const handleFire = () => {
     if (!gameRound.isGameInProgress) return;
 
     onFire().then(() => {
@@ -132,6 +137,19 @@ export default function ControlPanel() {
         });
       }, 500);
     });
+  };
+
+  const makeFireAndGetScoreApiRequestThrottled = useCallback(
+    _.throttle(() => handleFire(), 500),
+    [player, gameRound],
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onFireAndGetScore: MouseEventHandler | TouchEventHandler = (e: any) => {
+    e.preventDefault();
+
+    handleMouseDown(ControlPanelEvent.FIRE);
+    makeFireAndGetScoreApiRequestThrottled();
   };
 
   const moveLeft = async () => {
@@ -162,6 +180,20 @@ export default function ControlPanel() {
     }
   };
 
+  const makeMoveLeftApiRequestThrottled = useCallback(
+    _.throttle(() => {
+      moveLeft();
+    }, 500),
+    [player, gameRound],
+  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onMoveLeft: MouseEventHandler | TouchEventHandler = (e: any) => {
+    e.preventDefault();
+
+    handleMouseDown(ControlPanelEvent.MOVE_LEFT);
+    makeMoveLeftApiRequestThrottled();
+  };
+
   const moveRight = async () => {
     try {
       if (_.isNil(player?.objectPath)) return;
@@ -190,32 +222,24 @@ export default function ControlPanel() {
     }
   };
 
-  useEffect(() => {
-    if (!isMouseHolding) return;
-    switch (controlEvent) {
-      case ControlPanelEvent.MOVE_LEFT:
-        {
-          repeat(moveLeft);
-        }
+  const makeMoveRightApiRequestThrottled = useCallback(
+    _.throttle(() => moveRight(), 500),
+    [player, gameRound],
+  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onMoveRight: MouseEventHandler | TouchEventHandler = (e: any) => {
+    e.preventDefault();
 
-        break;
-      case ControlPanelEvent.MOVE_RIGHT:
-        {
-          repeat(moveRight);
-        }
-        break;
-      default:
-        break;
-    }
-  }, [isMouseHolding, controlEvent, player?.objectPath]);
+    handleMouseDown(ControlPanelEvent.MOVE_RIGHT);
+    makeMoveRightApiRequestThrottled();
+  };
 
   return (
     <Panel>
       <JumpButton
-        onClick={onJump}
-        onMouseDown={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onMouseDown={onJump as MouseEventHandler}
         onMouseUp={handleMouseUp}
-        onTouchStart={() => handleMouseDown(ControlPanelEvent.JUMP)}
+        onTouchStart={onJump as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
         <Arrow
@@ -225,10 +249,9 @@ export default function ControlPanel() {
         />
       </JumpButton>
       <MoveLeftButton
-        onClick={moveLeft}
-        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onMouseDown={onMoveLeft as MouseEventHandler}
         onMouseUp={handleMouseUp}
-        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_LEFT)}
+        onTouchStart={onMoveLeft as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
         <Arrow
@@ -240,10 +263,9 @@ export default function ControlPanel() {
         />
       </MoveLeftButton>
       <MoveRightButton
-        onClick={moveRight}
-        onMouseDown={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onMouseDown={onMoveRight as MouseEventHandler}
         onMouseUp={handleMouseUp}
-        onTouchStart={() => handleMouseDown(ControlPanelEvent.MOVE_RIGHT)}
+        onTouchStart={onMoveRight as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
         <Arrow
@@ -255,10 +277,9 @@ export default function ControlPanel() {
         />
       </MoveRightButton>
       <FireButton
-        onClick={handleFire}
-        onMouseDown={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onMouseDown={onFireAndGetScore as MouseEventHandler}
         onMouseUp={handleMouseUp}
-        onTouchStart={() => handleMouseDown(ControlPanelEvent.FIRE)}
+        onTouchStart={onFireAndGetScore as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
         <Fire

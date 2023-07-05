@@ -18,9 +18,9 @@ export default function SmartDroneAnim(props) {
   const player = usePlayer();
 
   const bodyColor = (() => {
-    if (player.color) return player.color;
+    if (player.modelColor) return player.modelColor;
     else {
-      return snap.items.SmartDrone_Body_Material ?? RobotColor.BLACK;
+      return snap.items.SmartDrone_Body_Material ?? RobotColor.WHITE;
     }
   })();
   const { nodes, materials, animations } = useGLTF(

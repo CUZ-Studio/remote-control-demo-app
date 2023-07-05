@@ -7,8 +7,8 @@ export interface Player {
   uid: string | undefined; // userId와 혼동하지 말 것!
   objectPath: string | undefined;
   headTag: string | undefined;
-  model: RobotModelType | undefined;
-  color: RobotColor | undefined;
+  modelType: RobotModelType | undefined;
+  modelColor: RobotColor | undefined;
   highestRankEver: number | undefined;
   thisRoundScore: number | undefined;
   allRoundScore:
@@ -39,8 +39,8 @@ const initialState: GameState = {
     uid: undefined,
     objectPath: undefined,
     headTag: undefined,
-    model: undefined,
-    color: undefined,
+    modelType: undefined,
+    modelColor: undefined,
     highestRankEver: undefined,
     thisRoundScore: undefined,
     allRoundScore: undefined,

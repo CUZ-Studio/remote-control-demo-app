@@ -17,9 +17,9 @@ export default function ProbeAnim(props) {
   const player = usePlayer();
 
   const bodyColor = (() => {
-    if (player.color) return player.color;
+    if (player.modelColor) return player.modelColor;
     else {
-      return snap.items.Probe_Material ?? RobotColor.BLACK;
+      return snap.items.Probe_Material ?? RobotColor.WHITE;
     }
   })();
   const { nodes, materials, animations } = useGLTF("/assets/models/Probe/Glb/Probe_anim.glb");

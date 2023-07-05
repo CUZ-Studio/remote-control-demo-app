@@ -13,17 +13,17 @@ export default function PlayGame() {
     <Container>
       <PlayerInfoBox>
         <RewardBox>
-          {Array.from(Array(Number(player?.gotFirstPlace) >= 3 ? 3 : player?.gotFirstPlace)).map(
-            (_, index) => (
-              <Image
-                key={`star-${index}`}
-                src="/assets/images/star.svg"
-                alt="start"
-                width={17}
-                height={17}
-              />
-            ),
-          )}
+          {Array.from(
+            Array(Number(player?.gotFirstPlace) >= 5 ? 5 : Number(player?.gotFirstPlace)),
+          ).map((_, index) => (
+            <Image
+              key={`star-${index}`}
+              src="/assets/images/star.svg"
+              alt="start"
+              width={17}
+              height={17}
+            />
+          ))}
         </RewardBox>
         <PlayerName>{player?.headTag}</PlayerName>
         <Score>{player?.thisRoundScore || 0}</Score>

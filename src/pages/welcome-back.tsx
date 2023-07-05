@@ -3,8 +3,10 @@ import { MouseEventHandler, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
+import _ from "lodash";
 
 import Model from "@/components/organisms/Model";
+import { getPlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
@@ -47,7 +49,26 @@ export default function WelcomeBack() {
     return Object.values(player?.allRoundScore ?? {}).length
       ? Math.max(...Object.values(player?.allRoundScore ?? {}).map((elem) => Number(elem)))
       : 0;
-  }, [player?.allRoundScore]);
+  }, [player]);
+
+  // 게임이 끝나고 다시 출동하는 경우,
+  // 방금 끝난 게임 라운드에서 받은 점수 및 역대 최고 점수, 등수를 업데이트해야 함
+  useEffect(() => {
+    if (_.isNil(user)) return;
+
+    getPlayer(user.uid).then(async (res) => {
+      if (res.length === 0) return;
+      const { score, playedNum, gotFirstPlace } = res[0];
+
+      assignPlayer({
+        ...(player as Player),
+        thisRoundScore: 0,
+        allRoundScore: score ?? {},
+        playedNum: playedNum ?? 0,
+        gotFirstPlace: gotFirstPlace ?? 0,
+      });
+    });
+  }, [user]);
 
   // 재-게임시 실행하게 되는 함수
   const createCharacter: MouseEventHandler = async (e) => {
@@ -61,11 +82,11 @@ export default function WelcomeBack() {
         objectPath: gameRound.gameModeBaseObjectPath,
         functionName: "BindingCharacter",
         parameters: {
-          Model: player?.model,
-          Color: player?.color,
+          Model: player?.modelType,
+          Color: player?.modelColor,
           Name: player?.headTag,
           UID: user?.uid,
-          PlayerWinCount: player?.gotFirstPlace || 0,
+          PlayerWinCount: Number(player?.gotFirstPlace) || 0,
           ProfileURL: user?.image,
         },
         generateTransaction: true,
@@ -114,7 +135,7 @@ export default function WelcomeBack() {
   useEffect(() => {
     axios
       .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: `${gameRound.gameModeBaseObjectPath}ss`,
+        objectPath: gameRound.gameModeBaseObjectPath,
         functionName: "GetGameRanking",
       })
       .then((res) => {
@@ -180,17 +201,17 @@ export default function WelcomeBack() {
             />
           </Canvas>
           <RewardBox>
-            {Array.from(Array(Number(player?.gotFirstPlace) >= 3 ? 3 : player?.gotFirstPlace)).map(
-              (_, index) => (
-                <Image
-                  key={`star-${index}`}
-                  src="/assets/images/star.svg"
-                  alt="start"
-                  width={17}
-                  height={17}
-                />
-              ),
-            )}
+            {Array.from(
+              Array(Number(player?.gotFirstPlace) >= 5 ? 5 : Number(player?.gotFirstPlace)),
+            ).map((_, index) => (
+              <Image
+                key={`star-${index}`}
+                src="/assets/images/star.svg"
+                alt="start"
+                width={17}
+                height={17}
+              />
+            ))}
           </RewardBox>
         </CanvasWrapper>
         <RobotName>{player?.headTag}</RobotName>

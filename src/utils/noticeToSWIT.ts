@@ -18,8 +18,8 @@ export default function noticeToSWIT({
   errorMessage,
 }: Props) {
   return axios.post(`${process.env.NEXT_PUBLIC_SWIT_WEBHOOK_URL}`, {
-    text: `${assignees.map((assigneeID) => `<@${assigneeID}>`)} ${isUrgent && "🚨"}  [${errorName}${
-      errorCode ? ` - ${errorCode}` : ""
-    }] ${errorMessage}`,
+    text: `${assignees.map((assigneeID) => `<@${assigneeID}>`)} ${
+      isUrgent ? "🚨" : ""
+    }  [${errorName}${errorCode ? ` - ${errorCode}` : ""}] ${errorMessage}`,
   });
 }
