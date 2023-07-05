@@ -151,12 +151,12 @@ export default function Countdown() {
           updatePlayer({
             documentId: player.uid as string,
             updated: {
-              gotFirstPlace: (player.gotFirstPlace || 0) + 1,
+              gotFirstPlace: (Number(player.gotFirstPlace) || 0) + 1,
             },
           });
           assignPlayer({
             ...(player as Player),
-            gotFirstPlace: (player?.gotFirstPlace || 0) + 1,
+            gotFirstPlace: (Number(player?.gotFirstPlace) || 0) + 1,
           });
         }
       })
