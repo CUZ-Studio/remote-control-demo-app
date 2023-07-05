@@ -1,6 +1,6 @@
 import { getDownloadURL, listAll, ref } from "firebase/storage";
 
-import { storage } from "@/firebase/clientApp";
+import { storage } from "@/services/firebase/clientApp";
 
 const fetchImagesInFirebaseStorage = async () => {
   const storageRef = ref(storage);

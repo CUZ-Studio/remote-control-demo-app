@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import { ChangeEventHandler, FormEventHandler, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
@@ -8,11 +8,12 @@ import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
 import ErrorBox from "@/components/atoms/ErrorBox";
 import Model from "@/components/organisms/Model";
-import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
+import { updatePlayer } from "@/services/firebase/players";
+import { MixpanelTracking } from "@/services/mixpanel";
 import {
   ButtonShape,
   Page,
@@ -144,6 +145,10 @@ export default function NameYourRobot() {
         });
       });
   };
+
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
+  }, []);
 
   return (
     <Container>

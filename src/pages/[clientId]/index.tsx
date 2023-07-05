@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import _ from "lodash";
 
 import { KAKAO_DEFAULT_PROFILE_IMAGE_URL } from "@/constants/url";
-import { createPlayer, getPlayer } from "@/firebase/players";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
+import { createPlayer, getPlayer } from "@/services/firebase/players";
 import { Player } from "@/slices/game";
 import { KaKaoLoginUser, Page } from "@/types";
 import fetchImagesInFirebaseStorage from "@/utils/getImageUrl";

@@ -1,9 +1,11 @@
 /* eslint-disable react/no-unknown-property */
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import Picker from "@/components/molecules/Picker";
 import Model from "@/components/organisms/Model";
 import usePlayer from "@/hooks/usePlayer";
+import { MixpanelTracking } from "@/services/mixpanel";
 import { ButtonShape, Page } from "@/types";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -20,6 +22,10 @@ import {
 export default function CustomizeModel() {
   const router = useRouter();
   const player = usePlayer();
+
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
+  }, []);
   return (
     <Container>
       <MainSection>

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import CardRoulette from "@/components/organisms/CardRoulette";
+import { MixpanelTracking } from "@/services/mixpanel";
 
 import { Container, ImageWrapper, SubTitle, Title, TitleWrapper } from "@/styles/welcome.styles";
 
@@ -18,6 +19,10 @@ export default function Welcome() {
         return "/assets/images/section2.svg";
     }
   };
+
+  useEffect(() => {
+    MixpanelTracking.getInstance().pageViewed();
+  }, []);
   return (
     <Container>
       <TitleWrapper>
