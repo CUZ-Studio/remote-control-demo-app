@@ -105,8 +105,10 @@ export default function Header() {
           const notice = {
             isUrgent: true,
             errorName: error.name,
-            errorCode: error.response?.status,
-            errorMessage: `"SetPlayerDefaultLocation" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+            errorCode: error.response?.status || error.code,
+            errorMessage: `"SetPlayerDefaultLocation" 함수에서 다음 에러 발생: ${
+              error?.message || error.response?.data.errorMessage
+            }`,
           };
           noticeToSlack({
             ...notice,

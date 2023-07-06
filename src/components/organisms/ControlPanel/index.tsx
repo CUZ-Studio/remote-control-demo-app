@@ -44,8 +44,10 @@ export default function ControlPanel() {
       .catch((error) => {
         const notice = {
           errorName: error.name,
-          errorCode: error.response?.status,
-          errorMessage: `"OnJump" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+          errorCode: error.response?.status || error.code,
+          errorMessage: `"OnJump" 함수에서 다음 에러 발생: ${
+            error?.message || error.response?.data.errorMessage
+          }`,
         };
         noticeToSlack({
           ...notice,
@@ -82,8 +84,10 @@ export default function ControlPanel() {
       .catch((error) => {
         const notice = {
           errorName: error.name,
-          errorCode: error.response?.status,
-          errorMessage: `"OnFire" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+          errorCode: error.response?.status || error.code,
+          errorMessage: `"OnFire" 함수에서 다음 에러 발생: ${
+            error?.message || error.response?.data.errorMessage
+          }`,
         };
         noticeToSlack({
           ...notice,
@@ -107,8 +111,10 @@ export default function ControlPanel() {
       .catch((error) => {
         const notice = {
           errorName: error.name,
-          errorCode: error.response?.status,
-          errorMessage: `"GetPlayerScore" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+          errorCode: error.response?.status || error.code,
+          errorMessage: `"GetPlayerScore" 함수에서 다음 에러 발생: ${
+            error?.message || error.response?.data.errorMessage
+          }`,
         };
         noticeToSlack({
           ...notice,
@@ -166,8 +172,10 @@ export default function ControlPanel() {
     } catch (error: any) {
       const notice = {
         errorName: error.name,
-        errorCode: error.response?.status,
-        errorMessage: `"SetMoveForwardLeft" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        errorCode: error.response?.status || error.code,
+        errorMessage: `"SetMoveForwardLeft" 함수에서 다음 에러 발생: ${
+          error?.message || error.response?.data.errorMessage
+        }`,
       };
       noticeToSlack({
         ...notice,
@@ -208,8 +216,10 @@ export default function ControlPanel() {
     } catch (error: any) {
       const notice = {
         errorName: error.name,
-        errorCode: error.response?.status,
-        errorMessage: `"SetMoveForwardRight" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+        errorCode: error.response?.status || error.code,
+        errorMessage: `"SetMoveForwardRight" 함수에서 다음 에러 발생: ${
+          error?.message || error.response?.data.errorMessage
+        }`,
       };
       noticeToSlack({
         ...notice,

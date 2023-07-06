@@ -131,8 +131,10 @@ export default function NameYourRobot() {
         const notice = {
           isUrgent: true,
           errorName: error.name,
-          errorCode: error.response?.status,
-          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+          errorCode: error.response?.status || error.code,
+          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${
+            error?.message || error.response?.data.errorMessage
+          }`,
         };
         noticeToSlack({
           ...notice,

@@ -42,8 +42,10 @@ export default function GoingToHangar() {
       .catch((error) => {
         const notice = {
           errorName: error.name,
-          errorCode: error.response?.status,
-          errorMessage: `"GetCurrentRoundName" 함수에서 다음 에러 발생: ${error.response?.data.errorMessage}`,
+          errorCode: error.response?.status || error.code,
+          errorMessage: `"GetCurrentRoundName" 함수에서 다음 에러 발생: ${
+            error?.message || error.response?.data.errorMessage
+          }`,
         };
         noticeToSlack({
           ...notice,
