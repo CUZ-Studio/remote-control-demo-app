@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
 
+import Lights from "@/components/molecules/Lights";
 import Model from "@/components/organisms/Model";
 import { getPlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
@@ -15,7 +16,6 @@ import { Player } from "@/slices/game";
 import { ButtonShape, Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
-import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import {
@@ -170,7 +170,6 @@ export default function WelcomeBack() {
         });
       });
   }, []);
-
   return (
     <Container>
       <MainSection>
@@ -193,17 +192,9 @@ export default function WelcomeBack() {
           </Unit>
         </GameHistory>
         <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
-            <ambientLight intensity={0.8} />
-            <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
+          <Canvas shadows camera={{ position: [0, 0.5, 2.6] }}>
+            <Lights />
             <Model />
-            <OrbitControls
-              minPolarAngle={Math.PI / 2}
-              maxPolarAngle={Math.PI / 2}
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-            />
           </Canvas>
           <RewardBox>
             {Array.from(Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace)).map(

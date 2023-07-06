@@ -7,6 +7,7 @@ import _ from "lodash";
 import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
 import ErrorBox from "@/components/atoms/ErrorBox";
+import Lights from "@/components/molecules/Lights";
 import Model from "@/components/organisms/Model";
 import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
@@ -24,7 +25,6 @@ import {
 import isProfane from "@/utils/isProfane";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
-import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import {
@@ -152,17 +152,9 @@ export default function NameYourRobot() {
       <MainSection>
         <Greeting>{`마지막으로\n로봇의 이름을 입력해주세요.`}</Greeting>
         <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
-            <ambientLight intensity={0.8} />
-            <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
+          <Canvas shadows camera={{ position: [0, 0.5, 2.6] }}>
+            <Lights />
             <Model />
-            <OrbitControls
-              minPolarAngle={Math.PI / 2}
-              maxPolarAngle={Math.PI / 2}
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-            />
           </Canvas>
         </CanvasWrapper>
         {errorMessage && <ErrorBox>{errorMessage}</ErrorBox>}

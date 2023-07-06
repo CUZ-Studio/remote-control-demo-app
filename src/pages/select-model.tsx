@@ -3,13 +3,13 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
+import Lights from "@/components/molecules/Lights";
 import Model from "@/components/organisms/Model";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
 import { ButtonShape, Page, RobotModelType } from "@/types";
-import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import {
@@ -61,17 +61,9 @@ export default function SelectRobot() {
       <MainSection>
         <Greeting>{`${user?.displayName}님,\n함께 지구를 살릴\n로봇을 생성해주세요!`}</Greeting>
         <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
-            <ambientLight intensity={0.8} />
-            <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
+          <Canvas shadows camera={{ position: [0, 0.5, 2.5] }}>
+            <Lights />
             <Model />
-            <OrbitControls
-              minPolarAngle={Math.PI / 2}
-              maxPolarAngle={Math.PI / 2}
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-            />
           </Canvas>
         </CanvasWrapper>
         <RobotDescription>{getDescription(player?.modelType as RobotModelType)}</RobotDescription>

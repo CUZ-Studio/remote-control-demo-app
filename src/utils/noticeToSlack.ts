@@ -15,12 +15,15 @@ export default function noticeToSlack({
   errorCode,
   errorMessage,
 }: Props) {
-  return axios.post(
-    `${process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL}`,
-    JSON.stringify({
-      text: `${assignees.map((assigneeID) => `<@${assigneeID}>`)} ${
-        isUrgent ? ":rotating_light:" : ""
-      } [${errorName}${errorCode ? ` - ${errorCode}` : ""}] ${errorMessage}`,
-    }),
+  return (
+    process.env.NODE_ENV !== "development" &&
+    axios.post(
+      `${process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL}`,
+      JSON.stringify({
+        text: `${assignees.map((assigneeID) => `<@${assigneeID}>`)} ${
+          isUrgent ? ":rotating_light:" : ""
+        } [${errorName}${errorCode ? ` - ${errorCode}` : ""}] ${errorMessage}`,
+      }),
+    )
   );
 }
