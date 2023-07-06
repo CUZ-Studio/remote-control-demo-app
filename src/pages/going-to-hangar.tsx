@@ -11,7 +11,7 @@ import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
-import { Container, LoadingMessage } from "@/styles/going-to-hangar";
+import { Container, LoadingMessage } from "@/styles/going-to-hangar.styles";
 
 export default function GoingToHangar() {
   const router = useRouter();

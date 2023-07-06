@@ -34,7 +34,7 @@ import {
   InputWrapper,
   MainSection,
   StyledForm,
-} from "@/styles/name.styles";
+} from "@/styles/name-your-robot.styles";
 
 export default function NameYourRobot() {
   const router = useRouter();

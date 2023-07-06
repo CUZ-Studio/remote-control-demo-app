@@ -15,7 +15,7 @@ import {
   Greeting,
   MainSection,
   NextButton,
-} from "@/styles/custom.styles";
+} from "@/styles/customize-design.styles";
 
 export default function CustomizeModel() {
   const router = useRouter();

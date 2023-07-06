@@ -3,7 +3,13 @@ import Image from "next/image";
 
 import CardRoulette from "@/components/organisms/CardRoulette";
 
-import { Container, ImageWrapper, SubTitle, Title, TitleWrapper } from "@/styles/welcome.styles";
+import {
+  Container,
+  ImageWrapper,
+  SubTitle,
+  Title,
+  TitleWrapper,
+} from "@/styles/start-your-journey.styles";
 
 export default function Welcome() {
   const [selectedSection, setSelectedSection] = useState(3);
