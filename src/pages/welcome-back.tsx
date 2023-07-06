@@ -95,12 +95,13 @@ export default function WelcomeBack() {
         const createdCharacterInfo = res.data;
         // 전역상태로 새로운 플레이어 정보 저장
         // 새로운 라운드를 위해 점수는 0점으로 리셋
-        assignPlayer({
-          ...(player as Player),
-          uid: user?.uid,
-          thisRoundScore: 0,
-          objectPath: createdCharacterInfo.CharacterPath,
-        });
+        if (user)
+          assignPlayer({
+            ...(player as Player),
+            uid: user.uid,
+            thisRoundScore: 0,
+            objectPath: createdCharacterInfo.CharacterPath,
+          });
 
         // 현재 진행중인 게임 라운드의 남은 시간 업데이트
         updateGameRound({

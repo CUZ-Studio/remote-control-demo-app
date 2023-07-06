@@ -123,7 +123,7 @@ export default function Countdown() {
             });
           assignPlayer({
             ...(player as Player),
-            objectPath: undefined,
+            objectPath: null,
             allRoundScore: tempAllRoundScore,
           });
         });

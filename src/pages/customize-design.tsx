@@ -38,7 +38,7 @@ export default function CustomizeModel() {
             />
           </Canvas>
         </CanvasWrapper>
-        <Picker modelType={player?.modelType} />
+        <Picker modelType={player?.modelType || null} />
       </MainSection>
       <ButtonWrapper>
         <NextButton

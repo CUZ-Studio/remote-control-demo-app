@@ -109,7 +109,7 @@ export default function NameYourRobot() {
           assignPlayer({
             ...player,
             uid: user.uid,
-            headTag: inputValue,
+            headTag: inputValue || "",
             objectPath: createdCharacterInfo.CharacterPath,
           });
 

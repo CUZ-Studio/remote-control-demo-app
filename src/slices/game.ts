@@ -4,29 +4,27 @@ import { RobotColor, RobotModelType, TimeSchedule } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Player {
-  uid: string | undefined; // userId와 혼동하지 말 것!
-  objectPath: string | undefined;
-  headTag: string | undefined;
-  modelType: RobotModelType | undefined;
-  modelColor: RobotColor | undefined;
-  highestRankEver: number | undefined;
-  thisRoundScore: number | undefined;
-  allRoundScore:
-    | {
-        [key: string]: number;
-      }
-    | undefined;
-  playedNum: number | undefined;
-  gotFirstPlace: number | undefined;
+  uid: string | null; // userId와 혼동하지 말 것!
+  objectPath: string | null;
+  headTag: string | null;
+  modelType: RobotModelType | null;
+  modelColor: RobotColor | null;
+  highestRankEver: number | null;
+  thisRoundScore: number | null;
+  allRoundScore: {
+    [key: string]: number;
+  } | null;
+  playedNum: number | null;
+  gotFirstPlace: number | null;
 }
 
 export interface GameRound {
-  gameModeBaseObjectPath: string | undefined;
+  gameModeBaseObjectPath: string | null;
   isGameInProgress: boolean;
-  currentTimeSchedule: TimeSchedule | undefined;
+  currentTimeSchedule: TimeSchedule | null;
   timeLeft: number | null;
-  currentRoundName: string | undefined;
-  thisRoundBestPlayerUID: string | undefined;
+  currentRoundName: string | null;
+  thisRoundBestPlayerUID: string | null;
 }
 
 export interface GameState {
@@ -36,24 +34,24 @@ export interface GameState {
 
 const initialState: GameState = {
   player: {
-    uid: undefined,
-    objectPath: undefined,
-    headTag: undefined,
-    modelType: undefined,
-    modelColor: undefined,
-    highestRankEver: undefined,
-    thisRoundScore: undefined,
-    allRoundScore: undefined,
-    playedNum: undefined,
-    gotFirstPlace: undefined,
+    uid: null,
+    objectPath: null,
+    headTag: null,
+    modelType: null,
+    modelColor: null,
+    highestRankEver: null,
+    thisRoundScore: null,
+    allRoundScore: null,
+    playedNum: null,
+    gotFirstPlace: null,
   },
   gameRound: {
-    gameModeBaseObjectPath: undefined,
+    gameModeBaseObjectPath: null,
     isGameInProgress: false,
-    currentTimeSchedule: undefined,
+    currentTimeSchedule: null,
     timeLeft: 0,
-    currentRoundName: undefined,
-    thisRoundBestPlayerUID: undefined,
+    currentRoundName: null,
+    thisRoundBestPlayerUID: null,
   },
 };
 

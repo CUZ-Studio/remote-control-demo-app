@@ -47,10 +47,11 @@ export const store = configureStore({
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-const setupStore = (context: any): EnhancedStore => store;
+const setupStore = (_ctx: any): EnhancedStore => store;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const makeStore: MakeStore<any> = (context: any) => setupStore(context);
 export const persistor = persistStore(store);

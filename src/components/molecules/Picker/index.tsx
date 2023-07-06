@@ -17,7 +17,7 @@ export const modelColorState = proxy({
 });
 
 interface Props {
-  modelType: RobotModelType | undefined;
+  modelType: RobotModelType | null;
 }
 
 export default function Picker({ modelType }: Props) {

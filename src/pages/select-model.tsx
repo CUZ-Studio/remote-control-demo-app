@@ -53,7 +53,7 @@ export default function SelectRobot() {
   useEffect(() => {
     assignPlayer({
       ...(player as Player),
-      modelColor: undefined,
+      modelColor: null,
     });
   }, []);
   return (
