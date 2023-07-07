@@ -13,7 +13,7 @@ import createEmotionServer from "@emotion/server/create-instance";
 import createEmotionCache from "@/createEmotionCache";
 import { MyAppProps } from "@/pages/_app";
 
-import theme, { inter } from "@/styles/theme";
+import theme from "@/styles/theme";
 
 interface MyDocumentProps extends DocumentProps {
   emotionStyleTags: JSX.Element[];
@@ -21,7 +21,7 @@ interface MyDocumentProps extends DocumentProps {
 
 export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
   return (
-    <Html lang="ko" className={inter.className}>
+    <Html lang="ko">
       <Head>
         {/* PWA primary color */}
         <meta name="theme-color" content={theme.palette.primary.main} />

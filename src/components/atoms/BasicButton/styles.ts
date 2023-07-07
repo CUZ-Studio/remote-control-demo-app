@@ -12,23 +12,25 @@ export const StyledButton = styled("button", {
   color: string;
 }>`
   position: relative;
+  font-family: "Pretendard";
   font-size: ${({ shape }) => {
     switch (shape) {
       case ButtonShape.CIRCLE:
-        return "16px";
       case ButtonShape.RECTANGLE:
       default:
-        return "12px";
+        return "1rem";
     }
   }};
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0em;
   padding: ${({ shape }) => {
     switch (shape) {
       case ButtonShape.CIRCLE:
         return "0";
       case ButtonShape.RECTANGLE:
       default:
-        return "24px 0";
+        return "14px 0";
     }
   }};
   border: ${({ shape, theme }) =>
@@ -39,15 +41,16 @@ export const StyledButton = styled("button", {
         return "50%";
       case ButtonShape.RECTANGLE:
       default:
-        return "0px";
+        return "10px";
     }
   }};
   cursor: pointer;
-  color: ${({ theme }) => theme.palette.common.black};
+  color: ${({ theme, isPressed }) =>
+    isPressed ? theme.palette.secondary.main : theme.palette.secondary.contrastText};
   background-color: ${({ theme, color, isPressed }) => {
-    if (color) return isPressed ? theme.palette.secondary.main : color;
+    if (color) return isPressed ? theme.palette.secondary.contrastText : color;
     else {
-      return isPressed ? theme.palette.secondary.main : theme.palette.grey[200];
+      return isPressed ? theme.palette.secondary.contrastText : theme.palette.secondary.main;
     }
   }};
 

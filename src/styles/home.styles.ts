@@ -2,19 +2,32 @@ import { styled } from "@mui/material/styles";
 
 import BasicButton from "@/components/atoms/BasicButton";
 
-export const Container = styled("div")`
+export const Container = styled("div", {
+  shouldForwardProp: (props) => props !== "isMobile",
+})<{
+  isMobile: boolean;
+}>`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: ${({ theme }) => theme.palette.primary.main};
+  overflow: hidden;
+  z-index: 1;
+`;
+
+export const Inner = styled("div")`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: 100%;
-`;
-
-export const MainSection = styled("main")`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  z-index: 3;
+  background: linear-gradient(167.88deg, rgba(0, 0, 0, 0.6) -7.02%, rgba(0, 0, 0, 0) 98.6%);
+  padding: 0 20px 40px;
 `;
 
 export const TitleWrapper = styled("div")`
@@ -23,42 +36,41 @@ export const TitleWrapper = styled("div")`
   justify-content: center;
   align-items: center;
   margin: auto 0;
+  gap: 0.5rem;
 `;
 
 export const Title = styled("h1")`
-  font-size: 36px;
+  font-family: "Anton", sans-serif;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
+  font-size: 51px;
   font-weight: 400;
-  line-height: 35px;
+  line-height: 51px;
+  letter-spacing: 0em;
+  text-align: center;
   margin: 0;
   white-space: nowrap;
+  text-transform: uppercase;
 `;
 
 export const SubTitle = styled("h2")`
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 35px;
+  font-family: "Pretendard";
+  color: ${({ theme }) => theme.palette.primary.contrastText};
   margin: 0;
   white-space: nowrap;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 26px;
+  letter-spacing: 0.2em;
+  text-align: center;
 `;
 
 export const ButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 77px;
   width: 100%;
 `;
 
 export const StartButton = styled(BasicButton)`
   position: relative;
   width: 100%;
-`;
-
-export const Logo = styled("span")`
-  font-family: Inter;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 15px;
-  letter-spacing: 0em;
-  text-align: center;
 `;

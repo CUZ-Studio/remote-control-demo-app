@@ -4,7 +4,7 @@ import { isMobile } from "react-device-detect";
 import Header from "@/components/organisms/Header";
 import useUser from "@/hooks/useUser";
 
-import { Inner, Root } from "./styles";
+import { Root } from "./styles";
 
 interface Props {
   children: ReactNode;
@@ -20,9 +20,7 @@ export default function BasicLayout({ children }: Props) {
   return (
     <>
       {user && <Header />}
-      <Root windowHeight={windowHeight}>
-        <Inner isMobile={isMobile}>{children}</Inner>
-      </Root>
+      <Root windowHeight={windowHeight}>{children}</Root>
     </>
   );
 }
