@@ -2,17 +2,16 @@ import { styled } from "@mui/material/styles";
 
 export const Panel = styled("section")`
   position: relative;
-  width: 295px;
-  height: 192px;
-  padding: 0 21px;
+  width: 100%;
+  aspect-ratio: 390 / 343;
+  padding: 43px 20px 50px;
 `;
 
 export const JumpButton = styled("div")`
   position: absolute;
   left: 50%;
-  margin-left: -24px;
+  transform: translateX(-50%);
   cursor: pointer;
-  rotate: 90deg;
 `;
 
 export const MoveLeftButton = styled("div")`
@@ -26,7 +25,6 @@ export const MoveRightButton = styled("div")`
   position: absolute;
   right: 0;
   bottom: 0;
-  rotate: 180deg;
   cursor: pointer;
 `;
 
@@ -35,11 +33,11 @@ export const FireButton = styled("div")`
   justify-content: center;
   align-items: center;
   position: absolute;
-  width: 72px;
-  height: 72px;
-  bottom: 9px;
+  width: 110px;
+  height: 110px;
+  bottom: 25px;
   left: 50%;
-  margin-left: -36px;
+  transform: translateX(-50%);
   border-radius: 50%;
   background-color: ${({ theme }) => theme.palette.grey[600]};
   z-index: 9;
