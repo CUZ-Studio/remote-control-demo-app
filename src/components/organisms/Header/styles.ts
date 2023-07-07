@@ -1,4 +1,3 @@
-import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { styled } from "@mui/material/styles";
 
 export const Root = styled("header", {
@@ -10,39 +9,35 @@ export const Root = styled("header", {
   position: fixed;
   z-index: 9;
   width: 100%;
-  height: ${({ showUserOnHeader }) => (showUserOnHeader ? "11.7vh" : "10.5vh")};
   z-index: 9;
   visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
 `;
 
 export const Inner = styled("div", {
-  shouldForwardProp: (props) => props !== "isMobile",
+  shouldForwardProp: (props) => props !== "isMobile" && props !== "showUserOnHeader",
 })<{
   isMobile: boolean;
+  showUserOnHeader: boolean;
 }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   height: 100%;
-  padding: 3vh 16px;
+  padding: ${({ showUserOnHeader }) => (showUserOnHeader ? "10px 9px" : "31px 20px")};
   margin: 0 auto;
-  background: ${({ theme }) => theme.palette.common.white};
-`;
-
-export const LogoutIcon = styled(ExitToAppRoundedIcon)`
-  font-size: 20px;
-  cursor: pointer;
+  background-color: ${({ theme, showUserOnHeader }) =>
+    showUserOnHeader ? theme.palette.background.paper : "transparent"};
 `;
 
 export const ProfileBox = styled("div")`
   display: flex;
-  gap: 15px;
   align-items: center;
+  user-select: none;
 `;
 
 export const ProfileImageWrapper = styled("div")`
-  width: 47px;
+  width: 65px;
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
@@ -55,18 +50,8 @@ export const ProfileImage = styled("div")`
   background-color: ${({ theme }) => theme.palette.grey[200]};
 `;
 
-export const UserName = styled("p")`
-  font-family: Inter;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: left;
-`;
-
 export const ArrowBackIcon = styled("div")`
   display: flex;
-  margin-left: 19px;
   cursor: pointer;
 `;
 
@@ -78,5 +63,40 @@ export const QuestionMarkIcon = styled("div")`
 export const IconWrapper = styled("div")`
   display: flex;
   align-items: center;
-  gap: 8px;
+  cursor: pointer;
+  margin-right: 4px;
+`;
+
+export const Welcome = styled("p")`
+  font-family: Pretendard;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #009ecf;
+`;
+
+export const Indicator = styled("div")`
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(3, minmax(6px, 8px));
+  grid-column-gap: 6px;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+export const Dot = styled("div", {
+  shouldForwardProp: (props) => props !== "isActive",
+})<{
+  isActive: boolean;
+}>`
+  width: ${({ isActive }) => (isActive ? "8px" : "6px")};
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: ${({ isActive }) => (isActive ? "#009ECF" : "#A6AEC1")};
+  cursor: pointer;
+  position: relative;
 `;

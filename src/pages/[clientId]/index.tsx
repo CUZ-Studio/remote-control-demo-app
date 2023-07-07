@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import _ from "lodash";
+import { isMobile } from "react-device-detect";
 
 import { KAKAO_DEFAULT_PROFILE_IMAGE_URL } from "@/constants/url";
 import { createPlayer, getPlayer } from "@/firebase/players";
@@ -76,5 +77,5 @@ export default function HomePage() {
     });
   }, [gameRound.gameModeBaseObjectPath]);
 
-  return <Container>로딩중...</Container>;
+  return <Container isMobile={isMobile}>로딩중...</Container>;
 }

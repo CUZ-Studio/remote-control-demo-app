@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Image from "next/image";
+import { isMobile } from "react-device-detect";
 
 import CardRoulette from "@/components/organisms/CardRoulette";
 
 import {
   Container,
   ImageWrapper,
+  Inner,
   SubTitle,
   Title,
   TitleWrapper,
@@ -25,15 +27,24 @@ export default function Welcome() {
     }
   };
   return (
-    <Container>
-      <TitleWrapper>
-        <Title>Dear Earth</Title>
-        <SubTitle>: 시간여행자의 여정</SubTitle>
-      </TitleWrapper>
-      <ImageWrapper>
-        {getImageSrc() && <Image fill src={getImageSrc()} alt={`section ${selectedSection}`} />}
-      </ImageWrapper>
-      <CardRoulette selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
+    <Container isMobile={isMobile}>
+      <Inner>
+        <TitleWrapper>
+          <Title>Dear Earth</Title>
+          <SubTitle>: 시간여행자의 여정</SubTitle>
+        </TitleWrapper>
+        <ImageWrapper>
+          {getImageSrc() && (
+            <Image
+              src={getImageSrc()}
+              alt={`section ${selectedSection}`}
+              width={364}
+              height={364}
+            />
+          )}
+        </ImageWrapper>
+        <CardRoulette selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
+      </Inner>
     </Container>
   );
 }

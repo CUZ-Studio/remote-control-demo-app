@@ -2,8 +2,8 @@ import { MouseEventHandler, TouchEventHandler, useCallback, useState } from "rea
 import axios from "axios";
 import _ from "lodash";
 
-import Arrow from "@/components/atoms/Arrow";
-import Fire from "@/components/atoms/Fire";
+import Arrow from "@/components/atoms/Icons/Arrow";
+import Fire from "@/components/atoms/Icons/Fire";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";

@@ -5,14 +5,15 @@ export const SectionNumber = styled("h2", {
 })<{
   isSelected: boolean;
 }>`
-  font-family: Inter;
-  font-size: ${({ isSelected }) => (isSelected ? "32px" : "24px")};
-  font-weight: 400;
-  line-height: 39px;
+  font-family: "Pretendard";
+  font-size: ${({ isSelected }) => (isSelected ? "30px" : "26px")};
+  font-weight: 600;
+  line-height: ${({ isSelected }) => (isSelected ? "36px" : "31px")};
   letter-spacing: 0em;
   text-align: left;
-  color: ${({ theme }) => theme.palette.common.white};
-  margin: 0 0 ${({ isSelected }) => (isSelected ? "22px" : "5px")};
+  color: ${({ theme, isSelected }) =>
+    isSelected ? theme.palette.info.main : theme.palette.info.light};
+  margin: 0 0 7px 0;
 `;
 
 export const Title = styled("h1", {
@@ -20,13 +21,15 @@ export const Title = styled("h1", {
 })<{
   isSelected: boolean;
 }>`
-  font-family: Inter;
-  font-weight: 400;
-  font-size: ${({ isSelected }) => (isSelected ? "24px" : "16px")};
-  line-height: ${({ isSelected }) => (isSelected ? "29px" : "19.6px")};
+  font-family: "Pretendard";
+  font-weight: 600;
+  font-size: ${({ isSelected }) => (isSelected ? "24px" : "18px")};
+  line-height: ${({ isSelected }) => (isSelected ? "29px" : "21.48px")};
   letter-spacing: 0em;
   text-align: left;
-  margin: 0;
+  margin: 0 0 7px 0;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
+  white-space: pre-wrap;
 `;
 
 export const SubTitle = styled("h3", {
@@ -34,14 +37,15 @@ export const SubTitle = styled("h3", {
 })<{
   isSelected: boolean;
 }>`
-  font-family: Inter;
+  font-family: "Pretendard";
   font-size: 16px;
   font-weight: 400;
-  line-height: 19.6px;
+  line-height: 19.09px;
   letter-spacing: 0em;
   text-align: left;
   margin: 0;
   white-space: pre-wrap;
+  color: ${({ theme }) => theme.palette.primary.contrastText}80;
 `;
 
 export const Card = styled("div", {
@@ -54,36 +58,38 @@ export const Card = styled("div", {
   width: ${({ order }) => {
     switch (order) {
       case "middle":
-        return "279px";
+        return "280px";
       case "top":
       case "bottom":
       default:
-        return "202px";
+        return "200px";
     }
   }};
   height: ${({ order }) => {
     switch (order) {
       case "middle":
-        return "279px";
+        return "280px";
       case "top":
       case "bottom":
       default:
         return "202px";
     }
   }};
-  background-color: ${({ theme, isSelected }) =>
-    isSelected ? theme.palette.grey[200] : theme.palette.grey[100]};
-  padding: 36px 34px;
+  background: ${({ theme, isSelected }) =>
+    isSelected
+      ? `linear-gradient(180deg, ${theme.palette.secondary.contrastText} 0%, #01639B 100%)`
+      : "linear-gradient(142.38deg, #9FAACA 1.96%, #3C65CC 133.32%, #5369A0 133.32%)"};
+  padding: 38px 36px 45px;
   display: flex;
   flex-direction: column;
   border-radius: ${({ order }) => {
     switch (order) {
       case "middle":
-        return "39px";
+        return "30px";
       case "top":
       case "bottom":
       default:
-        return "29px";
+        return "20px";
     }
   }};
   cursor: pointer;
@@ -103,13 +109,15 @@ export const Card = styled("div", {
       case "middle":
         return "translate(30%, 0)";
       case "top":
-        return "translate(90%, 5%)";
+        return "translate(85%, 0%)";
       case "bottom":
       default:
-        return "translate(90%, -5%)";
+        return "translate(85%, 0%)";
     }
   }};
+  right: -122.5px;
   user-select: none;
+  box-shadow: ${({ theme }) => `0px 2px 15px 0px ${theme.palette.secondary.contrastText}33`};
 `;
 
 export const EnterButton = styled("button", {
@@ -117,17 +125,20 @@ export const EnterButton = styled("button", {
 })<{
   isPressed: boolean;
 }>`
-  padding: 8px 13px;
+  padding: 6px 20px;
   border: none;
+  border-radius: 16px;
   background-color: ${({ theme, isPressed }) =>
-    isPressed ? theme.palette.secondary.main : theme.palette.grey[300]};
-  font-family: Inter;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: left;
+    isPressed ? theme.palette.primary.main : theme.palette.secondary.main};
   margin-top: auto;
   width: fit-content;
   cursor: pointer;
+  color: ${({ theme, isPressed }) =>
+    isPressed ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText};
+  font-family: "Pretendard";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center;
 `;

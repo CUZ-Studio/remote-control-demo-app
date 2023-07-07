@@ -4,7 +4,7 @@ interface Props {
   isPressed: boolean;
 }
 
-export default function Arrow({ isPressed }: Props) {
+export default function ArrowIcon({ isPressed }: Props) {
   return (
     <svg width="45" height="85" viewBox="0 0 45 85" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

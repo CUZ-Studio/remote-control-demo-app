@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { proxy } from "valtio";
 
-import BasicButton from "@/components/atoms/BasicButton";
-import { ColorPalette } from "@/components/organisms/Model/styles";
+import { ColorOption, ColorPalette } from "@/components/organisms/Model/styles";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import { Player } from "@/slices/game";
-import { ButtonShape, RobotColor, RobotModelType } from "@/types";
+import { RobotColor, RobotModelType } from "@/types";
 
 export const modelColorState = proxy({
   items: {
@@ -64,13 +63,12 @@ export default function Picker({ modelType }: Props) {
     })();
     if (colorsAvailable) setPaletteColors(colorsAvailable);
   }, [modelType]);
+
   return (
     <ColorPalette>
       {paletteColors.map((color) => (
-        <BasicButton
+        <ColorOption
           key={`${modelType}_${color}`}
-          type="button"
-          shape={ButtonShape.CIRCLE}
           color={color}
           isSelected={
             player?.modelColor ? player?.modelColor === color : RobotColor.WHITE === color

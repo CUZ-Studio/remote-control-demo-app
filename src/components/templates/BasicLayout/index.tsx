@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from "react";
-import { isMobile } from "react-device-detect";
 
 import Header from "@/components/organisms/Header";
 import useUser from "@/hooks/useUser";

@@ -22,19 +22,19 @@ export default function SectionCard({ sectionNumber, selectedSection, setSelecte
       case 3: {
         return {
           title: `Journey\nto the past`,
-          subTitle: `과거로의\n여정`,
+          subTitle: `과거로의 여정`,
         };
       }
       case 4: {
         return {
-          title: "Time Walker",
+          title: "Time\nWalker",
           subTitle: `시간여행자의\n영광`,
         };
       }
       case 2:
       default: {
         return {
-          title: "Time Portal",
+          title: "Time\nPortal",
           subTitle: "타임포탈",
         };
       }

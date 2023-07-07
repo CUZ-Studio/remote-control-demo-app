@@ -3,8 +3,8 @@ import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
+import { isMobile } from "react-device-detect";
 
-import BasicButton from "@/components/atoms/BasicButton";
 import BasicInput from "@/components/atoms/BasicInput";
 import ErrorBox from "@/components/atoms/ErrorBox";
 import Model from "@/components/organisms/Model";
@@ -14,7 +14,6 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import {
-  ButtonShape,
   Page,
   RobotColor,
   RobotModelType,
@@ -29,10 +28,12 @@ import { Canvas } from "@react-three/fiber";
 
 import {
   CanvasWrapper,
+  CardPopUp,
   Container,
   Greeting,
+  Inner,
   InputWrapper,
-  MainSection,
+  PlayButton,
   StyledForm,
 } from "@/styles/name-your-robot.styles";
 
@@ -148,38 +149,40 @@ export default function NameYourRobot() {
   };
 
   return (
-    <Container>
-      <MainSection>
+    <Container isMobile={isMobile}>
+      <Inner>
         <Greeting>{`마지막으로\n로봇의 이름을 입력해주세요.`}</Greeting>
-        <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
-            <ambientLight intensity={0.8} />
-            <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
-            <Model />
-            <OrbitControls
-              minPolarAngle={Math.PI / 2}
-              maxPolarAngle={Math.PI / 2}
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-            />
-          </Canvas>
-        </CanvasWrapper>
-        {errorMessage && <ErrorBox>{errorMessage}</ErrorBox>}
-        <StyledForm noValidate onSubmit={createCharacter}>
-          <InputWrapper>
-            <BasicInput
-              value={inputValue as string}
-              error={!!errorMessage}
-              onChange={handleChange}
-              onFocus={() => setErrorMessage("")}
-            />
-          </InputWrapper>
-          <BasicButton type="submit" shape={ButtonShape.RECTANGLE} disabled={disabled}>
-            로봇 생성 완료
-          </BasicButton>
-        </StyledForm>
-      </MainSection>
+        <CardPopUp>
+          <CanvasWrapper>
+            <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
+              <ambientLight intensity={0.8} />
+              <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
+              <Model />
+              <OrbitControls
+                minPolarAngle={Math.PI / 2}
+                maxPolarAngle={Math.PI / 2}
+                enableZoom={false}
+                enablePan={false}
+                enableRotate={false}
+              />
+            </Canvas>
+          </CanvasWrapper>
+          {errorMessage && <ErrorBox>{errorMessage}</ErrorBox>}
+          <StyledForm noValidate onSubmit={createCharacter}>
+            <InputWrapper>
+              <BasicInput
+                value={inputValue as string}
+                error={!!errorMessage}
+                onChange={handleChange}
+                onFocus={() => setErrorMessage("")}
+              />
+            </InputWrapper>
+            <PlayButton type="submit" disabled={disabled}>
+              로봇 생성 완료
+            </PlayButton>
+          </StyledForm>
+        </CardPopUp>
+      </Inner>
     </Container>
   );
 }

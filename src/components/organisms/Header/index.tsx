@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { isMobile } from "react-device-detect";
 
+import ArrowBackwardIcon from "@/components/atoms/Icons/Backward";
+import LogoutIcon from "@/components/atoms/Icons/Logout";
 import useAuthActions from "@/hooks/useAuthActions";
 import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
@@ -12,17 +14,20 @@ import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
+import theme from "@/styles/theme";
+
 import Timer from "../Timer";
 import {
   ArrowBackIcon,
+  Dot,
   IconWrapper,
+  Indicator,
   Inner,
-  LogoutIcon,
   ProfileBox,
   ProfileImage,
   ProfileImageWrapper,
   Root,
-  UserName,
+  Welcome,
 } from "./styles";
 
 export default function Header() {
@@ -52,9 +57,19 @@ export default function Header() {
   const showLogoutOnHeader = (() => {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
+      case Page.WELCOME_BACK:
         return true;
       default:
         return false;
+    }
+  })();
+
+  const logoutFill = (() => {
+    switch (router.asPath) {
+      case Page.WELCOME_BACK:
+        return theme.palette.common.white;
+      default:
+        return theme.palette.grey[700];
     }
   })();
 
@@ -121,29 +136,56 @@ export default function Header() {
         });
     }
   };
+
+  const showStepIndicator = (() => {
+    switch (router.asPath) {
+      case Page.SELECT_MODEL:
+      case Page.CUSTOMIZE_DESIGN:
+      case Page.NAME_YOUR_ROBOT:
+        return true;
+      default:
+        return false;
+    }
+  })();
   return (
     <Root showUserOnHeader={showUserOnHeader} isVisible={isVisible}>
-      <Inner isMobile={isMobile}>
+      <Inner isMobile={isMobile} showUserOnHeader={showUserOnHeader}>
         {showUserOnHeader ? (
           <ProfileBox>
             {user?.image ? (
               <ProfileImageWrapper>
-                <Image width={47} height={47} src={user.image} alt={user.displayName} />
+                <Image width={65} height={65} src={user.image} alt={user.displayName} />
               </ProfileImageWrapper>
             ) : (
               <ProfileImage />
             )}
-            <UserName>{user?.displayName}</UserName>
           </ProfileBox>
         ) : (
           <ArrowBackIcon onClick={() => router.push(getPreviousPage)}>
-            <Image width={24} height={24} src="/assets/icons/arrowBack.svg" alt="Back" />
+            <ArrowBackwardIcon />
           </ArrowBackIcon>
         )}
         {router.asPath === Page.PLAY && <Timer />}
+        {router.asPath === Page.WELCOME_BACK && <Welcome>Welcome Back!</Welcome>}
+        {showStepIndicator && (
+          <Indicator>
+            <Dot
+              isActive={router.asPath === Page.SELECT_MODEL}
+              onClick={() => router.push(Page.SELECT_MODEL)}
+            />
+            <Dot
+              isActive={router.asPath === Page.CUSTOMIZE_DESIGN}
+              onClick={() => router.push(Page.CUSTOMIZE_DESIGN)}
+            />
+            <Dot
+              isActive={router.asPath === Page.NAME_YOUR_ROBOT}
+              onClick={() => router.push(Page.NAME_YOUR_ROBOT)}
+            />
+          </Indicator>
+        )}
         {showLogoutOnHeader && (
-          <IconWrapper>
-            <LogoutIcon onClick={logout} />
+          <IconWrapper onClick={logout}>
+            <LogoutIcon fill={logoutFill} />
           </IconWrapper>
         )}
       </Inner>

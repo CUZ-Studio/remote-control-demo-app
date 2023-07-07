@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
+import { isMobile } from "react-device-detect";
 
 import Model from "@/components/organisms/Model";
 import { getPlayer } from "@/firebase/players";
@@ -12,7 +13,7 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { ButtonShape, Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
+import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
@@ -21,19 +22,19 @@ import { Canvas } from "@react-three/fiber";
 import {
   ButtonWrapper,
   CanvasWrapper,
+  CardPopUp,
   Container,
   GameHistory,
   Greeting,
   HistoryContext,
   HistoryName,
+  Inner,
   MainSection,
   PlayButton,
   ResetRobot,
   RewardBox,
   RobotName,
-  TitleWrapper,
   Unit,
-  Welcome,
 } from "@/styles/welcome-back.styles";
 
 export default function WelcomeBack() {
@@ -172,42 +173,52 @@ export default function WelcomeBack() {
   }, []);
 
   return (
-    <Container>
-      <MainSection>
-        <TitleWrapper>
-          <Welcome>Welcome back!</Welcome>
+    <Container isMobile={isMobile}>
+      <Inner>
+        <MainSection>
           <Greeting>{`${user?.displayName}님,\n다시 한 번 출동해볼까요?`}</Greeting>
-        </TitleWrapper>
-        <GameHistory>
-          <Unit>
-            <HistoryName>출동수</HistoryName>
-            <HistoryContext>{player?.playedNum}회</HistoryContext>
-          </Unit>
-          <Unit>
-            <HistoryName>전체랭킹</HistoryName>
-            <HistoryContext>{player?.highestRankEver || "-"}위</HistoryContext>
-          </Unit>
-          <Unit>
-            <HistoryName>최고점수</HistoryName>
-            <HistoryContext>{maxScore}점</HistoryContext>
-          </Unit>
-        </GameHistory>
-        <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
-            <ambientLight intensity={0.8} />
-            <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
-            <Model />
-            <OrbitControls
-              minPolarAngle={Math.PI / 2}
-              maxPolarAngle={Math.PI / 2}
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-            />
-          </Canvas>
-          <RewardBox>
-            {Array.from(Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace)).map(
-              (_, index) => (
+          <GameHistory>
+            <Unit>
+              <HistoryName>출동수</HistoryName>
+              <HistoryContext>
+                <h4>{player?.playedNum}</h4>
+                <h5>회</h5>
+              </HistoryContext>
+            </Unit>
+            <Unit>
+              <HistoryName>전체랭킹</HistoryName>
+              <HistoryContext>
+                <h4>{player?.highestRankEver || "-"}</h4>
+                <h5>위</h5>
+              </HistoryContext>
+            </Unit>
+            <Unit>
+              <HistoryName>최고점수</HistoryName>
+              <HistoryContext>
+                <h4>{maxScore}</h4>
+                <h5>점</h5>
+              </HistoryContext>
+            </Unit>
+          </GameHistory>
+        </MainSection>
+        <CardPopUp>
+          <CanvasWrapper>
+            <Canvas shadows camera={{ position: [0, 0, 4], fov: 60 }}>
+              <ambientLight intensity={0.8} />
+              <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
+              <Model />
+              <OrbitControls
+                minPolarAngle={Math.PI / 2}
+                maxPolarAngle={Math.PI / 2}
+                enableZoom={false}
+                enablePan={false}
+                enableRotate={false}
+              />
+            </Canvas>
+            <RewardBox>
+              {Array.from(
+                Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace),
+              ).map((_, index) => (
                 <Image
                   key={`star-${index}`}
                   src="/assets/images/star.svg"
@@ -215,23 +226,18 @@ export default function WelcomeBack() {
                   width={17}
                   height={17}
                 />
-              ),
-            )}
-          </RewardBox>
-        </CanvasWrapper>
-        <RobotName>{player?.headTag}</RobotName>
-      </MainSection>
-      <ButtonWrapper>
-        <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
-        <PlayButton
-          type="button"
-          shape={ButtonShape.RECTANGLE}
-          disabled={disabled}
-          onClick={createCharacter}
-        >
-          출동하기
-        </PlayButton>
-      </ButtonWrapper>
+              ))}
+            </RewardBox>
+          </CanvasWrapper>
+          <RobotName>{player?.headTag}</RobotName>
+          <ButtonWrapper>
+            <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
+            <PlayButton type="button" disabled={disabled} onClick={createCharacter}>
+              출동하기
+            </PlayButton>
+          </ButtonWrapper>
+        </CardPopUp>
+      </Inner>
     </Container>
   );
 }
