@@ -40,7 +40,6 @@ export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
   width: 283px;
-  padding: 0 25px;
   margin: 0 auto;
 `;
 
@@ -70,6 +69,9 @@ export const PlayButton = styled("button")`
 `;
 
 export const CardPopUp = styled("div")`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr auto;
   position: absolute;
   width: 100%;
   height: 77.25vh;

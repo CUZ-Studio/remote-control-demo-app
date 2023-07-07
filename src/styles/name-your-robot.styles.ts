@@ -40,7 +40,6 @@ export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
   width: 283px;
-  padding: 0 25px;
   margin: 0 auto;
 `;
 
@@ -49,13 +48,16 @@ export const StyledForm = styled("form")`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr auto;
-  align-items: center;
+  grid-row-gap: 150px;
+  width: 100%;
   justify-content: space-between;
-  width: inherit;
   margin-top: 63px;
 `;
 
 export const CardPopUp = styled("div")`
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -68,10 +70,15 @@ export const CardPopUp = styled("div")`
 
 export const InputWrapper = styled("div")`
   display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
   margin-bottom: auto;
+  padding: 0 36px;
 `;
 
 export const PlayButton = styled("button")`
+  position: relative;
   height: fit-content;
   border: none;
   width: 100%;

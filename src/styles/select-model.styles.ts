@@ -46,6 +46,7 @@ export const ButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex: 1;
   gap: 0.938rem;
 `;
 
@@ -126,6 +127,9 @@ export const RobotDescription = styled("h5")`
 `;
 
 export const CardPopUp = styled("div")`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr auto;
   position: absolute;
   width: 100%;
   height: 77.25vh;

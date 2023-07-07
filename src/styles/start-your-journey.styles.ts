@@ -28,28 +28,30 @@ export const TitleWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 3px;
-  color: ${({ theme }) => theme.palette.secondary.contrastText};
+  color: ${({ theme }) => theme.palette.primary.contrastText};
 `;
 
 export const Title = styled("h1")`
   text-align: left;
   margin: 0;
   text-transform: uppercase;
-  font-size: 32px;
-  font-weight: 900;
-  font-family: "SUIT", sans-serif;
-  line-height: 38px;
+  font-family: Anton;
+  font-size: 43px;
+  font-weight: 400;
+  line-height: 43px;
   letter-spacing: 0em;
+  text-align: left;
 `;
 
 export const SubTitle = styled("h2")`
   text-align: left;
   margin: 0;
-  text-transform: uppercase;
-  font-size: 20px;
+  font-family: Pretendard;
+  font-size: 19px;
   font-weight: 800;
-  font-family: "SUIT", sans-serif;
-  letter-spacing: 0.05em;
+  line-height: 26px;
+  letter-spacing: 0.1em;
+  text-align: left;
 `;
 
 export const ImageWrapper = styled("div")`

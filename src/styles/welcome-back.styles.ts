@@ -121,9 +121,11 @@ export const Unit = styled("div")`
 export const ButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: inherit;
   gap: 15px;
-  margin-top: 71px;
+  position: relative;
+  margin-top: auto;
+  height: fit-content;
 `;
 
 export const ResetRobot = styled("span")`
@@ -138,6 +140,7 @@ export const ResetRobot = styled("span")`
 `;
 
 export const PlayButton = styled("button")`
+  position: relative;
   width: 100%;
   border: none;
   border-radius: 10px;
@@ -185,9 +188,11 @@ export const RobotName = styled("h3")`
 export const CardPopUp = styled("div")`
   position: absolute;
   width: 100%;
-  height: 77.25vh;
+  height: 64vh;
   bottom: 0;
   background: ${({ theme }) => theme.palette.secondary.main};
   border-radius: 40px 40px 0 0;
   padding: 31px 20px 34px;
+  display: flex;
+  flex-direction: column;
 `;

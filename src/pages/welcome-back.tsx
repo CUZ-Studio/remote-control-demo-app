@@ -201,24 +201,24 @@ export default function WelcomeBack() {
             </Unit>
           </GameHistory>
         </MainSection>
-        <CardPopUp>
-          <CanvasWrapper>
-            <Canvas shadows camera={{ position: [0, 0, 4], fov: 60 }}>
-              <ambientLight intensity={0.8} />
-              <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
-              <Model />
-              <OrbitControls
-                minPolarAngle={Math.PI / 2}
-                maxPolarAngle={Math.PI / 2}
-                enableZoom={false}
-                enablePan={false}
-                enableRotate={false}
-              />
-            </Canvas>
-            <RewardBox>
-              {Array.from(
-                Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace),
-              ).map((_, index) => (
+      </Inner>
+      <CardPopUp>
+        <CanvasWrapper>
+          <Canvas shadows camera={{ position: [0, 0, 4], fov: 60 }}>
+            <ambientLight intensity={0.8} />
+            <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
+            <Model />
+            <OrbitControls
+              minPolarAngle={Math.PI / 2}
+              maxPolarAngle={Math.PI / 2}
+              enableZoom={false}
+              enablePan={false}
+              enableRotate={false}
+            />
+          </Canvas>
+          <RewardBox>
+            {Array.from(Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace)).map(
+              (_, index) => (
                 <Image
                   key={`star-${index}`}
                   src="/assets/images/star.svg"
@@ -226,18 +226,18 @@ export default function WelcomeBack() {
                   width={17}
                   height={17}
                 />
-              ))}
-            </RewardBox>
-          </CanvasWrapper>
-          <RobotName>{player?.headTag}</RobotName>
-          <ButtonWrapper>
-            <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
-            <PlayButton type="button" disabled={disabled} onClick={createCharacter}>
-              출동하기
-            </PlayButton>
-          </ButtonWrapper>
-        </CardPopUp>
-      </Inner>
+              ),
+            )}
+          </RewardBox>
+        </CanvasWrapper>
+        <RobotName>{player?.headTag}</RobotName>
+        <ButtonWrapper>
+          <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
+          <PlayButton type="button" disabled={disabled} onClick={createCharacter}>
+            출동하기
+          </PlayButton>
+        </ButtonWrapper>
+      </CardPopUp>
     </Container>
   );
 }

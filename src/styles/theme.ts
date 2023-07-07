@@ -34,7 +34,7 @@ const theme = createTheme({
       white: "#FFFFFF",
     },
     background: {
-      paper: "#ECF0FC",
+      paper: "#02081E",
     },
   },
   typography: {

@@ -11,9 +11,7 @@ export const StyledInput = styled("input", {
   font-weight: 400;
   line-height: 15px;
   letter-spacing: 0em;
-  width: 100%;
   padding: 14px 0;
-  margin: 0 36px;
   background-color: ${({ theme, error }) => (error ? theme.palette.error.light : "#F9F8FA")};
   color: #111111;
   border: 1px solid #aeadb0;

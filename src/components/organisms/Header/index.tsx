@@ -66,8 +66,9 @@ export default function Header() {
 
   const logoutFill = (() => {
     switch (router.asPath) {
+      case Page.START_YOUR_JOURNEY:
       case Page.WELCOME_BACK:
-        return theme.palette.common.white;
+        return "#C7D1E4";
       default:
         return theme.palette.grey[700];
     }

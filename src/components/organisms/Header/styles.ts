@@ -80,8 +80,8 @@ export const Welcome = styled("p")`
 export const Indicator = styled("div")`
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: repeat(3, minmax(6px, 8px));
-  grid-column-gap: 6px;
+  grid-template-columns: repeat(3, 8px);
+  grid-column-gap: 8px;
   align-items: center;
   position: absolute;
   left: 50%;
@@ -93,7 +93,8 @@ export const Dot = styled("div", {
 })<{
   isActive: boolean;
 }>`
-  width: ${({ isActive }) => (isActive ? "8px" : "6px")};
+  scale: ${({ isActive }) => (isActive ? 8 / 6 : 1)};
+  width: 6px;
   aspect-ratio: 1;
   border-radius: 50%;
   background-color: ${({ isActive }) => (isActive ? "#009ECF" : "#A6AEC1")};

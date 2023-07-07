@@ -167,9 +167,9 @@ export default function NameYourRobot() {
               />
             </Canvas>
           </CanvasWrapper>
-          {errorMessage && <ErrorBox>{errorMessage}</ErrorBox>}
           <StyledForm noValidate onSubmit={createCharacter}>
             <InputWrapper>
+              {errorMessage && <ErrorBox>{errorMessage}</ErrorBox>}
               <BasicInput
                 value={inputValue as string}
                 error={!!errorMessage}

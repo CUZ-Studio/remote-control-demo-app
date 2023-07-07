@@ -75,10 +75,8 @@ export const Card = styled("div", {
         return "202px";
     }
   }};
-  background: ${({ theme, isSelected }) =>
-    isSelected
-      ? `linear-gradient(180deg, ${theme.palette.secondary.contrastText} 0%, #01639B 100%)`
-      : "linear-gradient(142.38deg, #9FAACA 1.96%, #3C65CC 133.32%, #5369A0 133.32%)"};
+  background: ${({ isSelected }) =>
+    isSelected ? `linear-gradient(180deg, #071958 0%, #073658 100%)` : "#475373"};
   padding: 38px 36px 45px;
   display: flex;
   flex-direction: column;
