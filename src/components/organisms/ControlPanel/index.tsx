@@ -2,8 +2,10 @@ import { MouseEventHandler, TouchEventHandler, useCallback, useState } from "rea
 import axios from "axios";
 import _ from "lodash";
 
-import Arrow from "@/components/atoms/Icons/Arrow";
-import Fire from "@/components/atoms/Icons/Fire";
+import FireIcon from "@/components/atoms/Keys/Fire";
+import JumpIcon from "@/components/atoms/Keys/Jump";
+import LeftIcon from "@/components/atoms/Keys/Left";
+import RightIcon from "@/components/atoms/Keys/Right";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
@@ -252,7 +254,7 @@ export default function ControlPanel() {
         onTouchStart={onJump as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
-        <Arrow
+        <JumpIcon
           isPressed={
             controlEvent === ControlPanelEvent.JUMP && isMouseHolding && gameRound.isGameInProgress
           }
@@ -264,7 +266,7 @@ export default function ControlPanel() {
         onTouchStart={onMoveLeft as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
-        <Arrow
+        <LeftIcon
           isPressed={
             controlEvent === ControlPanelEvent.MOVE_LEFT &&
             isMouseHolding &&
@@ -278,7 +280,7 @@ export default function ControlPanel() {
         onTouchStart={onMoveRight as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
-        <Arrow
+        <RightIcon
           isPressed={
             controlEvent === ControlPanelEvent.MOVE_RIGHT &&
             isMouseHolding &&
@@ -292,7 +294,7 @@ export default function ControlPanel() {
         onTouchStart={onFireAndGetScore as TouchEventHandler}
         onTouchEnd={handleMouseUp}
       >
-        <Fire
+        <FireIcon
           isPressed={
             controlEvent === ControlPanelEvent.FIRE && isMouseHolding && gameRound.isGameInProgress
           }

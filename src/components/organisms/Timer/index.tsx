@@ -14,6 +14,8 @@ import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID, TimeSchedule } f
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
+import { Time } from "./styles";
+
 export default function Countdown() {
   const router = useRouter();
   const gameRound = useGameStatus();
@@ -201,5 +203,9 @@ export default function Countdown() {
     }
   }, [countDownLeft, gameRound.currentTimeSchedule, gameTimeLeft, restTimeLeft]);
 
-  return <div>{displayTimer()}</div>;
+  return (
+    <>
+      <Time>{displayTimer()}</Time>
+    </>
+  );
 }

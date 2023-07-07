@@ -58,6 +58,7 @@ export default function Header() {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
       case Page.WELCOME_BACK:
+      case Page.PLAY:
         return true;
       default:
         return false;
@@ -68,6 +69,7 @@ export default function Header() {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
       case Page.WELCOME_BACK:
+      case Page.PLAY:
         return "#C7D1E4";
       default:
         return theme.palette.grey[700];
