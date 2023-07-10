@@ -31,7 +31,7 @@ export default function Welcome() {
       <Inner>
         <TitleWrapper>
           <Title>Dear Earth</Title>
-          <SubTitle>: 시간여행자의 여정</SubTitle>
+          <SubTitle>시간여행자의 여정</SubTitle>
         </TitleWrapper>
         <ImageWrapper>
           {getImageSrc() && (

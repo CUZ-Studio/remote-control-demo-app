@@ -44,7 +44,7 @@ export const Greeting = styled("h3")`
 
 export const GameHistory = styled("div")`
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   width: fit-content;
   align-items: center;
   justify-content: center;
@@ -146,7 +146,7 @@ export const PlayButton = styled("button")`
   border-radius: 10px;
   padding: 14px 0;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 19px;
   letter-spacing: 0em;
@@ -159,8 +159,7 @@ export const PlayButton = styled("button")`
 export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
-  width: 283px;
-  padding: 0 25px;
+  width: 72.56%;
   margin: 0 auto;
 `;
 

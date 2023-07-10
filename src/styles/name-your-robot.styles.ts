@@ -39,7 +39,7 @@ export const Greeting = styled("h3")`
 export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
-  width: 283px;
+  width: 72.56%;
   margin: 0 auto;
 `;
 
@@ -71,7 +71,7 @@ export const CardPopUp = styled("div")`
 export const InputWrapper = styled("div")`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25rem;
   position: relative;
   margin-bottom: auto;
   padding: 0 36px;
@@ -85,7 +85,7 @@ export const PlayButton = styled("button")`
   border-radius: 10px;
   padding: 14px 0;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 19px;
   letter-spacing: 0em;

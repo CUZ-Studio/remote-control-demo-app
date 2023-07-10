@@ -56,7 +56,7 @@ export const PlayButton = styled("button")`
   border-radius: 10px;
   padding: 14px 0;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 19px;
   letter-spacing: 0em;
@@ -73,7 +73,7 @@ export const OptionBox = styled("div")`
   align-items: center;
   margin: 47px auto 78px;
   padding: 0 4.35%;
-  gap: 10.25%;
+  gap: 10px;
 `;
 
 export const Option = styled("button", {
@@ -105,18 +105,18 @@ export const ModelInfoBox = styled("div")`
 
 export const ModelName = styled("h3")`
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 700;
-  line-height: 30px;
+  line-height: 1.36;
   letter-spacing: 0em;
   text-align: center;
   margin: 0;
-  color: #111111;
+  color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
 export const RobotDescription = styled("h5")`
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   line-height: 22px;
   letter-spacing: 0em;

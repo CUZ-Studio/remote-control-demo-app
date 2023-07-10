@@ -21,14 +21,14 @@ export const Inner = styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 106px 0 0;
+  padding: 6.625rem 0 0;
 `;
 
 export const Greeting = styled("h3")`
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 32px;
+  line-height: 1.33;
   letter-spacing: 0em;
   margin: 0;
   text-align: center;
@@ -39,7 +39,7 @@ export const Greeting = styled("h3")`
 export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
-  width: 283px;
+  width: 72.56%;
   margin: 0 auto;
 `;
 
@@ -55,12 +55,12 @@ export const ButtonWrapper = styled("div")`
 export const PlayButton = styled("button")`
   position: relative;
   border: none;
-  border-radius: 10px;
-  padding: 14px 0;
+  border-radius: 0.625rem;
+  padding: 0.875rem 0;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 19px;
+  line-height: 1.1875;
   letter-spacing: 0em;
   text-align: center;
   cursor: pointer;

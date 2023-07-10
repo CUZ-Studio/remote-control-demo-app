@@ -5,7 +5,7 @@ export const Time = styled("p")`
   left: 50%;
   transform: translateX(-50%);
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 35px;
   letter-spacing: 0em;

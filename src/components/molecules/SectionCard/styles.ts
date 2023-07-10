@@ -38,9 +38,9 @@ export const SubTitle = styled("h3", {
   isSelected: boolean;
 }>`
   font-family: "Pretendard";
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 19.09px;
+  line-height: 1.1875;
   letter-spacing: 0em;
   text-align: left;
   margin: 0;
@@ -116,6 +116,16 @@ export const Card = styled("div", {
   right: -122.5px;
   user-select: none;
   box-shadow: ${({ theme }) => `0px 2px 15px 0px ${theme.palette.secondary.contrastText}33`};
+  opacity: ${({ order }) => {
+    switch (order) {
+      case "top":
+      case "bottom":
+        return "60%";
+      case "middle":
+      default:
+        return "100%";
+    }
+  }};
 `;
 
 export const EnterButton = styled("button", {
@@ -125,7 +135,7 @@ export const EnterButton = styled("button", {
 }>`
   padding: 6px 20px;
   border: none;
-  border-radius: 16px;
+  border-radius: 1rem;
   background-color: ${({ theme, isPressed }) =>
     isPressed ? theme.palette.primary.main : theme.palette.secondary.main};
   margin-top: auto;
@@ -134,7 +144,7 @@ export const EnterButton = styled("button", {
   color: ${({ theme, isPressed }) =>
     isPressed ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText};
   font-family: "Pretendard";
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 19px;
   letter-spacing: 0em;

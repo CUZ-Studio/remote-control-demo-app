@@ -21,13 +21,13 @@ export const Inner = styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 155px 20px 10px;
+  padding: 9.688rem 1.25rem 0.625rem;
 `;
 
 export const TitleWrapper = styled("div")`
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 0.188rem;
   color: ${({ theme }) => theme.palette.primary.contrastText};
 `;
 
@@ -36,28 +36,26 @@ export const Title = styled("h1")`
   margin: 0;
   text-transform: uppercase;
   font-family: Anton;
-  font-size: 43px;
+  font-size: 2.688rem;
   font-weight: 400;
-  line-height: 43px;
-  letter-spacing: 0em;
-  text-align: left;
+  line-height: 1;
+  letter-spacing: 0.07em;
 `;
 
 export const SubTitle = styled("h2")`
-  text-align: left;
   margin: 0;
   font-family: Pretendard;
-  font-size: 19px;
+  font-size: 1.188rem;
   font-weight: 800;
-  line-height: 26px;
-  letter-spacing: 0.1em;
+  line-height: 1.36;
+  letter-spacing: 0.2em;
   text-align: left;
 `;
 
 export const ImageWrapper = styled("div")`
   position: relative;
   left: 0;
-  margin-left: -57px;
+  margin-left: -15.66%;
   margin-top: auto;
   z-index: -1;
   width: fit-content;

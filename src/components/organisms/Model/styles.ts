@@ -61,6 +61,6 @@ export const ColorOption = styled("div", {
     }};
   outline: 1px solid
     ${({ isSelected, theme }) => (isSelected ? theme.palette.secondary.contrastText : "none")};
-  outline-offset: 4px;
+  outline-offset: 0.25rem;
   cursor: pointer;
 `;

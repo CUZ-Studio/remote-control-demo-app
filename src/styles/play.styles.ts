@@ -82,7 +82,7 @@ export const ScoreInfo = styled("div", {
   p {
     margin: 0;
     font-family: Pretendard;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 35px;
     letter-spacing: 0em;

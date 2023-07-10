@@ -27,7 +27,7 @@ export const Inner = styled("div")`
   height: 100%;
   z-index: 3;
   background: linear-gradient(167.88deg, rgba(0, 0, 0, 0.6) -7.02%, rgba(0, 0, 0, 0) 98.6%);
-  padding: 0 20px 40px;
+  padding: 0 1.25rem 2.5rem;
 `;
 
 export const TitleWrapper = styled("div")`
@@ -42,10 +42,10 @@ export const TitleWrapper = styled("div")`
 export const Title = styled("h1")`
   font-family: "Anton", sans-serif;
   color: ${({ theme }) => theme.palette.primary.contrastText};
-  font-size: 51px;
+  font-size: 3.188rem;
   font-weight: 400;
-  line-height: 51px;
-  letter-spacing: 0em;
+  line-height: 1;
+  letter-spacing: 0.07em;
   text-align: center;
   margin: 0;
   white-space: nowrap;
@@ -57,9 +57,9 @@ export const SubTitle = styled("h2")`
   color: ${({ theme }) => theme.palette.primary.contrastText};
   margin: 0;
   white-space: nowrap;
-  font-size: 19px;
+  font-size: 1.188rem;
   font-weight: 800;
-  line-height: 26px;
+  line-height: 1.36;
   letter-spacing: 0.2em;
   text-align: center;
 `;
