@@ -181,6 +181,7 @@ export default function Countdown() {
       });
   }, [isGaming]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const displayTimer = useCallback(() => {
     switch (gameRound.currentTimeSchedule) {
       case TimeSchedule.COUNTDOWN: {
@@ -205,7 +206,7 @@ export default function Countdown() {
 
   return (
     <>
-      <Time>{displayTimer()}</Time>
+      <Time>{gameRound.currentTimeSchedule === TimeSchedule.GAMING && "미션 수행 중"}</Time>
     </>
   );
 }

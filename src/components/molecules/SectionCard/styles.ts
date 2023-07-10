@@ -38,9 +38,9 @@ export const SubTitle = styled("h3", {
   isSelected: boolean;
 }>`
   font-family: "Pretendard";
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 19.09px;
+  line-height: 1.1875;
   letter-spacing: 0em;
   text-align: left;
   margin: 0;
@@ -107,15 +107,26 @@ export const Card = styled("div", {
       case "middle":
         return "translate(30%, 0)";
       case "top":
-        return "translate(85%, 0%)";
+        return "translate(85%, 0)";
       case "bottom":
       default:
-        return "translate(85%, 0%)";
+        return "translate(85%, 0)";
     }
   }};
-  right: -122.5px;
+  right: -40%;
   user-select: none;
   box-shadow: ${({ theme }) => `0px 2px 15px 0px ${theme.palette.secondary.contrastText}33`};
+  opacity: ${({ order }) => {
+    switch (order) {
+      case "top":
+      case "bottom":
+        return "60%";
+      case "middle":
+      default:
+        return "100%";
+    }
+  }};
+  user-select: none;
 `;
 
 export const EnterButton = styled("button", {
@@ -123,9 +134,9 @@ export const EnterButton = styled("button", {
 })<{
   isPressed: boolean;
 }>`
-  padding: 6px 20px;
+  padding: 0.375rem 1.25rem;
   border: none;
-  border-radius: 16px;
+  border-radius: 1rem;
   background-color: ${({ theme, isPressed }) =>
     isPressed ? theme.palette.primary.main : theme.palette.secondary.main};
   margin-top: auto;
@@ -134,9 +145,9 @@ export const EnterButton = styled("button", {
   color: ${({ theme, isPressed }) =>
     isPressed ? theme.palette.primary.contrastText : theme.palette.secondary.contrastText};
   font-family: "Pretendard";
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 19px;
+  line-height: 1.1875;
   letter-spacing: 0em;
   text-align: center;
 `;

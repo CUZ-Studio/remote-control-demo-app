@@ -64,24 +64,25 @@ export const IconWrapper = styled("div")`
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin-right: 4px;
+  margin-right: 0.25rem;
 `;
 
 export const Welcome = styled("p")`
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 35px;
   letter-spacing: 0em;
   text-align: center;
   color: #009ecf;
+  text-transform: uppercase;
 `;
 
 export const Indicator = styled("div")`
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: repeat(3, 8px);
-  grid-column-gap: 8px;
+  grid-template-columns: repeat(3, 0.5rem);
+  grid-column-gap: 0.5rem;
   align-items: center;
   position: absolute;
   left: 50%;

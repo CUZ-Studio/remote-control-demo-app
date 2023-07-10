@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
+import { isMobile } from "react-device-detect";
 
 import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
@@ -11,7 +12,7 @@ import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
-import { Container, LoadingMessage } from "@/styles/going-to-hangar.styles";
+import { Container, Inner, LoadingMessage, Waiting } from "@/styles/going-to-hangar.styles";
 
 export default function GoingToHangar() {
   const router = useRouter();
@@ -73,8 +74,13 @@ export default function GoingToHangar() {
     router.push(Page.PLAY);
   }, []);
   return (
-    <Container>
-      <LoadingMessage>{`로봇 격납고로\n보내는 중`}</LoadingMessage>
+    <Container isMobile={isMobile}>
+      <Inner>
+        <Waiting>
+          <p>∙ ∙ ∙</p> <p>Please wait</p> <p>∙ ∙ ∙</p>
+        </Waiting>
+        <LoadingMessage>{`로봇 격납고로\n보내는 중`}</LoadingMessage>
+      </Inner>
     </Container>
   );
 }

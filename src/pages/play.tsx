@@ -10,6 +10,7 @@ import { TimeSchedule } from "@/types";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
+import { Waiting } from "@/styles/going-to-hangar.styles";
 import {
   CanvasWrapper,
   Container,
@@ -63,10 +64,19 @@ export default function PlayGame() {
         </PlayerInfoBox>
         <ControlPanel />
         <ScoreInfo isActive={isActive}>
-          <p>{isActive ? "SCORE" : "··· PLEASE WAIT ···"}</p>
-          <Score isActive={isActive}>
-            {isActive ? player?.thisRoundScore || 0 : "곧 미션이 시작됩니다!"}
-          </Score>
+          {isActive ? (
+            <>
+              <p>SCORE</p>
+              <Score isActive={isActive}>{player?.thisRoundScore || 0}</Score>
+            </>
+          ) : (
+            <>
+              <Waiting>
+                <p>∙ ∙ ∙</p> <p>Please wait</p> <p>∙ ∙ ∙</p>
+              </Waiting>
+              <Score isActive={isActive}>곧 미션이 시작됩니다!</Score>
+            </>
+          )}
         </ScoreInfo>
       </Inner>
     </Container>

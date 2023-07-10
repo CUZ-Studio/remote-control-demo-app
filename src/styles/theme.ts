@@ -28,6 +28,7 @@ const theme = createTheme({
       500: "#F0F0F0",
       600: "#F7F7F7",
       700: "#6E727D",
+      800: "#111111",
     },
     common: {
       black: "#000000",

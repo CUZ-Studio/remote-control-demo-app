@@ -44,7 +44,7 @@ export const Greeting = styled("h3")`
 
 export const GameHistory = styled("div")`
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   width: fit-content;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@ export const HistoryContext = styled("div")`
   display: flex;
   align-items: center;
   font-family: Pretendard;
-  color: ${({ theme }) => theme.palette.primary.contrastText}90;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
   bottom: 7px;
   right: 12px;
 
@@ -87,6 +87,7 @@ export const HistoryContext = styled("div")`
     letter-spacing: 0em;
     text-align: right;
     margin: 0;
+    opacity: 0.9;
   }
   h5 {
     font-size: 14px;
@@ -95,6 +96,7 @@ export const HistoryContext = styled("div")`
     letter-spacing: 0em;
     text-align: left;
     margin: 2px 0 0 2px;
+    opacity: 0.9;
   }
 `;
 
@@ -146,7 +148,7 @@ export const PlayButton = styled("button")`
   border-radius: 10px;
   padding: 14px 0;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 19px;
   letter-spacing: 0em;
@@ -159,8 +161,7 @@ export const PlayButton = styled("button")`
 export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
-  width: 283px;
-  padding: 0 25px;
+  width: 72.56%;
   margin: 0 auto;
 `;
 

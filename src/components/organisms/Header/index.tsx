@@ -79,6 +79,7 @@ export default function Header() {
   const isVisible = (() => {
     switch (router.asPath) {
       case Page.HOME:
+      case Page.GOING_TO_HANGAR:
         return false;
       default:
         return true;

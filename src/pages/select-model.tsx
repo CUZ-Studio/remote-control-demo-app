@@ -42,15 +42,14 @@ export default function SelectRobot() {
   };
 
   const getDescription = (modelType: RobotModelType) => {
-    if (modelType === undefined) return;
     switch (modelType) {
       case RobotModelType.PROBE:
-        return `화가 나면 복어처럼 부풀어올라요!`;
+        return { name: "프로브", description: `화가 나면 복어처럼 부풀어올라요!` };
       case RobotModelType.PENGUIN:
-        return `화가 나면 파닥거리면서 불이 나와요!`;
+        return { name: "펭귄", description: `화가 나면 파닥거리면서 불이 나와요!` };
       case RobotModelType.SMART_DRONE:
       default:
-        return `화가 나면 무서운 표정으로 바뀌어요!`;
+        return { name: "스마트드론", description: `화가 나면 무서운 표정으로 바뀌어요!` };
     }
   };
 
@@ -66,7 +65,7 @@ export default function SelectRobot() {
         <Greeting>{`${user?.displayName}님, 함께 지구를 살릴\n로봇을 생성해주세요!`}</Greeting>
         <CardPopUp>
           <CanvasWrapper>
-            <Canvas shadows camera={{ position: [0, 0, 4], fov: 60 }}>
+            <Canvas shadows camera={{ position: [0, 0, 4], fov: 53 }}>
               <ambientLight intensity={0.8} />
               <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
               <Model />
@@ -79,20 +78,13 @@ export default function SelectRobot() {
               />
             </Canvas>
             <ModelInfoBox>
-              <ModelName>{player?.modelType}</ModelName>
+              <ModelName>{getDescription(player?.modelType as RobotModelType).name}</ModelName>
               <RobotDescription>
-                {getDescription(player?.modelType as RobotModelType)}
+                {getDescription(player?.modelType as RobotModelType).description}
               </RobotDescription>
             </ModelInfoBox>
           </CanvasWrapper>
           <OptionBox>
-            <Option
-              type="button"
-              onClick={() => selectModel(RobotModelType.PENGUIN)}
-              isSelected={player?.modelType === RobotModelType.PENGUIN}
-            >
-              <Image width={77} height={77} src="/assets/images/models/penguin.svg" alt="penguin" />
-            </Option>
             <Option
               type="button"
               onClick={() => selectModel(RobotModelType.SMART_DRONE)}
@@ -106,6 +98,13 @@ export default function SelectRobot() {
                 src="/assets/images/models/smartDrone.svg"
                 alt="smart drone"
               />
+            </Option>
+            <Option
+              type="button"
+              onClick={() => selectModel(RobotModelType.PENGUIN)}
+              isSelected={player?.modelType === RobotModelType.PENGUIN}
+            >
+              <Image width={77} height={77} src="/assets/images/models/penguin.svg" alt="penguin" />
             </Option>
             <Option
               type="button"
