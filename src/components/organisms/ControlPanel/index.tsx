@@ -10,11 +10,16 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import { Player } from "@/slices/game";
-import { ControlPanelEvent, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
+import {
+  ControlPanelEvent,
+  Slack_Developer_User_ID,
+  Swit_Developer_User_ID,
+  TimeSchedule,
+} from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
-import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel } from "./styles";
+import { FireButton, JumpButton, MoveLeftButton, MoveRightButton, Panel, Paper } from "./styles";
 
 export default function ControlPanel() {
   const [isMouseHolding, setIsMouseHolding] = useState(false);
@@ -248,6 +253,11 @@ export default function ControlPanel() {
 
   return (
     <Panel>
+      <Paper
+        isGameInProgress={
+          gameRound.isGameInProgress && gameRound.currentTimeSchedule === TimeSchedule.GAMING
+        }
+      />
       <JumpButton
         onMouseDown={onJump as MouseEventHandler}
         onMouseUp={handleMouseUp}

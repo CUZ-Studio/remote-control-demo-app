@@ -1,10 +1,25 @@
 import { styled } from "@mui/material/styles";
 
+export const Paper = styled("div", {
+  shouldForwardProp: (props) => props !== "isGameInProgress",
+})<{
+  isGameInProgress: boolean;
+}>`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #02081eb2;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  display: ${({ isGameInProgress }) => (isGameInProgress ? "none" : "block")};
+`;
+
 export const Panel = styled("section")`
   position: relative;
   width: 100%;
-  aspect-ratio: 390 / 343;
-  padding: 43px 20px 50px;
+  aspect-ratio: 1.35;
+  margin-top: auto;
 `;
 
 export const JumpButton = styled("div")`
@@ -12,6 +27,7 @@ export const JumpButton = styled("div")`
   left: 50%;
   transform: translateX(-50%);
   cursor: pointer;
+  z-index: 1;
 `;
 
 export const MoveLeftButton = styled("div")`
@@ -40,6 +56,6 @@ export const FireButton = styled("div")`
   transform: translateX(-50%);
   border-radius: 50%;
   background-color: ${({ theme }) => theme.palette.grey[600]};
-  z-index: 9;
+  z-index: 1;
   cursor: pointer;
 `;

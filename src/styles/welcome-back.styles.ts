@@ -72,7 +72,7 @@ export const HistoryContext = styled("div")`
   display: flex;
   align-items: center;
   font-family: Pretendard;
-  color: ${({ theme }) => theme.palette.primary.contrastText}90;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
   bottom: 7px;
   right: 12px;
 
@@ -87,6 +87,7 @@ export const HistoryContext = styled("div")`
     letter-spacing: 0em;
     text-align: right;
     margin: 0;
+    opacity: 0.9;
   }
   h5 {
     font-size: 14px;
@@ -95,6 +96,7 @@ export const HistoryContext = styled("div")`
     letter-spacing: 0em;
     text-align: left;
     margin: 2px 0 0 2px;
+    opacity: 0.9;
   }
 `;
 
