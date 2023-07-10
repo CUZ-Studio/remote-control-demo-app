@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import _ from "lodash";
 import { isMobile } from "react-device-detect";
@@ -7,13 +8,14 @@ import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
 import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
-import { Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
+import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
 import { Container, Inner, LoadingMessage, Waiting } from "@/styles/going-to-hangar.styles";
 
 export default function GoingToHangar() {
+  const router = useRouter();
   const player = usePlayer();
   const gameRound = useGameStatus();
   const { updateGameRound, assignPlayer } = useGameActions();
@@ -69,7 +71,7 @@ export default function GoingToHangar() {
       playedNum: player.playedNum ? player.playedNum + 1 : 1,
     });
 
-    // router.push(Page.PLAY);
+    router.push(Page.PLAY);
   }, []);
   return (
     <Container isMobile={isMobile}>
