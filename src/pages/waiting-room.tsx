@@ -35,7 +35,7 @@ import {
   RewardBox,
   RobotName,
   Unit,
-} from "@/styles/welcome-back.styles";
+} from "@/styles/waiting-room.styles";
 
 export default function WelcomeBack() {
   const router = useRouter();
@@ -176,7 +176,11 @@ export default function WelcomeBack() {
     <Container isMobile={isMobile}>
       <Inner>
         <MainSection>
-          <Greeting>{`${user?.displayName}님,\n다시 한 번 출동해볼까요?`}</Greeting>
+          <Greeting>
+            {player?.playedNum
+              ? `${user?.displayName}님,\n다시 한 번 출동해볼까요?`
+              : `${user?.displayName}님,\n힘차게 출동해볼까요?`}
+          </Greeting>
           <GameHistory>
             <Unit>
               <HistoryName>출동수</HistoryName>

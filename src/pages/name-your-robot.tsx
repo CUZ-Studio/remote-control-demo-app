@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import _ from "lodash";
 import { isMobile } from "react-device-detect";
 
@@ -10,19 +9,11 @@ import ErrorBox from "@/components/atoms/ErrorBox";
 import Model from "@/components/organisms/Model";
 import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
-import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import {
-  Page,
-  RobotColor,
-  RobotModelType,
-  Slack_Developer_User_ID,
-  Swit_Developer_User_ID,
-} from "@/types";
+import { Player } from "@/slices/game";
+import { Page, RobotColor, RobotModelType } from "@/types";
 import isProfane from "@/utils/isProfane";
-import noticeToSlack from "@/utils/noticeToSlack";
-import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -41,11 +32,10 @@ export default function NameYourRobot() {
   const router = useRouter();
 
   const user = useUser();
-  const gameRound = useGameStatus();
   const player = usePlayer();
   const [inputValue, setInputValue] = useState(player?.headTag || user?.displayName);
   const [errorMessage, setErrorMessage] = useState("");
-  const { assignPlayer, updateGameRound } = useGameActions();
+  const { assignPlayer } = useGameActions();
   const [disabled, setDisabled] = useState(false);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -75,77 +65,27 @@ export default function NameYourRobot() {
 
     setDisabled(true);
 
-    // 언리얼로 캐릭터 생성 요청 보내기
-    axios
-      .put(`${process.env.NEXT_PUBLIC_UNREAL_DOMAIN}/remote/object/call`, {
-        objectPath: gameRound.gameModeBaseObjectPath,
-        functionName: "BindingCharacter",
-        parameters: {
-          Model: player?.modelType,
-          Color: player?.modelColor,
-          Name: inputValue,
-          UID: user?.uid,
-          PlayerWinCount: Number(player?.gotFirstPlace) || 0,
-          ProfileURL: user?.image,
-        },
-        generateTransaction: true,
-      })
-      .then((res) => {
-        const createdCharacterInfo = res.data;
-        if (createdCharacterInfo) {
-          // firebase 데이터베이스에 새로운 플레이어 생성 요청
-          if (_.isNil(user) || _.isNil(player)) return;
-          updatePlayer({
-            documentId: user?.uid,
-            updated: {
-              headTag: inputValue as string,
-              modelColor: player.modelColor as RobotColor,
-              modelType: player.modelType as RobotModelType,
-              score: player.allRoundScore ?? {},
-              playedNum: player.playedNum ?? 0,
-            },
-          });
+    if (_.isNil(user) || _.isNil(player)) return;
 
-          // 전역상태로 새로운 플레이어 정보 저장
-          assignPlayer({
-            ...player,
-            uid: user.uid,
-            headTag: inputValue || "",
-            objectPath: createdCharacterInfo.CharacterPath,
-          });
+    // 전역상태로 새로운 플레이어 정보 저장
+    assignPlayer({
+      ...(player as Player),
+      headTag: inputValue || "",
+    });
 
-          // 현재 진행중인 게임 라운드의 남은 시간 업데이트
-          updateGameRound({
-            ...gameRound,
-            isGameInProgress: !!Number(createdCharacterInfo.MainGameRemainTime),
-            timeLeft: createdCharacterInfo.MainGameRemainTime,
-          });
+    // firebase 데이터베이스에 새로운 플레이어 생성 요청
+    updatePlayer({
+      documentId: user?.uid,
+      updated: {
+        headTag: inputValue as string,
+        modelColor: player.modelColor as RobotColor,
+        modelType: player.modelType as RobotModelType,
+        score: player.allRoundScore ?? {},
+        playedNum: player.playedNum ?? 0,
+      },
+    });
 
-          // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
-          router.push(Page.GOING_TO_HANGAR);
-        }
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .catch((error) => {
-        setDisabled(false);
-
-        const notice = {
-          isUrgent: true,
-          errorName: error.name,
-          errorCode: error.response?.status || error.code,
-          errorMessage: `"BindingCharacter" 함수에서 다음 에러 발생: ${
-            error?.message || error.response?.data.errorMessage
-          }`,
-        };
-        noticeToSlack({
-          ...notice,
-          assignees: [Slack_Developer_User_ID.GODA, Slack_Developer_User_ID.GUNI],
-        });
-        noticeToSWIT({
-          ...notice,
-          assignees: [Swit_Developer_User_ID.GODA, Swit_Developer_User_ID.GUNI],
-        });
-      });
+    router.push(Page.WAITING_ROOM);
   };
 
   return (

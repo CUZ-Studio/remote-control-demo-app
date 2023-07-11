@@ -26,7 +26,7 @@ import {
   PlayButton,
   RobotDescription,
 } from "@/styles/select-model.styles";
-import { CanvasWrapper } from "@/styles/welcome-back.styles";
+import { CanvasWrapper } from "@/styles/waiting-room.styles";
 
 export default function SelectRobot() {
   const router = useRouter();

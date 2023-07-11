@@ -22,7 +22,7 @@ export enum Page {
   CUSTOMIZE_DESIGN = "/customize-design",
   NAME_YOUR_ROBOT = "/name-your-robot",
   START_YOUR_JOURNEY = "/start-your-journey",
-  WELCOME_BACK = "/welcome-back",
+  WAITING_ROOM = "/waiting-room",
   GOING_TO_HANGAR = "/going-to-hangar",
   PLAY = "/play",
 }

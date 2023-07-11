@@ -42,7 +42,7 @@ export default function Header() {
 
   const showUserOnHeader = (() => {
     switch (router.asPath) {
-      case Page.WELCOME_BACK:
+      case Page.WAITING_ROOM:
       case Page.SELECT_MODEL:
       case Page.CUSTOMIZE_DESIGN:
       case Page.NAME_YOUR_ROBOT:
@@ -58,7 +58,7 @@ export default function Header() {
   const showLogoutOnHeader = (() => {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
-      case Page.WELCOME_BACK:
+      case Page.WAITING_ROOM:
       case Page.PLAY:
         return true;
       default:
@@ -69,7 +69,7 @@ export default function Header() {
   const logoutFill = (() => {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
-      case Page.WELCOME_BACK:
+      case Page.WAITING_ROOM:
       case Page.PLAY:
         return "#C7D1E4";
       default:
@@ -172,7 +172,9 @@ export default function Header() {
           </ArrowBackIcon>
         )}
         {router.asPath === Page.PLAY && <Timer />}
-        {router.asPath === Page.WELCOME_BACK && <Welcome>Welcome Back!</Welcome>}
+        {router.asPath === Page.WAITING_ROOM && (
+          <Welcome>{player?.playedNum ? "Welcome Back!" : "Welcome!"}</Welcome>
+        )}
         {showStepIndicator && (
           <Indicator>
             <Dot

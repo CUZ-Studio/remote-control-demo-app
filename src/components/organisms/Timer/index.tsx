@@ -115,7 +115,7 @@ export default function Countdown() {
 
         // 쉬는 시간이 끝나면,
         // 재출동 페이지로 이동
-        router.push(Page.WELCOME_BACK).then(() => {
+        router.push(Page.WAITING_ROOM).then(() => {
           if (user)
             updatePlayer({
               documentId: user?.uid,

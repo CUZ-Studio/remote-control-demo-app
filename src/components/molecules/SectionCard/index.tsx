@@ -67,7 +67,7 @@ export default function SectionCard({ sectionNumber, selectedSection, setSelecte
           if (!player?.modelType) return Page.SELECT_MODEL;
           else if (!player?.modelColor) return Page.CUSTOMIZE_DESIGN;
           else if (!player?.headTag) return Page.NAME_YOUR_ROBOT;
-          else return Page.WELCOME_BACK;
+          else return Page.WAITING_ROOM;
         }
       }
     })();
