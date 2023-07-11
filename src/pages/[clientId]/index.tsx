@@ -72,7 +72,7 @@ export default function LoginRedirectPage() {
           });
         }
         // 사용자가 입장할 섹션을 선택하는 페이지로 이동
-        // router.push(Page.START_YOUR_JOURNEY);
+        router.push(Page.START_YOUR_JOURNEY);
       });
     });
   }, [gameRound.gameModeBaseObjectPath]);
