@@ -55,8 +55,6 @@ export default function Header() {
     }
   })();
 
-  console.log(clientId);
-
   const showLogoutOnHeader = (() => {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
