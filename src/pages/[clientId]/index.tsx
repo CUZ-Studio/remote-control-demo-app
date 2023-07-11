@@ -13,9 +13,9 @@ import { Player } from "@/slices/game";
 import { KaKaoLoginUser, Page } from "@/types";
 import fetchImagesInFirebaseStorage from "@/utils/getImageUrl";
 
-import { Container } from "@/styles/home.styles";
+import { Container, Inner, LoadingMessage, Waiting } from "@/styles/login-redirect.styles";
 
-export default function HomePage() {
+export default function LoginRedirectPage() {
   const router = useRouter();
   const player = usePlayer();
   const gameRound = useGameRound();
@@ -77,5 +77,14 @@ export default function HomePage() {
     });
   }, [gameRound.gameModeBaseObjectPath]);
 
-  return <Container isMobile={isMobile}>로딩중...</Container>;
+  return (
+    <Container isMobile={isMobile}>
+      <Inner>
+        <Waiting>
+          <p>∙ ∙ ∙</p> <p>Please wait</p> <p>∙ ∙ ∙</p>
+        </Waiting>
+        <LoadingMessage>{`로그인 중입니다\n페이지를 새로고침하지 마세요`}</LoadingMessage>
+      </Inner>
+    </Container>
+  );
 }

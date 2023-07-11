@@ -38,6 +38,7 @@ export default function Header() {
 
   const { authorize } = useAuthActions();
   const { assignPlayer, updateGameRound } = useGameActions();
+  const clientId = router.query.clientId ? router.query.clientId.toString() : undefined;
 
   const showUserOnHeader = (() => {
     switch (router.asPath) {
@@ -77,6 +78,7 @@ export default function Header() {
   })();
 
   const isVisible = (() => {
+    if (clientId) return false;
     switch (router.asPath) {
       case Page.HOME:
       case Page.GOING_TO_HANGAR:
