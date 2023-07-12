@@ -27,6 +27,7 @@ interface Props {
     [key: string]: number;
   }; // 지금까지 출동해서 받은 점수들의 배열
   playedNum?: number;
+  verifiedAt?: Date;
 }
 
 const createPlayer = async ({ uid, profileUrl, username }: Props) => {
@@ -69,6 +70,7 @@ const updatePlayer = async ({
     };
     playedNum?: number;
     gotFirstPlace?: number;
+    verifiedAt?: Date;
   };
 }) => {
   const _player = doc(firestore, `players/${documentId}`);

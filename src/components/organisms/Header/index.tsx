@@ -46,6 +46,7 @@ export default function Header() {
       case Page.SELECT_MODEL:
       case Page.CUSTOMIZE_DESIGN:
       case Page.NAME_YOUR_ROBOT:
+      case Page.VERIFY:
       case Page.GOING_TO_HANGAR:
       case Page.PLAY:
         return false;
@@ -59,6 +60,7 @@ export default function Header() {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
       case Page.WAITING_ROOM:
+      case Page.VERIFY:
       case Page.PLAY:
         return true;
       default:
@@ -70,6 +72,7 @@ export default function Header() {
     switch (router.asPath) {
       case Page.START_YOUR_JOURNEY:
       case Page.WAITING_ROOM:
+      case Page.VERIFY:
       case Page.PLAY:
         return "#C7D1E4";
       default:
@@ -96,6 +99,8 @@ export default function Header() {
         return Page.NAME_YOUR_ROBOT;
       case Page.CUSTOMIZE_DESIGN:
         return Page.SELECT_MODEL;
+      case Page.VERIFY:
+        return Page.WAITING_ROOM;
       default:
         return Page.START_YOUR_JOURNEY;
     }
@@ -175,6 +180,7 @@ export default function Header() {
         {router.asPath === Page.WAITING_ROOM && (
           <Welcome>{player?.playedNum ? "Welcome Back!" : "Welcome!"}</Welcome>
         )}
+        {router.asPath === Page.VERIFY && <Welcome>보안 코드 입력</Welcome>}
         {showStepIndicator && (
           <Indicator>
             <Dot

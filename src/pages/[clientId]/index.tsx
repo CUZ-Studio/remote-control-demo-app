@@ -50,7 +50,16 @@ export default function LoginRedirectPage() {
       getPlayer(uid).then(async (res) => {
         // 만약 로그인한 사용자에 대해 서버에 저장된 로봇 캐릭터 정보가 있다면,
         if (res.length !== 0) {
-          const { uid, headTag, modelType, modelColor, score, playedNum, gotFirstPlace } = res[0];
+          const {
+            uid,
+            headTag,
+            modelType,
+            modelColor,
+            score,
+            playedNum,
+            gotFirstPlace,
+            verifiedAt,
+          } = res[0];
 
           assignPlayer({
             ...(player as Player),
@@ -62,6 +71,7 @@ export default function LoginRedirectPage() {
             allRoundScore: score ?? {},
             playedNum: playedNum ?? 0,
             gotFirstPlace: gotFirstPlace ?? 0,
+            verifiedAt,
           });
         } else {
           // 없다면, 새로운 문서 생성

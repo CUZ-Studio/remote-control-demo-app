@@ -24,6 +24,7 @@ export enum Page {
   START_YOUR_JOURNEY = "/start-your-journey",
   WAITING_ROOM = "/waiting-room",
   GOING_TO_HANGAR = "/going-to-hangar",
+  VERIFY = "/verify",
   PLAY = "/play",
 }
 
@@ -94,4 +95,19 @@ export enum Slack_Developer_User_ID {
   GODA = "U05FLKVPZMF",
   GUNI = "U05F81CPXRQ",
   SAM = "U03QK3Q34G6",
+}
+
+export interface PinNumberError {
+  message: PinNumberErrorMessage | undefined;
+  type: PinNumberErrorType | undefined;
+}
+
+export enum PinNumberErrorType {
+  WRONG_NUMBER = "wrongNumber",
+  PREVIOUS_NUMBER = "previousNumber",
+}
+
+export enum PinNumberErrorMessage {
+  WRONG_NUMBER = "틀린 코드입니다. 30초 후에 다시 시도하세요.",
+  PREVIOUS_NUMBER = "이전코드를 선택하셨습니다. 다시 선택해주세요.",
 }
