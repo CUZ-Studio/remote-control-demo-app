@@ -135,7 +135,7 @@ export default function Verify() {
             ...(player as Player),
             verifiedAt,
           });
-          router.push(Page.PLAY);
+          router.push(Page.GOING_TO_HANGAR);
         });
       }
       // 이전 pinNumber를 고른 경우
