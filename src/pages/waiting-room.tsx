@@ -37,7 +37,7 @@ import {
   Unit,
 } from "@/styles/waiting-room.styles";
 
-export default function WelcomeBack() {
+export default function WaitingRoom() {
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
 
@@ -111,8 +111,21 @@ export default function WelcomeBack() {
           timeLeft: createdCharacterInfo.MainGameRemainTime,
         });
 
-        // 로봇 커스텀 단계 생략하고 바로 게임 실행 화면으로 페이지 이동
-        router.push(Page.GOING_TO_HANGAR);
+        // 사용자가 실제로 게임이 진행중인 장소에 있는지 검증하기 위해
+        // 인증코드 선택 페이지로 이동
+        // case 1) 사용자가 10분 이내로 인증받은 적이 있다면 → 인증 단계 스킵
+        // case 2) 사용자가 인증받은 적이 있지만, 10분이 지났다면 → 인증 필요
+        // case 3) 사용자가 인증받은 적이 없다면 → 인증 필요
+        if (player?.verifiedAt) {
+          const diff = new Date().getTime() - new Date(player?.verifiedAt).getTime();
+          if (diff <= 1000 * 60 * 10) {
+            router.push(Page.GOING_TO_HANGAR);
+          } else {
+            router.push(Page.VERIFY);
+          }
+        } else {
+          router.push(Page.VERIFY);
+        }
       })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       .catch((error: any) => {

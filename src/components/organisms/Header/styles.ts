@@ -26,8 +26,7 @@ export const Inner = styled("div", {
   height: 100%;
   padding: ${({ showUserOnHeader }) => (showUserOnHeader ? "10px 9px" : "31px 20px")};
   margin: 0 auto;
-  background-color: ${({ theme, showUserOnHeader }) =>
-    showUserOnHeader ? theme.palette.background.paper : "transparent"};
+  background-color: transparent;
 `;
 
 export const ProfileBox = styled("div")`

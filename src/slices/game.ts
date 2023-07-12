@@ -16,6 +16,7 @@ export interface Player {
   } | null;
   playedNum: number | null;
   gotFirstPlace: number | null;
+  verifiedAt: Date | null;
 }
 
 export interface GameRound {
@@ -44,6 +45,7 @@ const initialState: GameState = {
     allRoundScore: null,
     playedNum: null,
     gotFirstPlace: null,
+    verifiedAt: null,
   },
   gameRound: {
     gameModeBaseObjectPath: null,
