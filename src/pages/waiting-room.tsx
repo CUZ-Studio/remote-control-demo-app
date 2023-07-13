@@ -227,21 +227,21 @@ export default function WaitingRoom() {
               enableRotate={false}
             />
           </Canvas>
-          <RewardBox>
-            {Array.from(Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace)).map(
-              (_, index) => (
-                <Image
-                  key={`star-${index}`}
-                  src="/assets/images/star.svg"
-                  alt="start"
-                  width={22}
-                  height={22}
-                />
-              ),
-            )}
-          </RewardBox>
-          <RobotName>{player?.headTag}</RobotName>
         </CanvasWrapper>
+        <RewardBox>
+          {Array.from(Array(Number(player?.gotFirstPlace) >= 5 ? 5 : player?.gotFirstPlace)).map(
+            (_, index) => (
+              <Image
+                key={`star-${index}`}
+                src="/assets/images/star.svg"
+                alt="star"
+                width={22}
+                height={22}
+              />
+            ),
+          )}
+        </RewardBox>
+        <RobotName>{player?.headTag}</RobotName>
         <ButtonWrapper>
           <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
           <PlayButton type="button" disabled={disabled} onClick={createCharacter}>

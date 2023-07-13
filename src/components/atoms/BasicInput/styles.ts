@@ -6,26 +6,16 @@ export const StyledInput = styled("input", {
   error: boolean;
 }>`
   display: inline-block;
-  font-family: Inter;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 15px;
-  letter-spacing: 0em;
   padding: 14px 0;
-  background-color: ${({ theme, error }) => (error ? theme.palette.error.light : "#F9F8FA")};
-  color: #111111;
-  border: 1px solid #aeadb0;
+  background-color: ${({ theme, error }) => (error ? theme.palette.error.light : "#00000050")};
+  border: 1px solid #727f9a;
   border-radius: 10px;
   outline: none;
-  text-align: center;
   font-family: Pretendard;
   font-size: 18px;
   font-weight: 600;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: center;
-
-  &:focus {
-    background-color: ${({ theme, error }) => (error ? theme.palette.error.light : "#F9F8FA")};
-  }
+  color: #fff;
 `;

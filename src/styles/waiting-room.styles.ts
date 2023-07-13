@@ -158,17 +158,15 @@ export const CanvasWrapper = styled("div")`
   aspect-ratio: 1;
   width: 83.5%;
   margin: 0 auto;
+  z-index: 1;
 `;
 
 export const RewardBox = styled("div")`
-  position: absolute;
-  bottom: 22px;
-  z-index: 3;
+  position: relative;
   display: flex;
-  margin: 0 auto;
-  left: 50%;
-  transform: translateX(-50%);
-  gap: 2px;
+  margin: -22px auto 10px;
+  gap: 3px;
+  height: 22px;
 `;
 
 export const RobotName = styled("h3")`
@@ -179,4 +177,5 @@ export const RobotName = styled("h3")`
   letter-spacing: 0em;
   text-align: center;
   margin: 0;
+  color: #cedbed;
 `;
