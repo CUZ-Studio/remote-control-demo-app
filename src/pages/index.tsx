@@ -5,30 +5,28 @@ import { ButtonShape } from "@/types";
 
 import {
   ButtonWrapper,
+  Colon,
   Container,
   Inner,
   StartButton,
   SubTitle,
+  SubTitleWrapper,
   Title,
-  TitleWrapper,
+  TitleSection,
 } from "@/styles/home.styles";
 
 export default function HomePage() {
   return (
     <Container isMobile={isMobile}>
-      <Image
-        src="/assets/images/home/nightSky.svg"
-        alt="night_sky"
-        fill
-        style={{
-          zIndex: 2,
-        }}
-      />
+      <Image src="/assets/images/home/background.svg" alt="background image" fill />
       <Inner>
-        <TitleWrapper>
-          <Title>Dear Earth</Title>
-          <SubTitle>시간여행자의 여정</SubTitle>
-        </TitleWrapper>
+        <TitleSection>
+          <Title>DEAR EARTH</Title>
+          <SubTitleWrapper>
+            <Colon>:</Colon>
+            <SubTitle>Time Walker</SubTitle>
+          </SubTitleWrapper>
+        </TitleSection>
         <ButtonWrapper>
           <StartButton
             type="button"

@@ -39,7 +39,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["SUIT", "Pretendard", "Anton"].join(","),
+    fontFamily: ["SUIT", "Pretendard", "Racing Sans One"].join(","),
     h1: undefined,
     h2: undefined,
     h3: undefined,

@@ -13,7 +13,6 @@ export const Container = styled("div", {
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   margin: 0 auto;
   box-sizing: border-box;
-  background-color: ${({ theme }) => theme.palette.primary.main};
   overflow: hidden;
   z-index: 1;
 `;
@@ -22,52 +21,91 @@ export const Inner = styled("div")`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   height: 100%;
   z-index: 3;
-  background: linear-gradient(167.88deg, rgba(0, 0, 0, 0.6) -7.02%, rgba(0, 0, 0, 0) 98.6%);
-  padding: 0 1.25rem 2.5rem;
+  padding: 7.938rem 1.25rem 2.5rem;
 `;
 
-export const TitleWrapper = styled("div")`
+export const TitleSection = styled("div")`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto 0;
-  gap: 0.5rem;
 `;
 
 export const Title = styled("h1")`
-  font-family: "Anton", sans-serif;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
-  font-size: 3.188rem;
+  font-family: Racing Sans One;
+  font-size: 49px;
   font-weight: 400;
+  letter-spacing: 0em;
+  text-align: center;
+  width: 100%;
   line-height: 1;
-  letter-spacing: 0.07em;
+  margin: 0;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-shadow: 0px 0px 31.15px #95fff94d, 0px 0px 2.07px #f5ffcc40;
+  background: -webkit-linear-gradient(
+      180deg,
+      rgba(157, 179, 255, 0.5) 0%,
+      rgba(157, 214, 255, 0.5) 100%
+    ),
+    linear-gradient(0deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
+export const SubTitleWrapper = styled("div")`
+  display: flex;
+`;
+
+export const Colon = styled("h2")`
+  font-family: Racing Sans One;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin: -2px 0 0 0;
+  white-space: nowrap;
+  background: -webkit-linear-gradient(
+      180deg,
+      rgba(157, 179, 255, 0.5) 0%,
+      rgba(157, 214, 255, 0.5) 100%
+    ),
+    linear-gradient(0deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 31.15px #95fff94d, 0px 0px 2.07px #f5ffcc40;
+`;
+
+export const SubTitle = styled("h2")`
+  font-family: Racing Sans One;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
   text-align: center;
   margin: 0;
   white-space: nowrap;
   text-transform: uppercase;
-`;
-
-export const SubTitle = styled("h2")`
-  font-family: "Pretendard";
-  color: ${({ theme }) => theme.palette.primary.contrastText};
-  margin: 0;
-  white-space: nowrap;
-  font-size: 1.188rem;
-  font-weight: 800;
-  line-height: 1.36;
-  letter-spacing: 0.2em;
   text-align: center;
+  background: -webkit-linear-gradient(
+      180deg,
+      rgba(157, 179, 255, 0.5) 0%,
+      rgba(157, 214, 255, 0.5) 100%
+    ),
+    linear-gradient(0deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 31.15px #95fff94d, 0px 0px 2.07px #f5ffcc40;
 `;
 
 export const ButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: auto;
 `;
 
 export const StartButton = styled(BasicButton)`
