@@ -7,7 +7,6 @@ export const Root = styled("header", {
   showUserOnHeader: boolean;
 }>`
   position: fixed;
-  z-index: 9;
   width: 100%;
   z-index: 9;
   visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
@@ -24,7 +23,7 @@ export const Inner = styled("div", {
   align-items: center;
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   height: 100%;
-  padding: ${({ showUserOnHeader }) => (showUserOnHeader ? "10px 9px" : "31px 20px")};
+  padding: ${({ showUserOnHeader }) => (showUserOnHeader ? "41px 20px 0 9px" : "31px 20px")};
   margin: 0 auto;
   background-color: transparent;
 `;
@@ -63,7 +62,6 @@ export const IconWrapper = styled("div")`
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin-right: 0.25rem;
 `;
 
 export const Welcome = styled("p")`
