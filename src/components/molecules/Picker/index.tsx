@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { proxy } from "valtio";
 
-import { ColorOption, ColorPalette } from "@/components/organisms/Model/styles";
+import { ColorOption, ColorPalette, Outline } from "@/components/organisms/Model/styles";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
 import { Player } from "@/slices/game";
@@ -67,14 +67,20 @@ export default function Picker({ modelType }: Props) {
   return (
     <ColorPalette>
       {paletteColors.map((color) => (
-        <ColorOption
+        <Outline
           key={`${modelType}_${color}`}
-          color={color}
           isSelected={
             player?.modelColor ? player?.modelColor === color : RobotColor.WHITE === color
           }
-          onClick={() => selectBodyColor(color)}
-        />
+        >
+          <ColorOption
+            color={color}
+            isSelected={
+              player?.modelColor ? player?.modelColor === color : RobotColor.WHITE === color
+            }
+            onClick={() => selectBodyColor(color)}
+          />
+        </Outline>
       ))}
     </ColorPalette>
   );

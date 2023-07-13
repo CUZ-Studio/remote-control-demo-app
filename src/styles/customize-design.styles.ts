@@ -11,7 +11,9 @@ export const Container = styled("div", {
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   margin: 0 auto;
   box-sizing: border-box;
-  background: linear-gradient(172.95deg, #071958 3.01%, #073658 40.35%);
+  background-image: url("/assets/images/makeRobot/nightSky.png");
+  background-size: contain;
+  background-repeat: no-repeat;
   overflow: hidden;
   z-index: 1;
 `;
@@ -21,14 +23,21 @@ export const Inner = styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 6.625rem 0 0;
+  padding: 103px 20px 31px;
+`;
+
+export const GradientPaper = styled("div")`
+  position: absolute;
+  width: inherit;
+  height: 100%;
+  background: linear-gradient(360deg, #141828 67.71%, rgba(20, 24, 40, 0) 100%);
 `;
 
 export const Greeting = styled("h3")`
   font-family: Pretendard;
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
-  line-height: 1.33;
+  line-height: 32px;
   letter-spacing: 0em;
   margin: 0;
   text-align: center;
@@ -39,44 +48,25 @@ export const Greeting = styled("h3")`
 export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
-  width: 72.56%;
-  margin: 0 auto;
-`;
-
-export const ButtonWrapper = styled("div")`
-  display: flex;
-  flex-direction: column;
-  width: inherit;
-  height: fit-content;
-  margin-top: auto;
-  gap: 0.938rem;
+  width: 83.5%;
+  margin: 0 auto 12px;
 `;
 
 export const PlayButton = styled("button")`
   position: relative;
+  width: 100%;
   border: none;
-  border-radius: 0.625rem;
-  padding: 0.875rem 0;
+  border-radius: 28px;
+  padding: 17px 0;
   font-family: Pretendard;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.1875;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21px;
   letter-spacing: 0em;
   text-align: center;
   cursor: pointer;
   color: ${({ theme }) => theme.palette.primary.contrastText};
-  background: linear-gradient(148.72deg, #1f35a7 17.49%, #01639b 80.13%);
-`;
-
-export const CardPopUp = styled("div")`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr auto;
-  position: absolute;
-  width: 100%;
-  height: 77.25vh;
-  bottom: 0;
-  background: ${({ theme }) => theme.palette.secondary.main};
-  border-radius: 40px 40px 0 0;
-  padding: 31px 20px 34px;
+  background: linear-gradient(180deg, #2454ff -4.91%, #2544b3 8.83%, #2a0ce7 100%);
+  margin-top: auto;
+  box-shadow: 1px 2px 10px 0px #afbcff26;
 `;
