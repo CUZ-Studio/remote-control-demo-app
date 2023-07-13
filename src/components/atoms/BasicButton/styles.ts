@@ -66,7 +66,7 @@ export const StyledButton = styled("button", {
     position: absolute;
     z-index: -1;
     inset: 0;
-    padding: 1.5px;
+    padding: 2px;
     border-radius: 28px;
     background: linear-gradient(180deg, #9db3ff 0%, #9dd6ff 100%);
 

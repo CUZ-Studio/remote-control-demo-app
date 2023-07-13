@@ -73,7 +73,7 @@ export const Colon = styled("h2")`
       rgba(157, 179, 255, 0.5) 0%,
       rgba(157, 214, 255, 0.5) 100%
     ),
-    linear-gradient(0deg, #ffffff, #ffffff);
+    -webkit-linear-gradient(0deg, #ffffff, #ffffff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 31.15px #95fff94d, 0px 0px 2.07px #f5ffcc40;
@@ -95,7 +95,7 @@ export const SubTitle = styled("h2")`
       rgba(157, 179, 255, 0.5) 0%,
       rgba(157, 214, 255, 0.5) 100%
     ),
-    linear-gradient(0deg, #ffffff, #ffffff);
+    -webkit-linear-gradient(0deg, #ffffff, #ffffff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 31.15px #95fff94d, 0px 0px 2.07px #f5ffcc40;
