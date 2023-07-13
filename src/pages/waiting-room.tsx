@@ -22,14 +22,12 @@ import { Canvas } from "@react-three/fiber";
 import {
   ButtonWrapper,
   CanvasWrapper,
-  CardPopUp,
   Container,
   GameHistory,
   Greeting,
   HistoryContext,
   HistoryName,
   Inner,
-  MainSection,
   PlayButton,
   ResetRobot,
   RewardBox,
@@ -188,40 +186,36 @@ export default function WaitingRoom() {
   return (
     <Container isMobile={isMobile}>
       <Inner>
-        <MainSection>
-          <Greeting>
-            {player?.playedNum
-              ? `${user?.displayName}님,\n다시 한 번 출동해볼까요?`
-              : `${user?.displayName}님,\n힘차게 출동해볼까요?`}
-          </Greeting>
-          <GameHistory>
-            <Unit>
-              <HistoryName>출동수</HistoryName>
-              <HistoryContext>
-                <h4>{player?.playedNum}</h4>
-                <h5>회</h5>
-              </HistoryContext>
-            </Unit>
-            <Unit>
-              <HistoryName>전체랭킹</HistoryName>
-              <HistoryContext>
-                <h4>{player?.highestRankEver || "-"}</h4>
-                <h5>위</h5>
-              </HistoryContext>
-            </Unit>
-            <Unit>
-              <HistoryName>최고점수</HistoryName>
-              <HistoryContext>
-                <h4>{maxScore}</h4>
-                <h5>점</h5>
-              </HistoryContext>
-            </Unit>
-          </GameHistory>
-        </MainSection>
-      </Inner>
-      <CardPopUp>
+        <Greeting>
+          {player?.playedNum
+            ? `${user?.displayName}님,\n다시 한 번 출동해볼까요?`
+            : `${user?.displayName}님,\n힘차게 출동해볼까요?`}
+        </Greeting>
+        <GameHistory>
+          <Unit>
+            <HistoryName>출동수</HistoryName>
+            <HistoryContext>
+              <h4>{player?.playedNum}</h4>
+              <h5>회</h5>
+            </HistoryContext>
+          </Unit>
+          <Unit>
+            <HistoryName>전체랭킹</HistoryName>
+            <HistoryContext>
+              <h4>{player?.highestRankEver || "-"}</h4>
+              <h5>위</h5>
+            </HistoryContext>
+          </Unit>
+          <Unit>
+            <HistoryName>최고점수</HistoryName>
+            <HistoryContext>
+              <h4>{maxScore}</h4>
+              <h5>점</h5>
+            </HistoryContext>
+          </Unit>
+        </GameHistory>
         <CanvasWrapper>
-          <Canvas shadows camera={{ position: [0, 0, 4], fov: 60 }}>
+          <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
             <ambientLight intensity={0.8} />
             <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10, 15, 10]} />
             <Model />
@@ -240,21 +234,21 @@ export default function WaitingRoom() {
                   key={`star-${index}`}
                   src="/assets/images/star.svg"
                   alt="start"
-                  width={17}
-                  height={17}
+                  width={22}
+                  height={22}
                 />
               ),
             )}
           </RewardBox>
+          <RobotName>{player?.headTag}</RobotName>
         </CanvasWrapper>
-        <RobotName>{player?.headTag}</RobotName>
         <ButtonWrapper>
           <ResetRobot onClick={() => router.push(Page.SELECT_MODEL)}>로봇 바꾸기</ResetRobot>
           <PlayButton type="button" disabled={disabled} onClick={createCharacter}>
             출동하기
           </PlayButton>
         </ButtonWrapper>
-      </CardPopUp>
+      </Inner>
     </Container>
   );
 }

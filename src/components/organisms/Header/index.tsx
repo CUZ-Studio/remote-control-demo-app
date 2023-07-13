@@ -10,7 +10,7 @@ import useGameActions from "@/hooks/useGameActions";
 import useGameRound from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
-import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
+import { HeaderType, Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 
@@ -39,34 +39,6 @@ export default function Header() {
   const { authorize } = useAuthActions();
   const { assignPlayer, updateGameRound } = useGameActions();
   const clientId = router.query.clientId ? router.query.clientId.toString() : undefined;
-
-  const showUserOnHeader = (() => {
-    switch (router.asPath) {
-      case Page.WAITING_ROOM:
-      case Page.SELECT_MODEL:
-      case Page.CUSTOMIZE_DESIGN:
-      case Page.NAME_YOUR_ROBOT:
-      case Page.VERIFY:
-      case Page.GOING_TO_HANGAR:
-      case Page.PLAY:
-        return false;
-      case Page.START_YOUR_JOURNEY:
-      default:
-        return true;
-    }
-  })();
-
-  const showLogoutOnHeader = (() => {
-    switch (router.asPath) {
-      case Page.START_YOUR_JOURNEY:
-      case Page.WAITING_ROOM:
-      case Page.VERIFY:
-      case Page.PLAY:
-        return true;
-      default:
-        return false;
-    }
-  })();
 
   const logoutFill = (() => {
     switch (router.asPath) {
@@ -158,49 +130,67 @@ export default function Header() {
         return false;
     }
   })();
+
+  const headerType: HeaderType = (() => {
+    switch (router.asPath) {
+      case Page.START_YOUR_JOURNEY:
+        return HeaderType.WITH_LOGOUT;
+      default:
+        return HeaderType.WITH_PROFILE;
+    }
+  })();
   return (
-    <Root showUserOnHeader={showUserOnHeader} isVisible={isVisible}>
-      <Inner isMobile={isMobile} showUserOnHeader={showUserOnHeader}>
-        {showUserOnHeader ? (
-          <ProfileBox>
-            {user?.image ? (
-              <ProfileImageWrapper>
-                <Image width={65} height={65} src={user.image} alt={user.displayName} />
-              </ProfileImageWrapper>
-            ) : (
-              <ProfileImage />
+    <Root isVisible={isVisible}>
+      <Inner isMobile={isMobile} headerType={headerType}>
+        {headerType === HeaderType.WITH_LOGOUT && (
+          <>
+            <Image
+              src="/assets/images/cuzLogoCircle.svg"
+              alt="cuz logo circle"
+              width={65}
+              height={65}
+            />
+            <IconWrapper onClick={logout}>
+              <LogoutIcon fill={logoutFill} />
+            </IconWrapper>
+          </>
+        )}
+        {headerType === HeaderType.WITH_PROFILE && (
+          <>
+            <ArrowBackIcon onClick={() => router.push(getPreviousPage)}>
+              <ArrowBackwardIcon />
+            </ArrowBackIcon>
+            {router.asPath === Page.PLAY && <Timer />}
+            {router.asPath === Page.WAITING_ROOM && (
+              <Welcome>{player?.playedNum ? "Welcome Back!" : "Welcome!"}</Welcome>
             )}
-          </ProfileBox>
-        ) : (
-          <ArrowBackIcon onClick={() => router.push(getPreviousPage)}>
-            <ArrowBackwardIcon />
-          </ArrowBackIcon>
-        )}
-        {router.asPath === Page.PLAY && <Timer />}
-        {router.asPath === Page.WAITING_ROOM && (
-          <Welcome>{player?.playedNum ? "Welcome Back!" : "Welcome!"}</Welcome>
-        )}
-        {router.asPath === Page.VERIFY && <Welcome>보안 코드 입력</Welcome>}
-        {showStepIndicator && (
-          <Indicator>
-            <Dot
-              isActive={router.asPath === Page.SELECT_MODEL}
-              onClick={() => router.push(Page.SELECT_MODEL)}
-            />
-            <Dot
-              isActive={router.asPath === Page.CUSTOMIZE_DESIGN}
-              onClick={() => router.push(Page.CUSTOMIZE_DESIGN)}
-            />
-            <Dot
-              isActive={router.asPath === Page.NAME_YOUR_ROBOT}
-              onClick={() => router.push(Page.NAME_YOUR_ROBOT)}
-            />
-          </Indicator>
-        )}
-        {showLogoutOnHeader && (
-          <IconWrapper onClick={logout}>
-            <LogoutIcon fill={logoutFill} />
-          </IconWrapper>
+            {router.asPath === Page.VERIFY && <Welcome>보안 코드 입력</Welcome>}
+            {showStepIndicator && (
+              <Indicator>
+                <Dot
+                  isActive={router.asPath === Page.SELECT_MODEL}
+                  onClick={() => router.push(Page.SELECT_MODEL)}
+                />
+                <Dot
+                  isActive={router.asPath === Page.CUSTOMIZE_DESIGN}
+                  onClick={() => router.push(Page.CUSTOMIZE_DESIGN)}
+                />
+                <Dot
+                  isActive={router.asPath === Page.NAME_YOUR_ROBOT}
+                  onClick={() => router.push(Page.NAME_YOUR_ROBOT)}
+                />
+              </Indicator>
+            )}
+            <ProfileBox>
+              {user?.image ? (
+                <ProfileImageWrapper>
+                  <Image width={40} height={40} src={user.image} alt={user.displayName} />
+                </ProfileImageWrapper>
+              ) : (
+                <ProfileImage />
+              )}
+            </ProfileBox>
+          </>
         )}
       </Inner>
     </Root>

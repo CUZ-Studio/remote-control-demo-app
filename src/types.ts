@@ -111,3 +111,8 @@ export enum PinNumberErrorMessage {
   WRONG_NUMBER = "틀린 코드입니다. 30초 후에 다시 시도하세요.",
   PREVIOUS_NUMBER = "이전코드를 선택하셨습니다. 다시 선택해주세요.",
 }
+
+export enum HeaderType {
+  WITH_LOGOUT = "withLogout",
+  WITH_PROFILE = "withProfile",
+}

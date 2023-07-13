@@ -11,7 +11,7 @@ export const Container = styled("div", {
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   margin: 0 auto;
   box-sizing: border-box;
-  background: linear-gradient(172.95deg, #071958 3.01%, #073658 40.35%);
+  background: linear-gradient(177.52deg, #02060d 2.07%, #141829 98.77%);
   overflow: hidden;
   z-index: 1;
 `;
@@ -21,13 +21,7 @@ export const Inner = styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 106px 0 0;
-`;
-
-export const MainSection = styled("main")`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  padding: 123px 20px 33px;
 `;
 
 export const Greeting = styled("h3")`
@@ -48,7 +42,7 @@ export const GameHistory = styled("div")`
   width: fit-content;
   align-items: center;
   justify-content: center;
-  margin: 20px auto 8px;
+  margin: 24px auto 8px;
 `;
 
 export const HistoryName = styled("p")`
@@ -59,7 +53,7 @@ export const HistoryName = styled("p")`
   letter-spacing: 0em;
   text-align: left;
   margin: 0;
-  color: #c7ddff;
+  color: #6a8bff;
 
   -webkit-transform: skew(8deg);
   -moz-transform: skew(8deg);
@@ -72,8 +66,8 @@ export const HistoryContext = styled("div")`
   display: flex;
   align-items: center;
   font-family: Pretendard;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
-  bottom: 7px;
+  color: #cedbed;
+  bottom: 9px;
   right: 12px;
 
   -webkit-transform: skew(8deg);
@@ -81,34 +75,35 @@ export const HistoryContext = styled("div")`
   -o-transform: skew(8deg);
 
   h4 {
-    font-size: 22px;
+    font-family: Pretendard;
+    font-size: 25px;
     font-weight: 500;
-    line-height: 26px;
+    line-height: 30px;
     letter-spacing: 0em;
     text-align: right;
     margin: 0;
     opacity: 0.9;
   }
   h5 {
-    font-size: 14px;
+    font-family: Pretendard;
+    font-size: 1rem;
     font-weight: 500;
-    line-height: 17px;
+    line-height: 19px;
     letter-spacing: 0em;
     text-align: left;
     margin: 2px 0 0 2px;
-    opacity: 0.9;
   }
 `;
 
 export const Unit = styled("div")`
   position: relative;
-  width: 90px;
-  height: 62px;
+  width: 88px;
+  height: 73px;
   -webkit-transform: skew(-8deg);
   -moz-transform: skew(-8deg);
   -o-transform: skew(-8deg);
-  background: ${({ theme }) => theme.palette.primary.main};
-  box-shadow: 0px 1px 30px rgba(0, 158, 207, 0.15);
+  background: #0000004d;
+  box-shadow: 3px 4px 35px 0px #39a0ff40, 1px 2px 5px 0px #536eff80;
   padding: 9px 14px;
 
   &:first-of-type {
@@ -126,8 +121,8 @@ export const ButtonWrapper = styled("div")`
   width: inherit;
   gap: 15px;
   position: relative;
-  margin-top: auto;
   height: fit-content;
+  margin-top: auto;
 `;
 
 export const ResetRobot = styled("span")`
@@ -136,7 +131,7 @@ export const ResetRobot = styled("span")`
   font-weight: 600;
   line-height: 17px;
   letter-spacing: 0em;
-  color: ${({ theme }) => theme.palette.secondary.contrastText};
+  color: #6a8bff;
   margin: 0 auto;
   cursor: pointer;
 `;
@@ -145,29 +140,29 @@ export const PlayButton = styled("button")`
   position: relative;
   width: 100%;
   border: none;
-  border-radius: 10px;
-  padding: 14px 0;
+  border-radius: 28px;
+  padding: 17px 0;
   font-family: Pretendard;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 19px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21px;
   letter-spacing: 0em;
   text-align: center;
   cursor: pointer;
   color: ${({ theme }) => theme.palette.primary.contrastText};
-  background: linear-gradient(148.72deg, #1f35a7 17.49%, #01639b 80.13%);
+  background: linear-gradient(180deg, #2454ff -4.91%, #2544b3 8.83%, #2a0ce7 100%);
 `;
 
 export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
-  width: 72.56%;
+  width: 83.5%;
   margin: 0 auto;
 `;
 
 export const RewardBox = styled("div")`
   position: absolute;
-  bottom: 17px;
+  bottom: 22px;
   z-index: 3;
   display: flex;
   margin: 0 auto;
@@ -184,16 +179,4 @@ export const RobotName = styled("h3")`
   letter-spacing: 0em;
   text-align: center;
   margin: 0;
-`;
-
-export const CardPopUp = styled("div")`
-  position: absolute;
-  width: 100%;
-  height: 64vh;
-  bottom: 0;
-  background: ${({ theme }) => theme.palette.secondary.main};
-  border-radius: 40px 40px 0 0;
-  padding: 31px 20px 34px;
-  display: flex;
-  flex-direction: column;
 `;

@@ -11,7 +11,9 @@ export const Container = styled("div", {
   width: ${({ isMobile }) => (isMobile ? "100%" : "425px")};
   margin: 0 auto;
   box-sizing: border-box;
-  background: linear-gradient(172.95deg, #071958 3.01%, #073658 40.35%);
+  background-image: url("/assets/images/makeRobot/nightSky.png");
+  background-size: contain;
+  background-repeat: no-repeat;
   overflow: hidden;
   z-index: 1;
 `;
@@ -21,13 +23,14 @@ export const Inner = styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 106px 0 0;
+  padding: 106px 20px 31px;
 `;
 
-export const MainSection = styled("main")`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+export const GradientPaper = styled("div")`
+  position: absolute;
+  width: inherit;
+  height: 100%;
+  background: linear-gradient(360deg, #141828 67.71%, rgba(20, 24, 40, 0) 100%);
 `;
 
 export const Greeting = styled("h3")`
@@ -42,28 +45,30 @@ export const Greeting = styled("h3")`
   white-space: pre-wrap;
 `;
 
-export const ButtonWrapper = styled("div")`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 1;
-  gap: 0.938rem;
+export const CanvasWrapper = styled("div")`
+  position: relative;
+  aspect-ratio: 1;
+  width: 83.5%;
+  margin: 0 auto 12px;
 `;
 
 export const PlayButton = styled("button")`
+  position: relative;
   width: 100%;
   border: none;
-  border-radius: 10px;
-  padding: 14px 0;
+  border-radius: 28px;
+  padding: 17px 0;
   font-family: Pretendard;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 19px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21px;
   letter-spacing: 0em;
   text-align: center;
   cursor: pointer;
   color: ${({ theme }) => theme.palette.primary.contrastText};
-  background: linear-gradient(148.72deg, #1f35a7 17.49%, #01639b 80.13%);
+  background: linear-gradient(180deg, #2454ff -4.91%, #2544b3 8.83%, #2a0ce7 100%);
+  margin-top: auto;
+  box-shadow: 1px 2px 10px 0px #afbcff26;
 `;
 
 export const OptionBox = styled("div")`
@@ -71,8 +76,8 @@ export const OptionBox = styled("div")`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin: 47px auto 78px;
-  padding: 0 4.35%;
+  margin: 53px auto 72px;
+  padding: 0 10px;
   gap: 10px;
 `;
 
@@ -81,60 +86,76 @@ export const Option = styled("button", {
 })<{
   isSelected: boolean;
 }>`
+  position: relative;
   width: 100px;
   aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border: 1px solid
-    ${({ theme, isSelected }) => (isSelected ? theme.palette.secondary.contrastText : "#A6AEC1")};
+  background: -webkit-linear-gradient(
+      180deg,
+      rgba(157, 179, 255, 0.5) 0%,
+      rgba(157, 214, 255, 0.5) 100%
+    ),
+    -webkit-linear-gradient(0deg, #fff, #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border: none;
   border-radius: 10px;
-  background-color: ${({ isSelected }) => (isSelected ? "#F6F8FE" : "transparent")};
+  box-shadow: ${({ isSelected }) =>
+    isSelected ? "0px 0px 20px 0px #67a4ff4d, 0px 0px 7px 0px #3549ffb2" : "none"};
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 10px;
+    background: ${({ isSelected }) =>
+      isSelected ? "linear-gradient(180deg, #8d99ff 0%, #7e8bff 100%)" : "#707E95"};
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
 `;
 
-export const ModelInfoBox = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  bottom: 0;
+export const BlackPaper = styled("div", {
+  shouldForwardProp: (props) => props !== "isSelected",
+})<{
+  isSelected: boolean;
+}>`
+  display: ${({ isSelected }) => (isSelected ? "block" : "none")};
+  position: absolute;
   width: 100%;
-  margin-top: -15px;
+  height: 100%;
+  background: #03070e50;
+  z-index: -1;
 `;
 
 export const ModelName = styled("h3")`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   font-family: Pretendard;
   font-size: 1.375rem;
   font-weight: 700;
-  line-height: 1.36;
+  line-height: 1;
   letter-spacing: 0em;
   text-align: center;
   margin: 0;
-  color: ${({ theme }) => theme.palette.grey[800]};
+  color: #5988ff;
 `;
 
 export const RobotDescription = styled("h5")`
   font-family: Pretendard;
   font-size: 1rem;
   font-weight: 500;
-  line-height: 22px;
+  line-height: 1;
   letter-spacing: 0em;
   text-align: center;
   margin: 0;
   white-space: pre-wrap;
-  color: #6f6f6f;
-`;
-
-export const CardPopUp = styled("div")`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr auto;
-  position: absolute;
-  width: 100%;
-  height: 77.25vh;
-  bottom: 0;
-  background: ${({ theme }) => theme.palette.secondary.main};
-  border-radius: 40px 40px 0 0;
-  padding: 31px 20px 34px;
+  color: #8b98ad;
 `;
