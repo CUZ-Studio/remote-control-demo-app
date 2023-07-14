@@ -14,7 +14,7 @@ export const Root = styled("header", {
 `;
 
 export const Inner = styled("div", {
-  shouldForwardProp: (props) => props !== "isMobile" && props !== "showUserOnHeader",
+  shouldForwardProp: (props) => props !== "isMobile" && props !== "headerType",
 })<{
   isMobile: boolean;
   headerType: HeaderType;

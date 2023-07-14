@@ -5,12 +5,12 @@ import { RobotColor } from "@/types";
 export const ColorPalette = styled("div")`
   width: fit-content;
   display: grid;
-  grid-template-columns: repeat(3, 73px);
-  grid-template-rows: repeat(2, 73px);
-  grid-row-gap: 19px;
-  grid-column-gap: 23px;
-  margin: 22px auto 78px;
-  z-index: 99;
+  grid-template-columns: repeat(3, 93px);
+  grid-template-rows: repeat(2, 93px);
+  grid-row-gap: 0;
+  grid-column-gap: 3px;
+  margin: 0 auto 78px;
+  z-index: 9;
 `;
 
 export const ColorOption = styled("div", {

@@ -6,6 +6,7 @@ import { isMobile } from "react-device-detect";
 
 import BasicInput from "@/components/atoms/BasicInput";
 import ErrorBox from "@/components/atoms/ErrorBox";
+import PlayButton from "@/components/atoms/PlayButton";
 import Model from "@/components/organisms/Model";
 import { updatePlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
@@ -24,7 +25,6 @@ import {
   Greeting,
   Inner,
   InputWrapper,
-  PlayButton,
   StyledForm,
 } from "@/styles/name-your-robot.styles";
 
@@ -36,7 +36,6 @@ export default function NameYourRobot() {
   const [inputValue, setInputValue] = useState(player?.headTag || user?.displayName);
   const [errorMessage, setErrorMessage] = useState("");
   const { assignPlayer } = useGameActions();
-  const [disabled, setDisabled] = useState(false);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
@@ -63,28 +62,24 @@ export default function NameYourRobot() {
       return;
     }
 
-    setDisabled(true);
-
-    if (_.isNil(user) || _.isNil(player)) return;
-
+    if (_.isNil(user)) return;
+    if (_.isNil(player)) return;
     // 전역상태로 새로운 플레이어 정보 저장
     assignPlayer({
       ...(player as Player),
-      headTag: inputValue || "",
+      headTag: inputValue || user?.displayName,
     });
-
     // firebase 데이터베이스에 새로운 플레이어 생성 요청
     updatePlayer({
       documentId: user?.uid,
       updated: {
         headTag: inputValue as string,
-        modelColor: player.modelColor as RobotColor,
-        modelType: player.modelType as RobotModelType,
+        modelColor: (player.modelColor as RobotColor) || RobotColor.WHITE,
+        modelType: (player.modelType as RobotModelType) || RobotModelType.SMART_DRONE,
         score: player.allRoundScore ?? {},
         playedNum: player.playedNum ?? 0,
       },
     });
-
     router.push(Page.WAITING_ROOM);
   };
 
@@ -117,9 +112,7 @@ export default function NameYourRobot() {
               onFocus={() => setErrorMessage("")}
             />
           </InputWrapper>
-          <PlayButton type="submit" disabled={disabled}>
-            로봇 생성 완료
-          </PlayButton>
+          <PlayButton type="submit">로봇 생성 완료</PlayButton>
         </StyledForm>
       </Inner>
     </Container>

@@ -38,11 +38,11 @@ export const Greeting = styled("h3")`
 
 export const GameHistory = styled("div")`
   display: flex;
-  gap: 0.5rem;
+  gap: 6px;
   width: fit-content;
   align-items: center;
   justify-content: center;
-  margin: 24px auto 8px;
+  margin: 24px auto 11px;
 `;
 
 export const HistoryName = styled("p")`
@@ -64,7 +64,7 @@ export const HistoryContext = styled("div")`
   position: absolute;
   height: fit-content;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   font-family: Pretendard;
   color: #cedbed;
   bottom: 9px;
@@ -91,13 +91,12 @@ export const HistoryContext = styled("div")`
     line-height: 19px;
     letter-spacing: 0em;
     text-align: left;
-    margin: 2px 0 0 2px;
+    margin: 0 0 4px 2px;
   }
 `;
 
 export const Unit = styled("div")`
   position: relative;
-  width: 88px;
   height: 73px;
   -webkit-transform: skew(-8deg);
   -moz-transform: skew(-8deg);
@@ -107,10 +106,16 @@ export const Unit = styled("div")`
   padding: 9px 14px;
 
   &:first-of-type {
+    width: 89px;
     border-radius: 8px 0 0 8px;
   }
 
+  &:nth-of-type(2) {
+    width: 88px;
+  }
+
   &:last-of-type {
+    width: 120px;
     border-radius: 0 8px 8px 0;
   }
 `;
@@ -119,7 +124,7 @@ export const ButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   width: inherit;
-  gap: 15px;
+  gap: 17px;
   position: relative;
   height: fit-content;
   margin-top: auto;
@@ -134,23 +139,6 @@ export const ResetRobot = styled("span")`
   color: #6a8bff;
   margin: 0 auto;
   cursor: pointer;
-`;
-
-export const PlayButton = styled("button")`
-  position: relative;
-  width: 100%;
-  border: none;
-  border-radius: 28px;
-  padding: 17px 0;
-  font-family: Pretendard;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: center;
-  cursor: pointer;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
-  background: linear-gradient(180deg, #2454ff -4.91%, #2544b3 8.83%, #2a0ce7 100%);
 `;
 
 export const CanvasWrapper = styled("div")`

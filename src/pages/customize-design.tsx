@@ -1,11 +1,15 @@
 /* eslint-disable react/no-unknown-property */
 import { useRouter } from "next/router";
+import _ from "lodash";
 import { isMobile } from "react-device-detect";
 
+import PlayButton from "@/components/atoms/PlayButton";
 import Picker from "@/components/molecules/Picker";
 import Model from "@/components/organisms/Model";
+import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
-import { Page } from "@/types";
+import { Player } from "@/slices/game";
+import { Page, RobotColor } from "@/types";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -15,12 +19,23 @@ import {
   GradientPaper,
   Greeting,
   Inner,
-  PlayButton,
 } from "@/styles/customize-design.styles";
 
 export default function CustomizeModel() {
   const router = useRouter();
   const player = usePlayer();
+
+  const { assignPlayer } = useGameActions();
+
+  const handleClick = () => {
+    if (_.isNil(player?.modelType)) {
+      assignPlayer({
+        ...(player as Player),
+        modelColor: RobotColor.WHITE,
+      });
+    }
+    router.push(Page.NAME_YOUR_ROBOT);
+  };
   return (
     <Container isMobile={isMobile}>
       <GradientPaper />
@@ -41,7 +56,7 @@ export default function CustomizeModel() {
           </Canvas>
         </CanvasWrapper>
         <Picker modelType={player?.modelType || null} />
-        <PlayButton type="button" onClick={() => router.push(Page.NAME_YOUR_ROBOT)}>
+        <PlayButton type="button" onClick={handleClick}>
           다음
         </PlayButton>
       </Inner>

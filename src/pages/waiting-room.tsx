@@ -6,6 +6,7 @@ import axios from "axios";
 import _ from "lodash";
 import { isMobile } from "react-device-detect";
 
+import PlayButton from "@/components/atoms/PlayButton";
 import Model from "@/components/organisms/Model";
 import { getPlayer } from "@/firebase/players";
 import useGameActions from "@/hooks/useGameActions";
@@ -13,7 +14,13 @@ import useGameStatus from "@/hooks/useGameRound";
 import usePlayer from "@/hooks/usePlayer";
 import useUser from "@/hooks/useUser";
 import { Player } from "@/slices/game";
-import { Page, Slack_Developer_User_ID, Swit_Developer_User_ID } from "@/types";
+import {
+  Page,
+  RobotColor,
+  RobotModelType,
+  Slack_Developer_User_ID,
+  Swit_Developer_User_ID,
+} from "@/types";
 import noticeToSlack from "@/utils/noticeToSlack";
 import noticeToSWIT from "@/utils/noticeToSWIT";
 import { OrbitControls } from "@react-three/drei";
@@ -28,7 +35,6 @@ import {
   HistoryContext,
   HistoryName,
   Inner,
-  PlayButton,
   ResetRobot,
   RewardBox,
   RobotName,
@@ -81,8 +87,8 @@ export default function WaitingRoom() {
         objectPath: gameRound.gameModeBaseObjectPath,
         functionName: "BindingCharacter",
         parameters: {
-          Model: player?.modelType,
-          Color: player?.modelColor,
+          Model: player?.modelType || RobotModelType.SMART_DRONE,
+          Color: player?.modelColor || RobotColor.WHITE,
           Name: player?.headTag,
           UID: user?.uid,
           PlayerWinCount: Number(player?.gotFirstPlace) || 0,
@@ -115,7 +121,7 @@ export default function WaitingRoom() {
         // case 2) 사용자가 인증받은 적이 있지만, 10분이 지났다면 → 인증 필요
         // case 3) 사용자가 인증받은 적이 없다면 → 인증 필요
         if (player?.verifiedAt) {
-          const diff = new Date().getTime() - new Date(player?.verifiedAt).getTime();
+          const diff = Date.now() - player?.verifiedAt;
           if (diff <= 1000 * 60 * 10) {
             router.push(Page.GOING_TO_HANGAR);
           } else {

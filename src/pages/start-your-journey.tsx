@@ -1,9 +1,8 @@
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { isMobile } from "react-device-detect";
 
-import usePlayer from "@/hooks/usePlayer";
 import { Page } from "@/types";
 
 import {
@@ -42,26 +41,7 @@ const chapterInfo = [
 
 export default function Welcome() {
   const router = useRouter();
-  const player = usePlayer();
   const [selectedSection, setSelectedSection] = useState(3);
-
-  const enterSection: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-
-    const path = (() => {
-      switch (selectedSection) {
-        case 3:
-        default: {
-          if (!player?.modelType) return Page.SELECT_MODEL;
-          else if (!player?.modelColor) return Page.CUSTOMIZE_DESIGN;
-          else if (!player?.headTag) return Page.NAME_YOUR_ROBOT;
-          else return Page.WAITING_ROOM;
-        }
-      }
-    })();
-
-    router.push(path);
-  };
 
   return (
     <Container isMobile={isMobile} selectedSection={selectedSection}>
@@ -109,7 +89,7 @@ export default function Welcome() {
                   type="button"
                   isSelected={selectedSection === chapter.chapterNumber}
                   chapterNumber={chapter.chapterNumber}
-                  onClick={enterSection}
+                  onClick={() => router.push(Page.SELECT_MODEL)}
                 >
                   입장하기
                 </EnterButton>

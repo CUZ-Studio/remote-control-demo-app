@@ -31,6 +31,7 @@ export const GradientPaper = styled("div")`
   width: inherit;
   height: 100%;
   background: linear-gradient(360deg, #141828 67.71%, rgba(20, 24, 40, 0) 100%);
+  z-index: -1;
 `;
 
 export const Greeting = styled("h3")`
@@ -52,31 +53,12 @@ export const CanvasWrapper = styled("div")`
   margin: 0 auto 12px;
 `;
 
-export const PlayButton = styled("button")`
-  position: relative;
-  width: 100%;
-  border: none;
-  border-radius: 28px;
-  padding: 17px 0;
-  font-family: Pretendard;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: center;
-  cursor: pointer;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
-  background: linear-gradient(180deg, #2454ff -4.91%, #2544b3 8.83%, #2a0ce7 100%);
-  margin-top: auto;
-  box-shadow: 1px 2px 10px 0px #afbcff26;
-`;
-
 export const OptionBox = styled("div")`
   display: flex;
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin: 53px auto 72px;
+  margin: 53px 0 72px;
   padding: 0 10px;
   gap: 10px;
 `;

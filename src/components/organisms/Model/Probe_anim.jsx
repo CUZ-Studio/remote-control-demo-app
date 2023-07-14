@@ -52,7 +52,7 @@ export default function ProbeAnim(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
-        <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.02} position={[0, -1.2, 0]}>
+        <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.022} position={[0, -1.5, 0]}>
           <primitive object={nodes.Body} />
           <skinnedMesh
             name="Probe_Body"

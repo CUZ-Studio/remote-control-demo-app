@@ -16,7 +16,7 @@ export interface Player {
   } | null;
   playedNum: number | null;
   gotFirstPlace: number | null;
-  verifiedAt: Date | null;
+  verifiedAt: number | null;
 }
 
 export interface GameRound {
@@ -38,8 +38,8 @@ const initialState: GameState = {
     uid: null,
     objectPath: null,
     headTag: null,
-    modelType: null,
-    modelColor: null,
+    modelType: RobotModelType.SMART_DRONE,
+    modelColor: RobotColor.WHITE,
     highestRankEver: null,
     thisRoundScore: null,
     allRoundScore: null,

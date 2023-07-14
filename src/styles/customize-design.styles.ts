@@ -49,24 +49,5 @@ export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
   width: 83.5%;
-  margin: 0 auto 12px;
-`;
-
-export const PlayButton = styled("button")`
-  position: relative;
-  width: 100%;
-  border: none;
-  border-radius: 28px;
-  padding: 17px 0;
-  font-family: Pretendard;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: center;
-  cursor: pointer;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
-  background: linear-gradient(180deg, #2454ff -4.91%, #2544b3 8.83%, #2a0ce7 100%);
-  margin-top: auto;
-  box-shadow: 1px 2px 10px 0px #afbcff26;
+  margin: 0 auto 10px;
 `;

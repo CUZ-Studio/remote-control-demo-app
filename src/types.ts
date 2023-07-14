@@ -111,3 +111,8 @@ export enum HeaderType {
   WITH_LOGOUT = "withLogout",
   WITH_PROFILE = "withProfile",
 }
+
+export enum ButtonColor {
+  GRADIENT_LIGHT_BLUE = "gradientLightBlue",
+  DEEP_BLUE = "deepBlue",
+}

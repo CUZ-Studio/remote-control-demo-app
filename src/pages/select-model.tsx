@@ -2,8 +2,10 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import _ from "lodash";
 import { isMobile } from "react-device-detect";
 
+import PlayButton from "@/components/atoms/PlayButton";
 import Model from "@/components/organisms/Model";
 import useGameActions from "@/hooks/useGameActions";
 import usePlayer from "@/hooks/usePlayer";
@@ -23,7 +25,6 @@ import {
   ModelName,
   Option,
   OptionBox,
-  PlayButton,
   RobotDescription,
 } from "@/styles/select-model.styles";
 
@@ -50,6 +51,13 @@ export default function SelectRobot() {
       default:
         return { name: "지상형 스파이더 로봇", description: `화가 나면 무서운 표정으로 바뀌어요!` };
     }
+  };
+
+  const handleClick = () => {
+    if (_.isNil(player?.modelType)) {
+      selectModel(RobotModelType.SMART_DRONE);
+    }
+    router.push(Page.CUSTOMIZE_DESIGN);
   };
 
   useEffect(() => {
@@ -126,11 +134,7 @@ export default function SelectRobot() {
             />
           </Option>
         </OptionBox>
-        <PlayButton
-          type="button"
-          disabled={!player?.modelType}
-          onClick={() => router.push(Page.CUSTOMIZE_DESIGN)}
-        >
+        <PlayButton type="button" onClick={handleClick}>
           다음
         </PlayButton>
       </Inner>

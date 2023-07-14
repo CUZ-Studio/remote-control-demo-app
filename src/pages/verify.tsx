@@ -124,7 +124,7 @@ export default function Verify() {
     if (Number(selectedNum) === pinNumber.currentPinNumber) {
       // 데이터베이스에 인증성공한 일시 저장
       if (user) {
-        const verifiedAt = new Date();
+        const verifiedAt = Date.now();
         updatePlayer({
           documentId: user?.uid,
           updated: {

@@ -150,6 +150,17 @@ export default function Header() {
         break;
     }
   })();
+
+  const showProfileOnHeader = (() => {
+    switch (router.asPath) {
+      case Page.SELECT_MODEL:
+      case Page.CUSTOMIZE_DESIGN:
+      case Page.NAME_YOUR_ROBOT:
+        return false;
+      default:
+        return true;
+    }
+  })();
   return (
     <Root isVisible={isVisible}>
       <Inner isMobile={isMobile} headerType={headerType}>
@@ -188,9 +199,14 @@ export default function Header() {
                 />
               </Indicator>
             )}
-            {user?.image && (
+            {showProfileOnHeader && (
               <ProfileImageWrapper>
-                <Image width={40} height={40} src={user.image} alt={user.displayName} />
+                <Image
+                  width={40}
+                  height={40}
+                  src={user?.image as string}
+                  alt={user?.displayName as string}
+                />
               </ProfileImageWrapper>
             )}
           </>
