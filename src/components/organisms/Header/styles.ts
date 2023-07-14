@@ -68,6 +68,15 @@ export const ProfileImageWrapper = styled("div")`
 export const ArrowBackIcon = styled("div")`
   display: flex;
   cursor: pointer;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+  touch-action: none;
 `;
 
 export const QuestionMarkIcon = styled("div")`

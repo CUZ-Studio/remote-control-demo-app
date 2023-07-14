@@ -28,6 +28,15 @@ export const JumpButton = styled("div")`
   transform: translateX(-50%);
   cursor: pointer;
   z-index: 1;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+  touch-action: none;
 `;
 
 export const MoveLeftButton = styled("div")`
@@ -35,6 +44,15 @@ export const MoveLeftButton = styled("div")`
   left: 0;
   bottom: 0;
   cursor: pointer;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+  touch-action: none;
 `;
 
 export const MoveRightButton = styled("div")`
@@ -42,6 +60,15 @@ export const MoveRightButton = styled("div")`
   right: 0;
   bottom: 0;
   cursor: pointer;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+  touch-action: none;
 `;
 
 export const FireButton = styled("div")`
@@ -58,4 +85,13 @@ export const FireButton = styled("div")`
   background-color: ${({ theme }) => theme.palette.grey[600]};
   z-index: 1;
   cursor: pointer;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+  touch-action: none;
 `;
