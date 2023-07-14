@@ -37,6 +37,7 @@ export default function Verify() {
     message: undefined,
     type: undefined,
   });
+  const [success, setSuccess] = useState(false);
   const [pinNumber, setPinNumber] = useState({
     currentPinNumber: -1,
     previousPinNumber: -1,
@@ -113,6 +114,7 @@ export default function Verify() {
 
   const handleClick: MouseEventHandler = (e) => {
     e.preventDefault();
+    setSuccess(false);
     setError({
       message: undefined,
       type: undefined,
@@ -124,6 +126,7 @@ export default function Verify() {
     if (Number(selectedNum) === pinNumber.currentPinNumber) {
       // 데이터베이스에 인증성공한 일시 저장
       if (user) {
+        setSuccess(true);
         const verifiedAt = Date.now();
         updatePlayer({
           documentId: user?.uid,
@@ -135,17 +138,22 @@ export default function Verify() {
             ...(player as Player),
             verifiedAt,
           });
-          router.push(Page.GOING_TO_HANGAR);
+
+          setTimeout(() => {
+            router.push(Page.GOING_TO_HANGAR);
+          }, 1500);
         });
       }
       // 이전 pinNumber를 고른 경우
     } else if (Number(selectedNum) === pinNumber.previousPinNumber) {
+      setSuccess(false);
       setError({
         type: PinNumberErrorType.PREVIOUS_NUMBER,
         message: PinNumberErrorMessage.PREVIOUS_NUMBER,
       });
       // 아예 틀린 경우
     } else {
+      setSuccess(false);
       // 에러 메시지 표시
       setError({
         type: PinNumberErrorType.WRONG_NUMBER,
@@ -168,7 +176,7 @@ export default function Verify() {
             {options.map((opt) => (
               <Option
                 key={`opt-${opt}`}
-                isError={!!error.message}
+                isError={!!error.message && error.type === PinNumberErrorType.WRONG_NUMBER}
                 disabled={disabled}
                 onClick={handleClick}
               >
@@ -176,7 +184,10 @@ export default function Verify() {
               </Option>
             ))}
           </PinNumbers>
-          <Message>{error.message}</Message>
+          <Message isError={!!error.message}>
+            {error.message && error.message}
+            {success && "10분간 인증이 유효합니다."}
+          </Message>
         </Wrapper>
       </Inner>
     </Container>

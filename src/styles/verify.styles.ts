@@ -21,7 +21,7 @@ export const Inner = styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 106px 0 0;
+  padding: 0 30px;
   justify-content: center;
   align-items: center;
   color: #ffffff;
@@ -36,7 +36,7 @@ export const Hint = styled("p")`
   text-align: center;
   color: linear-gradient(0deg, rgba(157, 182, 219, 0.5), rgba(157, 182, 219, 0.5)),
     linear-gradient(0deg, #ffffff, #ffffff);
-  margin-bottom: 0 0 40px 0;
+  margin: 0 0 40px 0;
 `;
 
 export const Wrapper = styled("div")`
@@ -76,13 +76,17 @@ export const Option = styled("button", {
   cursor: pointer;
 `;
 
-export const Message = styled("p")`
+export const Message = styled("p", {
+  shouldForwardProp: (props) => props !== "isError",
+})<{
+  isError: boolean;
+}>`
   font-family: Pretendard;
   font-size: 16px;
   font-weight: 500;
-  line-height: 22px;
+  line-height: 21.6px;
   letter-spacing: 0em;
   text-align: center;
-  color: #df8585;
+  color: ${({ isError }) => (isError ? "#df8585" : "#85DFA9")};
   margin: 0;
 `;

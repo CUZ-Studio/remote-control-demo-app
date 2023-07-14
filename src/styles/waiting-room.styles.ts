@@ -38,7 +38,7 @@ export const Greeting = styled("h3")`
 
 export const GameHistory = styled("div")`
   display: flex;
-  gap: 6px;
+  gap: 4px;
   width: fit-content;
   align-items: center;
   justify-content: center;
@@ -47,9 +47,9 @@ export const GameHistory = styled("div")`
 
 export const HistoryName = styled("p")`
   font-family: Pretendard;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 14px;
+  line-height: 17px;
   letter-spacing: 0em;
   text-align: left;
   margin: 0;

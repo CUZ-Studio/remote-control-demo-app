@@ -20,6 +20,7 @@ export const Inner = styled("div")`
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%;
   padding: 134px 21px 113px;
 `;
@@ -33,8 +34,9 @@ export const CanvasWrapper = styled("div")`
 
 export const PlayerInfoBox = styled("div")`
   position: relative;
+  width: 68%;
   display: grid;
-  grid-template-rows: 103px;
+  grid-template-rows: 100px;
   grid-template-columns: auto 1fr;
   grid-column-gap: 12px;
   align-items: center;
