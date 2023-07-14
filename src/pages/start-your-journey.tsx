@@ -83,7 +83,7 @@ export default function Welcome() {
               chapterNumber={chapter.chapterNumber}
               onClick={() => setSelectedSection(chapter.chapterNumber)}
             >
-              <BlackPaper />
+              <BlackPaper isSelected={selectedSection === chapter.chapterNumber} />
               <ChapterNumber
                 isSelected={selectedSection === chapter.chapterNumber}
                 chapterNumber={chapter.chapterNumber}

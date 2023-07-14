@@ -83,17 +83,6 @@ export const ChapterCard = styled("li", {
   chapterNumber: number;
 }>`
   position: relative;
-  background: -webkit-linear-gradient(
-      180deg,
-      rgba(157, 179, 255, 0.5) 0%,
-      rgba(157, 214, 255, 0.5) 100%
-    ),
-    -webkit-linear-gradient(0deg, #fff, #fff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  list-style: none;
-  border: none;
-  cursor: pointer;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: auto 1fr;
@@ -109,6 +98,25 @@ export const ChapterCard = styled("li", {
         return isSelected ? "39px" : "26px";
     }
   }};
+  padding: ${({ isSelected }) =>
+    isSelected ? "13px 36px 25px 33px" : "8.7px 28.75px 10.3px 31px"};
+  margin: ${({ isSelected }) => (isSelected ? "0" : "0 9px")};
+
+  background: -webkit-linear-gradient(
+      180deg,
+      rgba(157, 179, 255, 0.5) 0%,
+      rgba(157, 214, 255, 0.5) 100%
+    ),
+    -webkit-linear-gradient(0deg, #fff, #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  list-style: none;
+  cursor: pointer;
+
+  border: none;
+  border-radius: ${({ isSelected }) => (isSelected ? "24px" : "31px")};
+
   box-shadow: ${({ chapterNumber, isSelected }) => {
     if (!isSelected) return "none";
     switch (chapterNumber) {
@@ -121,16 +129,27 @@ export const ChapterCard = styled("li", {
         return "0px 0px 14px 0px #39A0FF4D, 0px 4px 10px 0px #00000040";
     }
   }};
-  border-radius: ${({ isSelected }) => (isSelected ? "24px" : "31px")};
-  padding: ${({ isSelected }) => (isSelected ? "15px 34px" : "8.5px 38px")};
-  margin: ${({ isSelected }) => (isSelected ? "0" : "0 9px")};
+
+  -moz-transition: all 300ms ease-out;
+  -webkit-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+  touch-action: none;
 
   &::before {
     content: "";
     position: absolute;
     z-index: -1;
     inset: 0;
-    padding: 2px;
+    padding: 1px;
     border-radius: ${({ isSelected }) => (isSelected ? "24px" : "31px")};
     background: ${({ isSelected, chapterNumber }) => {
       if (!isSelected) return "#727F9A";
@@ -151,12 +170,17 @@ export const ChapterCard = styled("li", {
   }
 `;
 
-export const BlackPaper = styled("div")`
+export const BlackPaper = styled("div", {
+  shouldForwardProp: (props) => props !== "isSelected",
+})<{
+  isSelected: boolean;
+}>`
   position: absolute;
   top: 0;
   width: 100%;
   height: 100%;
   background: #00000020;
+  z-index: ${({ isSelected }) => (isSelected ? -1 : 2)};
 `;
 
 export const ChapterNumber = styled("h3", {
@@ -171,11 +195,10 @@ export const ChapterNumber = styled("h3", {
   letter-spacing: 0em;
   text-align: center;
   width: 100%;
-  line-height: 1;
+  line-height: ${({ isSelected }) => (isSelected ? "40.32px" : "30.24px")};
   margin: 0;
   white-space: nowrap;
   text-transform: uppercase;
-  text-shadow: 0px 0px 31.15px #95fff94d, 0px 0px 2.07px #f5ffcc40;
   background: ${({ chapterNumber, isSelected }) => {
     if (!isSelected) return "#727f9a";
     switch (chapterNumber) {
@@ -185,9 +208,10 @@ export const ChapterNumber = styled("h3", {
         return "-webkit-linear-gradient(180deg, rgba(111, 61, 255, 0.7) 0%, rgba(66, 73, 255, 0.7) 100%), -webkit-linear-gradient(0deg, #FFFFFF, #FFFFFF)";
       case 3:
       default:
-        return "-webkit-linear-gradient(180deg, #3965FF 25%, #5C8AFF 82.5%), -webkit-linear-gradient(151.82deg, #9DB3FF 16.19%, #9DD6FF 113.04%)";
+        return "linear-gradient(180deg, #3965FF 25%, #5C8AFF 82.5%), linear-gradient(151.82deg, #9DB3FF 16.19%, #9DD6FF 113.04%)";
     }
   }};
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -195,7 +219,7 @@ export const ChapterNumber = styled("h3", {
 export const ChapterInfo = styled("div")`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 17px;
 `;
 
 export const TitleWrapper = styled("div", {
@@ -220,6 +244,21 @@ export const TitleWrapper = styled("div", {
     }
   }};
   align-items: flex-start;
+  margin-top: 1.38px;
+  gap: ${({ isSelected, chapterNumber }) => {
+    switch (chapterNumber) {
+      case 2: {
+        return isSelected ? "6px" : "0";
+      }
+      case 4: {
+        return isSelected ? "6px" : "0";
+      }
+      case 3:
+      default: {
+        return "6px";
+      }
+    }
+  }};
 `;
 
 export const ChapterTitle = styled("h4", {
@@ -229,12 +268,13 @@ export const ChapterTitle = styled("h4", {
 }>`
   color: ${({ isSelected }) => (isSelected ? "#fff" : "#727F9A")};
   font-family: Pretendard;
-  font-size: 17px;
+  font-size: ${({ isSelected }) => (isSelected ? "17px" : "15px")};
   font-weight: 600;
-  line-height: 23px;
+  line-height: ${({ isSelected }) => (isSelected ? "23px" : "20.25px")};
   letter-spacing: 0em;
   text-align: left;
   margin: 0;
+  white-space: nowrap;
 `;
 
 export const ChapterSubTitle = styled("h4", {
@@ -251,6 +291,7 @@ export const ChapterSubTitle = styled("h4", {
   letter-spacing: 0em;
   text-align: left;
   margin: auto 0;
+  white-space: nowrap;
   padding-left: ${({ isSelected, chapterNumber }) => {
     switch (chapterNumber) {
       case 2: {
@@ -277,6 +318,7 @@ export const EnterButton = styled("button", {
   display: ${({ isSelected }) => (isSelected ? "block" : "none")};
   border-radius: 24px;
   padding: 7px 0;
+  margin: 0 3px;
   width: 120px;
   border: none;
   outline: none;

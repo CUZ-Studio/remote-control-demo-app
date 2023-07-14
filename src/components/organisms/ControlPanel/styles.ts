@@ -53,7 +53,7 @@ export const FireButton = styled("div")`
   height: 110px;
   bottom: 25px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -10%);
   border-radius: 50%;
   background-color: ${({ theme }) => theme.palette.grey[600]};
   z-index: 1;

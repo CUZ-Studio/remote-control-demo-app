@@ -204,9 +204,18 @@ export default function Countdown() {
     }
   }, [countDownLeft, gameRound.currentTimeSchedule, gameTimeLeft, restTimeLeft]);
 
+  const textToDisplayOnHeader = (() => {
+    switch (gameRound.currentTimeSchedule) {
+      case TimeSchedule.GAMING:
+        return "미션 수행 중";
+      case TimeSchedule.RESTTIME:
+      default:
+        return "미션 대기 중";
+    }
+  })();
   return (
     <>
-      <Time>{gameRound.currentTimeSchedule === TimeSchedule.GAMING && "미션 수행 중"}</Time>
+      <Time currentTimeSchedule={gameRound.currentTimeSchedule}>{textToDisplayOnHeader}</Time>
     </>
   );
 }

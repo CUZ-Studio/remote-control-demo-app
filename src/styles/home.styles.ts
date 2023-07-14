@@ -105,6 +105,7 @@ export const ButtonWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
+  align-items: center;
   margin-top: auto;
 `;
 

@@ -1,8 +1,3 @@
-export enum ButtonShape {
-  CIRCLE = "circle",
-  RECTANGLE = "rectangle",
-}
-
 export enum ControlPanelEvent {
   MOVE_LEFT = "move-left",
   MOVE_RIGHT = "move-right",

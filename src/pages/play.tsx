@@ -54,8 +54,8 @@ export default function PlayGame() {
                   key={`star-${index}`}
                   src="/assets/images/star.svg"
                   alt="start"
-                  width={17}
-                  height={17}
+                  width={15}
+                  height={15}
                 />
               ))}
             </RewardBox>

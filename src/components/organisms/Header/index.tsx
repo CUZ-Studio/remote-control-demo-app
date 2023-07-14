@@ -23,8 +23,6 @@ import {
   IconWrapper,
   Indicator,
   Inner,
-  ProfileBox,
-  ProfileImage,
   ProfileImageWrapper,
   Root,
   Welcome,
@@ -139,14 +137,27 @@ export default function Header() {
         return HeaderType.WITH_PROFILE;
     }
   })();
+
+  const guideText = (() => {
+    switch (router.asPath as Page) {
+      case Page.PLAY:
+        return <Timer />;
+      case Page.WAITING_ROOM:
+        return <Welcome>{player?.playedNum ? "Welcome Back!" : "Welcome!"}</Welcome>;
+      case Page.VERIFY:
+        return <Welcome>보안 코드 입력</Welcome>;
+      default:
+        break;
+    }
+  })();
   return (
     <Root isVisible={isVisible}>
       <Inner isMobile={isMobile} headerType={headerType}>
         {headerType === HeaderType.WITH_LOGOUT && (
           <>
             <Image
-              src="/assets/images/cuzLogoCircle.svg"
-              alt="cuz logo circle"
+              src="/assets/images/cuzhausLogo__gray.png"
+              alt="cuzhaus logo"
               width={65}
               height={65}
             />
@@ -160,11 +171,7 @@ export default function Header() {
             <ArrowBackIcon onClick={() => router.push(getPreviousPage)}>
               <ArrowBackwardIcon />
             </ArrowBackIcon>
-            {router.asPath === Page.PLAY && <Timer />}
-            {router.asPath === Page.WAITING_ROOM && (
-              <Welcome>{player?.playedNum ? "Welcome Back!" : "Welcome!"}</Welcome>
-            )}
-            {router.asPath === Page.VERIFY && <Welcome>보안 코드 입력</Welcome>}
+            {guideText}
             {showStepIndicator && (
               <Indicator>
                 <Dot
@@ -181,15 +188,11 @@ export default function Header() {
                 />
               </Indicator>
             )}
-            <ProfileBox>
-              {user?.image ? (
-                <ProfileImageWrapper>
-                  <Image width={40} height={40} src={user.image} alt={user.displayName} />
-                </ProfileImageWrapper>
-              ) : (
-                <ProfileImage />
-              )}
-            </ProfileBox>
+            {user?.image && (
+              <ProfileImageWrapper>
+                <Image width={40} height={40} src={user.image} alt={user.displayName} />
+              </ProfileImageWrapper>
+            )}
           </>
         )}
       </Inner>

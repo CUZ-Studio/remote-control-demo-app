@@ -1,6 +1,12 @@
 import { styled } from "@mui/material/styles";
 
-export const Time = styled("p")`
+import { TimeSchedule } from "@/types";
+
+export const Time = styled("p", {
+  shouldForwardProp: (props) => props !== "currentTimeSchedule",
+})<{
+  currentTimeSchedule: TimeSchedule | null;
+}>`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -10,5 +16,8 @@ export const Time = styled("p")`
   line-height: 35px;
   letter-spacing: 0em;
   text-align: center;
-  color: #009ecf;
+  color: ${({ currentTimeSchedule }) => {
+    if (currentTimeSchedule === TimeSchedule.GAMING) return "#009ecf";
+    else return "#8B98AD";
+  }};
 `;

@@ -87,12 +87,12 @@ export const Option = styled("button", {
   isSelected: boolean;
 }>`
   position: relative;
-  width: 100px;
-  aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  width: 100px;
+  aspect-ratio: 1;
+
   background: -webkit-linear-gradient(
       180deg,
       rgba(157, 179, 255, 0.5) 0%,
@@ -101,10 +101,21 @@ export const Option = styled("button", {
     -webkit-linear-gradient(0deg, #fff, #fff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
   border: none;
   border-radius: 10px;
   box-shadow: ${({ isSelected }) =>
     isSelected ? "0px 0px 20px 0px #67a4ff4d, 0px 0px 7px 0px #3549ffb2" : "none"};
+  cursor: pointer;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+  touch-action: none;
 
   &::before {
     content: "";

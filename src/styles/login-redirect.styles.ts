@@ -32,26 +32,30 @@ export const MessageBox = styled("div")`
 
 export const LoadingMessage = styled("p")`
   white-space: pre-wrap;
+
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 600;
-  line-height: 33px;
+  line-height: 1.5;
   letter-spacing: 0em;
   text-align: center;
+
+  text-align: center;
   margin: 0;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
+  color: #cedbed;
 `;
 
 export const Waiting = styled("div")`
   display: flex;
   align-items: center;
+
   font-family: Pretendard;
   font-size: 0.875rem;
   font-weight: 300;
   line-height: 1.5;
   letter-spacing: 0.1em;
   text-align: center;
-  color: #c7ddff;
+  color: #4b73ff;
 
   p:nth-of-type(2) {
     text-transform: uppercase;

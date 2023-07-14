@@ -21,34 +21,59 @@ export const Inner = styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 106px 30px 113px;
+  padding: 134px 21px 113px;
 `;
 
 export const CanvasWrapper = styled("div")`
   position: relative;
   aspect-ratio: 1;
-  width: 110px;
-  padding-right: 11px;
-  border-right: 2px solid #02081e;
+  width: 100px;
+  margin-left: 10px;
 `;
 
 export const PlayerInfoBox = styled("div")`
+  position: relative;
   display: grid;
-  grid-template-rows: 105px;
+  grid-template-rows: 103px;
   grid-template-columns: auto 1fr;
+  grid-column-gap: 12px;
   align-items: center;
-  margin-bottom: 70px;
-  background: linear-gradient(172.94deg, #071958 5.16%, #073658 94.34%);
+  background: -webkit-linear-gradient(
+      180deg,
+      rgba(157, 179, 255, 0.5) 0%,
+      rgba(157, 214, 255, 0.5) 100%
+    ),
+    linear-gradient(0deg, #fff, #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   border-radius: 10px;
-  padding: 13px 19px;
+  padding: 0 5px;
+  margin: 0 40px;
   box-sizing: border-box;
+  box-shadow: 3px 4px 20px 0px #6fa0ff26, 0px 0px 3px 0px #536eff80;
+
+  &::before {
+    width: 100%;
+    height: inherit;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    padding: 1px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #9db3ff 0%, #9dd6ff 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
 `;
 
 export const LiteralInfo = styled("div")`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 9.5px;
+  align-items: flex-start;
+  gap: 10px;
 `;
 
 export const RewardBox = styled("div")`
@@ -62,9 +87,9 @@ export const PlayerName = styled("p")`
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
-  margin: 0;
   text-align: left;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
+  margin: 0;
+  color: #cedbed;
 `;
 
 export const ScoreInfo = styled("div", {
@@ -82,7 +107,7 @@ export const ScoreInfo = styled("div", {
   p {
     margin: 0;
     font-family: Pretendard;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 500;
     line-height: 35px;
     letter-spacing: 0em;
@@ -103,5 +128,5 @@ export const Score = styled("h1", {
   letter-spacing: 0em;
   text-align: center;
   margin: 0;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
+  color: #cedbed;
 `;

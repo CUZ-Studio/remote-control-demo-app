@@ -37,10 +37,25 @@ export const Inner = styled("div", {
   background-color: transparent;
 `;
 
-export const ProfileBox = styled("div")`
+export const LogoImageWrapper = styled("div")`
+  width: 65px;
+  height: 65px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  user-select: none;
+  border-radius: 50%;
+  overflow: hidden;
+
+  svg {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // remove blue box when clicking on elem
+    touch-action: none;
+  }
 `;
 
 export const ProfileImageWrapper = styled("div")`
@@ -48,13 +63,6 @@ export const ProfileImageWrapper = styled("div")`
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
-`;
-
-export const ProfileImage = styled("div")`
-  width: 47px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.palette.grey[200]};
 `;
 
 export const ArrowBackIcon = styled("div")`

@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { isMobile } from "react-device-detect";
 
-import { ButtonShape } from "@/types";
-
 import {
   ButtonWrapper,
   Colon,
@@ -30,22 +28,13 @@ export default function HomePage() {
         <ButtonWrapper>
           <StartButton
             type="button"
-            shape={ButtonShape.RECTANGLE}
             onClick={() => {
               (window as Window).location = process.env.NEXT_PUBLIC_FURO_OAUTH_CUSTOM_URL as string;
             }}
           >
             시작하기
           </StartButton>
-          <Image
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={65}
-            height={65}
-            style={{
-              margin: "0 auto",
-            }}
-          />
+          <Image src="/assets/images/cuzhausLogo__white.png" alt="logo" width={65} height={65} />
         </ButtonWrapper>
       </Inner>
     </Container>

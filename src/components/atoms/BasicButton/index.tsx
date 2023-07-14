@@ -1,31 +1,16 @@
 import { MouseEventHandler, ReactNode, TouchEventHandler, useState } from "react";
 
-import { ButtonShape, RobotColor } from "@/types";
-
 import { StyledButton } from "./styles";
+
 interface Props {
   type: "submit" | "reset" | "button" | undefined;
   disabled?: boolean;
-  shape: ButtonShape;
-  color?: RobotColor;
   isSelected?: boolean;
   children?: ReactNode;
   onClick?: MouseEventHandler;
-  onTouchStart?: TouchEventHandler;
-  onTouchEnd?: TouchEventHandler;
 }
 
-export default function BasicButton({
-  type,
-  shape,
-  color,
-  disabled,
-  isSelected,
-  children,
-  onClick,
-  onTouchStart,
-  onTouchEnd,
-}: Props) {
+export default function BasicButton({ type, disabled, isSelected, children, onClick }: Props) {
   const [isMouseHolding, setIsMouseHolding] = useState(false);
   const onMouseDown: MouseEventHandler = (e) => {
     e.preventDefault();
@@ -35,10 +20,14 @@ export default function BasicButton({
     e.preventDefault();
     setIsMouseHolding(false);
   };
-  return children ? (
+  const onTouchStart: TouchEventHandler = () => {
+    setIsMouseHolding(true);
+  };
+  const onTouchEnd: TouchEventHandler = () => {
+    setIsMouseHolding(false);
+  };
+  return (
     <StyledButton
-      shape={shape}
-      color={color?.toLowerCase() || ""}
       isSelected={!!isSelected}
       isPressed={isMouseHolding}
       disabled={disabled}
@@ -51,19 +40,5 @@ export default function BasicButton({
     >
       {children}
     </StyledButton>
-  ) : (
-    <StyledButton
-      shape={shape}
-      color={color?.toLowerCase() || ""}
-      disabled={disabled}
-      type={type}
-      isSelected={!!isSelected}
-      isPressed={isMouseHolding}
-      onClick={onClick}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-    />
   );
 }

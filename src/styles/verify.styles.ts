@@ -72,7 +72,7 @@ export const Option = styled("button", {
   text-align: center;
   margin: 0;
   outline: none;
-  color: ${({ isError }) => (isError ? "#E7C8C8" : "#ffffff")};
+  color: ${({ isError }) => (isError ? "#DF8585" : "#ffffff")};
   cursor: pointer;
 `;
 
